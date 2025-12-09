@@ -42,7 +42,21 @@ class AppSettings {
             AudioService.shared.backgroundMusicVolume = Float(backgroundMusicVolume)
         }
     }
-    
+
+    var voiceEnabled: Bool {
+        didSet {
+            UserDefaults.standard.set(voiceEnabled, forKey: "voiceEnabled")
+            AudioService.shared.voiceEnabled = voiceEnabled
+        }
+    }
+
+    var voiceVolume: Double {
+        didSet {
+            UserDefaults.standard.set(voiceVolume, forKey: "voiceVolume")
+            AudioService.shared.voiceVolume = Float(voiceVolume)
+        }
+    }
+
     // MARK: - Haptic Settings
     var hapticsEnabled: Bool {
         didSet {
@@ -64,7 +78,9 @@ class AppSettings {
         self.backgroundMusicEnabled = UserDefaults.standard.object(forKey: "backgroundMusicEnabled") as? Bool ?? true
         self.soundEffectsVolume = UserDefaults.standard.object(forKey: "soundEffectsVolume") as? Double ?? 0.7
         self.backgroundMusicVolume = UserDefaults.standard.object(forKey: "backgroundMusicVolume") as? Double ?? 0.3
-        
+        self.voiceEnabled = UserDefaults.standard.object(forKey: "voiceEnabled") as? Bool ?? true
+        self.voiceVolume = UserDefaults.standard.object(forKey: "voiceVolume") as? Double ?? 0.8
+
         // Load other settings
         self.hapticsEnabled = UserDefaults.standard.object(forKey: "hapticsEnabled") as? Bool ?? true
         self.reduceAnimations = UserDefaults.standard.object(forKey: "reduceAnimations") as? Bool ?? false
@@ -76,6 +92,8 @@ class AppSettings {
         backgroundMusicEnabled = true
         soundEffectsVolume = 0.7
         backgroundMusicVolume = 0.3
+        voiceEnabled = true
+        voiceVolume = 0.8
         hapticsEnabled = true
         reduceAnimations = false
     }

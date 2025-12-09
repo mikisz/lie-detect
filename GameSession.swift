@@ -25,6 +25,9 @@ class GameSession {
     var currentQuestionIndex = 0
     var currentPhase: GamePhase = .intro
     var questionResults: [QuestionResult] = []
+
+    // Timeout handling
+    var showTimeoutAlert = false
     
     // MARK: - Computed Properties
     var currentQuestion: GameQuestion? {
@@ -83,55 +86,92 @@ class GameSession {
     
     func startQuestionRecording() {
         currentPhase = .countdown
-        
-        // After countdown, show question
+
+        // After countdown, show question for reading (no recording yet)
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-            self?.showQuestion()
+            self?.showReadQuestion()
         }
     }
-    
-    func showQuestion() {
-        currentPhase = .question
-        
+
+    /// Show question for user to read (no recording)
+    func showReadQuestion() {
+        currentPhase = .readQuestion
+        print("📖 Showing question for reading: \(currentQuestion?.text ?? "?")")
+    }
+
+    /// User is ready to answer - start recording
+    func startAnswerRecording() {
+        currentPhase = .answer
+
         // Start recording face data
         faceTrackingService.startRecording()
-        
+
         let questionStartTime = Date()
-        
-        // Start listening for answer
-        speechService.startListening { [weak self] answer in
+
+        // Start listening for answer with timeout
+        speechService.startListening(timeout: 10.0) { [weak self] result in
             guard let self = self else { return }
-            
-            let responseDuration = Date().timeIntervalSince(questionStartTime)
-            
-            // Stop recording
-            let faceSamples = self.faceTrackingService.stopRecording()
-            
-            // Analyze the response
-            if let question = self.currentQuestion {
-                let verdict = self.analyzeResponse(
-                    question: question,
-                    answer: answer,
-                    faceSamples: faceSamples,
-                    duration: responseDuration
-                )
-                
-                let result = QuestionResult(
-                    question: question,
-                    spokenAnswer: answer,
-                    faceSamples: faceSamples,
-                    responseDuration: responseDuration,
-                    verdict: verdict
-                )
-                
-                self.questionResults.append(result)
-                
-                print("✅ Recorded answer '\(answer.rawValue)' - Verdict: \(verdict.isSuspicious ? "SUSPICIOUS" : "TRUTHFUL")")
+
+            switch result {
+            case .answer(let answer):
+                let responseDuration = Date().timeIntervalSince(questionStartTime)
+
+                // Stop recording
+                let faceSamples = self.faceTrackingService.stopRecording()
+
+                // Analyze the response
+                if let question = self.currentQuestion {
+                    let verdict = self.analyzeResponse(
+                        question: question,
+                        answer: answer,
+                        faceSamples: faceSamples,
+                        duration: responseDuration
+                    )
+
+                    let result = QuestionResult(
+                        question: question,
+                        spokenAnswer: answer,
+                        faceSamples: faceSamples,
+                        responseDuration: responseDuration,
+                        verdict: verdict
+                    )
+
+                    self.questionResults.append(result)
+
+                    print("✅ Recorded answer '\(answer.rawValue)' - Verdict: \(verdict.isSuspicious ? "SUSPICIOUS" : "TRUTHFUL")")
+                }
+
+                // Show verdict reveal
+                self.currentPhase = .verdict
+
+            case .timeout:
+                // Stop recording face data
+                _ = self.faceTrackingService.stopRecording()
+
+                // Show timeout alert
+                self.showTimeoutAlert = true
+
+                // Haptic warning feedback
+                let generator = UINotificationFeedbackGenerator()
+                generator.notificationOccurred(.warning)
+
+                print("⏰ Speech recognition timed out")
+
+            case .error(let message):
+                // Stop recording face data
+                _ = self.faceTrackingService.stopRecording()
+
+                print("❌ Speech recognition error: \(message)")
+                self.showTimeoutAlert = true
             }
-            
-            // Show verdict reveal
-            self.currentPhase = .verdict
         }
+    }
+
+    /// Retry current question after timeout
+    func retryAfterTimeout() {
+        showTimeoutAlert = false
+        speechService.resetTimeout()
+        currentPhase = .prepare
     }
     
     func advanceToNextQuestion() {
@@ -264,7 +304,8 @@ enum GamePhase {
     case intro              // Session introduction
     case prepare            // Pre-question face check
     case countdown          // 3-2-1 countdown
-    case question           // Question + recording
+    case readQuestion       // Show question for reading (no recording)
+    case answer             // Recording phase - question at top, camera preview
     case verdict            // Show verdict for current question
     case sessionComplete    // All questions done, show summary
 }

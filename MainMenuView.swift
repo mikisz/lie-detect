@@ -126,8 +126,8 @@ struct MainMenuView: View {
             .sheet(isPresented: $showSettings) {
                 SettingsView()
             }
-            .sheet(isPresented: $showTutorial) {
-                TutorialView()
+            .fullScreenCover(isPresented: $showTutorial) {
+                OnboardingView()
             }
             .fullScreenCover(isPresented: $showPlayAlone) {
                 PlayAloneFlowView()
@@ -351,6 +351,19 @@ struct SettingsView: View {
                                 SettingsSliderRow(
                                     title: "Głośność muzyki",
                                     value: $settings.backgroundMusicVolume
+                                )
+                            }
+
+                            SettingsToggleRow(
+                                title: "Głos lektora",
+                                subtitle: "Komentarz głosowy podczas gry",
+                                isOn: $settings.voiceEnabled
+                            )
+
+                            if settings.voiceEnabled {
+                                SettingsSliderRow(
+                                    title: "Głośność głosu",
+                                    value: $settings.voiceVolume
                                 )
                             }
                         }
@@ -586,117 +599,6 @@ struct LanguagePickerView: View {
                     .foregroundColor(.cyan)
                 }
             }
-        }
-    }
-}
-
-struct TutorialView: View {
-    @Environment(\.dismiss) var dismiss
-    
-    var body: some View {
-        NavigationStack {
-            ZStack {
-                Color(red: 0.05, green: 0.1, blue: 0.2).ignoresSafeArea()
-                
-                ScrollView {
-                    VStack(alignment: .leading, spacing: 24) {
-                        Text("🎭")
-                            .font(.system(size: 80))
-                            .frame(maxWidth: .infinity)
-                        
-                        Text("Jak to działa?")
-                            .font(.system(size: 32, weight: .bold))
-                            .foregroundColor(.white)
-                        
-                        TutorialSection(
-                            icon: "camera.fill",
-                            title: "Kalibracja",
-                            description: "Najpierw odpowiesz na kilka prostych pytań prawdą. To pozwoli nam poznać Twoje naturalne reakcje."
-                        )
-                        
-                        TutorialSection(
-                            icon: "face.smiling.fill",
-                            title: "Analiza twarzy",
-                            description: "Kamera śledzi mikro-ekspresje, mruganie i kierunek spojrzenia podczas odpowiedzi."
-                        )
-                        
-                        TutorialSection(
-                            icon: "waveform",
-                            title: "Odpowiedzi głosowe",
-                            description: "Mów 'tak' lub 'nie' - aplikacja rozpoznaje Twoją odpowiedź automatycznie."
-                        )
-                        
-                        TutorialSection(
-                            icon: "exclamationmark.triangle.fill",
-                            title: "To tylko gra!",
-                            description: "Lie Detect to zabawna gra, nie profesjonalny detektor kłamstw. Wszystkie dane są przetwarzane lokalnie i nie są przechowywane."
-                        )
-                        
-                        Text("Wskazówki dla najlepszych wyników:")
-                            .font(.system(size: 20, weight: .bold))
-                            .foregroundColor(.white)
-                            .padding(.top, 12)
-                        
-                        VStack(alignment: .leading, spacing: 12) {
-                            TipRow(text: "Graj w dobrze oświetlonym pomieszczeniu")
-                            TipRow(text: "Patrz prosto w kamerę")
-                            TipRow(text: "Bądź naturalny i zrelaksowany")
-                            TipRow(text: "Mów wyraźnie 'tak' lub 'nie'")
-                        }
-                    }
-                    .padding(24)
-                }
-            }
-            .navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .topBarTrailing) {
-                    Button("Zamknij") {
-                        dismiss()
-                    }
-                    .foregroundColor(.cyan)
-                }
-            }
-        }
-    }
-}
-
-struct TutorialSection: View {
-    let icon: String
-    let title: String
-    let description: String
-    
-    var body: some View {
-        HStack(alignment: .top, spacing: 16) {
-            Image(systemName: icon)
-                .font(.system(size: 24))
-                .foregroundColor(.cyan)
-                .frame(width: 40)
-            
-            VStack(alignment: .leading, spacing: 6) {
-                Text(title)
-                    .font(.system(size: 18, weight: .bold))
-                    .foregroundColor(.white)
-                
-                Text(description)
-                    .font(.system(size: 15))
-                    .foregroundColor(.white.opacity(0.7))
-                    .fixedSize(horizontal: false, vertical: true)
-            }
-        }
-    }
-}
-
-struct TipRow: View {
-    let text: String
-    
-    var body: some View {
-        HStack(spacing: 12) {
-            Image(systemName: "checkmark.circle.fill")
-                .foregroundColor(.green)
-            
-            Text(text)
-                .font(.system(size: 15))
-                .foregroundColor(.white.opacity(0.8))
         }
     }
 }

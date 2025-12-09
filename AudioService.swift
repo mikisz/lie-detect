@@ -41,9 +41,18 @@ class AudioService {
         }
     }
 
+    var voiceEnabled: Bool {
+        didSet { UserDefaults.standard.set(voiceEnabled, forKey: "voiceEnabled") }
+    }
+
+    var voiceVolume: Float {
+        didSet { UserDefaults.standard.set(voiceVolume, forKey: "voiceVolume") }
+    }
+
     // MARK: - Audio Players
     private var musicPlayer: AVAudioPlayer?
     private var effectPlayers: [String: AVAudioPlayer] = [:]
+    private var voicePlayer: AVAudioPlayer?
 
     // MARK: - Initialization
     private init() {
@@ -52,6 +61,8 @@ class AudioService {
         self.backgroundMusicEnabled = UserDefaults.standard.object(forKey: "backgroundMusicEnabled") as? Bool ?? true
         self.soundEffectsVolume = UserDefaults.standard.object(forKey: "soundEffectsVolume") as? Float ?? 0.7
         self.backgroundMusicVolume = UserDefaults.standard.object(forKey: "backgroundMusicVolume") as? Float ?? 0.3
+        self.voiceEnabled = UserDefaults.standard.object(forKey: "voiceEnabled") as? Bool ?? true
+        self.voiceVolume = UserDefaults.standard.object(forKey: "voiceVolume") as? Float ?? 0.8
 
         setupAudioSession()
         preloadSoundEffects()
@@ -196,6 +207,29 @@ class AudioService {
     func playCalibrationMusic() {
         startBackgroundMusic(.calm)
     }
+
+    // MARK: - Voice Announcements
+
+    func playVoice(_ announcement: VoiceAnnouncement) {
+        guard voiceEnabled else { return }
+
+        let language = LocalizationManager.shared.currentLanguage.rawValue
+        let filename = announcement.filename(for: language)
+
+        guard let url = Bundle.main.url(forResource: filename, withExtension: "mp3") else {
+            print("⚠️ Voice file not found: \(filename).mp3")
+            return
+        }
+
+        do {
+            voicePlayer = try AVAudioPlayer(contentsOf: url)
+            voicePlayer?.volume = voiceVolume
+            voicePlayer?.play()
+            print("🎙️ Playing voice: \(filename)")
+        } catch {
+            print("❌ Voice playback error: \(error)")
+        }
+    }
 }
 
 // MARK: - Sound Effect Enum
@@ -257,6 +291,22 @@ enum MusicTrack {
 
     var fileURL: URL? {
         Bundle.main.url(forResource: fileName, withExtension: nil)
+    }
+}
+
+// MARK: - Voice Announcement Enum
+
+enum VoiceAnnouncement: String {
+    case verdictIntro = "voice_verdict_intro"
+    case verdictTruth = "voice_verdict_truth"
+    case verdictSuspicious = "voice_verdict_suspicious"
+    case countdown3 = "voice_countdown_3"
+    case countdown2 = "voice_countdown_2"
+    case countdown1 = "voice_countdown_1"
+    case countdownGo = "voice_countdown_go"
+
+    func filename(for language: String) -> String {
+        "\(rawValue)_\(language)"
     }
 }
 

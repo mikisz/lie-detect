@@ -7,35 +7,194 @@
 
 import SwiftUI
 
-/// View showing the calibration question and listening for answer
-struct CalibrationQuestionView: View {
+// MARK: - Read Question View (Phase 1: User reads, no recording)
+
+/// View showing the question for user to read before answering
+struct ReadQuestionView: View {
     let coordinator: CalibrationCoordinator
-    
+
     @State private var isAnimating = false
-    @State private var pulseScale: CGFloat = 1.0
-    
+
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
-            
-            VStack(spacing: 40) {
+            // Background gradient
+            LinearGradient(
+                colors: [
+                    Color(red: 0.05, green: 0.1, blue: 0.2),
+                    Color(red: 0.1, green: 0.15, blue: 0.3)
+                ],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            VStack(spacing: 32) {
+                // Progress indicator
+                VStack(spacing: 8) {
+                    Text("Pytanie \(coordinator.currentQuestionIndex + 1) z \(coordinator.questions.count)")
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(.white.opacity(0.5))
+
+                    ProgressView(value: coordinator.progress)
+                        .tint(.cyan)
+                        .scaleEffect(x: 1, y: 1.5, anchor: .center)
+                        .padding(.horizontal, 60)
+                }
+                .padding(.top, 60)
+
                 Spacer()
-                
-                // Question text
+
+                // Instruction
+                Text("Przeczytaj pytanie")
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(.cyan)
+                    .opacity(isAnimating ? 1 : 0)
+
+                // Question text - large and centered for easy reading
                 if let question = coordinator.currentQuestion {
                     Text(question.text)
-                        .font(.system(size: 36, weight: .bold))
+                        .font(.system(size: 34, weight: .bold))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
-                        .padding(.horizontal, 40)
+                        .padding(.horizontal, 32)
                         .scaleEffect(isAnimating ? 1.0 : 0.9)
                         .opacity(isAnimating ? 1.0 : 0)
                 }
-                
+
+                // Expected answer hint
+                if let question = coordinator.currentQuestion {
+                    HStack(spacing: 8) {
+                        Image(systemName: "info.circle.fill")
+                            .font(.system(size: 14))
+                            .foregroundColor(.green.opacity(0.8))
+
+                        Text("Odpowiedz zgodnie z prawdą: \(question.expectedAnswer == .yes ? "TAK" : "NIE")")
+                            .font(.system(size: 14, weight: .medium))
+                            .foregroundColor(.white.opacity(0.6))
+                    }
+                    .padding(.top, 8)
+                    .opacity(isAnimating ? 1 : 0)
+                }
+
                 Spacer()
-                
-                // Recording indicator
-                VStack(spacing: 20) {
+
+                // Instruction for next step
+                VStack(spacing: 12) {
+                    Image(systemName: "eye.fill")
+                        .font(.system(size: 24))
+                        .foregroundColor(.white.opacity(0.5))
+
+                    Text("Kiedy będziesz gotowy, spójrz w kamerę i odpowiedz")
+                        .font(.system(size: 14))
+                        .foregroundColor(.white.opacity(0.5))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 40)
+                }
+
+                // Ready button
+                Button(action: {
+                    let generator = UIImpactFeedbackGenerator(style: .medium)
+                    generator.impactOccurred()
+                    coordinator.startAnswerRecording()
+                }) {
+                    HStack(spacing: 12) {
+                        Text("Jestem gotowy")
+                            .font(.system(size: 20, weight: .bold))
+
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 18, weight: .bold))
+                    }
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 18)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(
+                                LinearGradient(
+                                    colors: [Color.cyan, Color.blue],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                    )
+                    .shadow(color: Color.cyan.opacity(0.5), radius: 20, y: 10)
+                }
+                .padding(.horizontal, 32)
+                .padding(.bottom, 50)
+            }
+        }
+        .onAppear {
+            withAnimation(.easeOut(duration: 0.5)) {
+                isAnimating = true
+            }
+        }
+    }
+}
+
+// MARK: - Answer View (Phase 2: Camera preview, question at top, recording)
+
+/// View for recording the answer - camera preview with question at top
+struct AnswerView: View {
+    let coordinator: CalibrationCoordinator
+
+    @State private var isAnimating = false
+    @State private var pulseScale: CGFloat = 1.0
+
+    var body: some View {
+        ZStack {
+            // AR Camera Preview (actual camera feed)
+            ARCameraPreview(faceTrackingService: coordinator.faceTrackingService)
+                .ignoresSafeArea()
+
+            // Dark overlay for better contrast
+            Color.black.opacity(0.3)
+                .ignoresSafeArea()
+
+            VStack(spacing: 0) {
+                // Question at TOP - near camera for eye contact
+                VStack(spacing: 8) {
+                    // Small progress indicator
+                    Text("Pytanie \(coordinator.currentQuestionIndex + 1)/\(coordinator.questions.count)")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(.white.opacity(0.5))
+
+                    // Question text - smaller, at top
+                    if let question = coordinator.currentQuestion {
+                        Text(question.text)
+                            .font(.system(size: 22, weight: .bold))
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 24)
+                            .shadow(color: .black.opacity(0.5), radius: 4)
+                    }
+                }
+                .padding(.top, 16)
+                .padding(.bottom, 12)
+                .frame(maxWidth: .infinity)
+                .background(
+                    LinearGradient(
+                        colors: [
+                            Color.black.opacity(0.8),
+                            Color.black.opacity(0.4),
+                            Color.clear
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .ignoresSafeArea(edges: .top)
+                )
+
+                Spacer()
+
+                // Face guide ellipse (subtle)
+                Ellipse()
+                    .stroke(Color.white.opacity(0.3), lineWidth: 2)
+                    .frame(width: 200, height: 260)
+
+                Spacer()
+
+                // Recording indicator at bottom
+                VStack(spacing: 16) {
                     HStack(spacing: 12) {
                         Circle()
                             .fill(Color.red)
@@ -45,25 +204,35 @@ struct CalibrationQuestionView: View {
                                 .easeInOut(duration: 0.8).repeatForever(autoreverses: true),
                                 value: pulseScale
                             )
-                        
+
                         Text("Słucham...")
                             .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(.white.opacity(0.7))
+                            .foregroundColor(.white)
+                            .shadow(color: .black.opacity(0.5), radius: 4)
                     }
-                    
-                    // Recognized text display (for debugging/feedback)
-                    if !coordinator.speechService.recognizedText.isEmpty {
-                        Text(coordinator.speechService.recognizedText)
-                            .font(.system(size: 14))
-                            .foregroundColor(.white.opacity(0.5))
-                            .padding(.horizontal, 40)
-                    }
+
+                    Text("Powiedz 'tak' lub 'nie'")
+                        .font(.system(size: 14))
+                        .foregroundColor(.white.opacity(0.6))
                 }
-                .padding(.bottom, 100)
+                .padding(.vertical, 24)
+                .frame(maxWidth: .infinity)
+                .background(
+                    LinearGradient(
+                        colors: [
+                            Color.clear,
+                            Color.black.opacity(0.6),
+                            Color.black.opacity(0.8)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .ignoresSafeArea(edges: .bottom)
+                )
             }
         }
         .onAppear {
-            withAnimation(.easeOut(duration: 0.5)) {
+            withAnimation(.easeOut(duration: 0.3)) {
                 isAnimating = true
             }
             pulseScale = 1.2
@@ -215,8 +384,14 @@ struct StatRow: View {
     }
 }
 
-#Preview("Question") {
-    CalibrationQuestionView(
+#Preview("Read Question") {
+    ReadQuestionView(
+        coordinator: CalibrationCoordinator(player: Player(name: "Jan", age: 25, gender: .male))
+    )
+}
+
+#Preview("Answer") {
+    AnswerView(
         coordinator: CalibrationCoordinator(player: Player(name: "Jan", age: 25, gender: .male))
     )
 }

@@ -11,46 +11,50 @@ import SwiftUI
 struct HotSeatGameView: View {
     let session: HotSeatSession
     let onComplete: () -> Void
-    
+
     @Environment(\.audioService) private var audioService
-    
+
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
-            
+
             Group {
                 switch session.currentPhase {
                 case .intro:
                     HotSeatIntroView(session: session)
                         .transition(.opacity)
-                    
+
                 case .playerIntro:
                     HotSeatPlayerIntroView(session: session)
                         .transition(.opacity)
-                    
+
                 case .prepare:
                     HotSeatPrepareView(session: session)
                         .transition(.opacity)
-                    
+
                 case .countdown:
                     HotSeatCountdownView()
                         .transition(.opacity)
-                    
-                case .question:
-                    HotSeatQuestionView(session: session)
+
+                case .readQuestion:
+                    HotSeatReadQuestionView(session: session)
                         .transition(.opacity)
-                    
+
+                case .answer:
+                    HotSeatAnswerView(session: session)
+                        .transition(.opacity)
+
                 case .verdict:
                     if let results = session.allResults[session.currentPlayer.id],
                        let lastResult = results.last {
                         HotSeatVerdictView(session: session, result: lastResult)
                             .transition(.opacity)
                     }
-                    
+
                 case .playerComplete:
                     HotSeatPlayerCompleteView(session: session)
                         .transition(.opacity)
-                    
+
                 case .sessionComplete:
                     HotSeatCompleteView(session: session, onDismiss: onComplete)
                         .transition(.opacity)
@@ -63,6 +67,13 @@ struct HotSeatGameView: View {
         }
         .onDisappear {
             session.cleanup()
+        }
+        .alert("speech.timeout.title".localized, isPresented: Bindable(session).showTimeoutAlert) {
+            Button("button.retry".localized) {
+                session.retryAfterTimeout()
+            }
+        } message: {
+            Text("speech.timeout.message".localized)
         }
     }
 }
@@ -390,11 +401,11 @@ struct HotSeatCountdownView: View {
     @State private var count = 3
     @State private var scale: CGFloat = 0.5
     @Environment(\.audioService) private var audioService
-    
+
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
-            
+
             Text("\(count)")
                 .font(.system(size: 180, weight: .black))
                 .foregroundStyle(
@@ -410,92 +421,248 @@ struct HotSeatCountdownView: View {
                 }
         }
     }
-    
+
     private func startCountdown() {
         for i in 0..<3 {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i)) {
                 count = 3 - i
                 scale = 0.5
-                
+
                 audioService.playSound(.countdown)
-                
+
+                // Play countdown voice
+                switch count {
+                case 3: audioService.playVoice(.countdown3)
+                case 2: audioService.playVoice(.countdown2)
+                case 1: audioService.playVoice(.countdown1)
+                default: break
+                }
+
                 let generator = UIImpactFeedbackGenerator(style: .heavy)
                 generator.impactOccurred()
-                
+
                 withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
                     scale = 1.2
                 }
             }
         }
+
+        // Play "Answer now!" after countdown
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            audioService.playVoice(.countdownGo)
+        }
     }
 }
 
-// MARK: - Question View
+// MARK: - Read Question View (Phase 1: Read, no recording)
 
-struct HotSeatQuestionView: View {
+struct HotSeatReadQuestionView: View {
     let session: HotSeatSession
     @State private var isAnimating = false
-    
-    var recognizedText: String {
-        session.speechService.recognizedText
-    }
-    
+
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
-            
-            VStack(spacing: 40) {
-                // Recording indicator
-                HStack(spacing: 12) {
-                    Circle()
-                        .fill(Color.red)
-                        .frame(width: 12, height: 12)
-                        .opacity(isAnimating ? 1.0 : 0.3)
-                        .animation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true), value: isAnimating)
-                    
-                    Text("game.recording".localized)
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundColor(.red)
+            LinearGradient(
+                colors: [Color.orange.opacity(0.3), Color.red.opacity(0.3)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            VStack(spacing: 32) {
+                // Progress
+                VStack(spacing: 8) {
+                    Text(session.currentPlayer.name)
+                        .font(.system(size: 18, weight: .bold))
+                        .foregroundColor(.white)
+
+                    Text("game.question_of".localized(session.currentPlayerQuestionNumber, session.questionsPerPlayer))
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(.white.opacity(0.5))
+
+                    ProgressView(value: session.currentPlayerProgress)
+                        .tint(.orange)
+                        .scaleEffect(x: 1, y: 1.5, anchor: .center)
+                        .padding(.horizontal, 60)
                 }
                 .padding(.top, 60)
-                
+
                 Spacer()
-                
-                // Question
+
+                // Instruction
+                Text("Przeczytaj pytanie")
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(.orange)
+                    .opacity(isAnimating ? 1 : 0)
+
+                // Question text - large for reading
                 if let question = session.currentQuestion {
                     Text(question.text)
                         .font(.system(size: 32, weight: .bold))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
-                        .padding(.horizontal, 40)
+                        .padding(.horizontal, 32)
                         .lineSpacing(8)
+                        .scaleEffect(isAnimating ? 1.0 : 0.9)
+                        .opacity(isAnimating ? 1.0 : 0)
                 }
-                
+
                 Spacer()
-                
-                // Recognition feedback
+
+                // Instruction for next step
                 VStack(spacing: 12) {
-                    Text("calibration.say_answer".localized)
-                        .font(.system(size: 16))
+                    Image(systemName: "eye.fill")
+                        .font(.system(size: 24))
                         .foregroundColor(.white.opacity(0.5))
-                    
-                    if !recognizedText.isEmpty {
-                        Text("calibration.hearing".localized(recognizedText))
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(.orange)
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 12)
-                            .background(
-                                Capsule()
-                                    .fill(Color.orange.opacity(0.2))
-                            )
-                    }
+
+                    Text("Kiedy będziesz gotowy, spójrz w kamerę i odpowiedz")
+                        .font(.system(size: 14))
+                        .foregroundColor(.white.opacity(0.5))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 40)
                 }
-                .padding(.bottom, 80)
+
+                // Ready button
+                Button(action: {
+                    let generator = UIImpactFeedbackGenerator(style: .medium)
+                    generator.impactOccurred()
+                    session.startAnswerRecording()
+                }) {
+                    HStack(spacing: 12) {
+                        Text("Jestem gotowy")
+                            .font(.system(size: 20, weight: .bold))
+
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 18, weight: .bold))
+                    }
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 18)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(
+                                LinearGradient(
+                                    colors: [Color.orange, Color.red],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                    )
+                    .shadow(color: Color.orange.opacity(0.5), radius: 20, y: 10)
+                }
+                .padding(.horizontal, 32)
+                .padding(.bottom, 50)
             }
         }
         .onAppear {
-            isAnimating = true
+            withAnimation(.easeOut(duration: 0.5)) {
+                isAnimating = true
+            }
+        }
+    }
+}
+
+// MARK: - Answer View (Phase 2: Camera + recording)
+
+struct HotSeatAnswerView: View {
+    let session: HotSeatSession
+    @State private var isAnimating = false
+    @State private var pulseScale: CGFloat = 1.0
+
+    var body: some View {
+        ZStack {
+            // AR Camera Preview
+            ARCameraPreview(faceTrackingService: session.faceTrackingService)
+                .ignoresSafeArea()
+
+            // Dark overlay
+            Color.black.opacity(0.3)
+                .ignoresSafeArea()
+
+            VStack(spacing: 0) {
+                // Question at TOP - near camera
+                VStack(spacing: 8) {
+                    Text("\(session.currentPlayer.name) - \(session.currentPlayerQuestionNumber)/\(session.questionsPerPlayer)")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(.white.opacity(0.5))
+
+                    if let question = session.currentQuestion {
+                        Text(question.text)
+                            .font(.system(size: 20, weight: .bold))
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 24)
+                            .shadow(color: .black.opacity(0.5), radius: 4)
+                    }
+                }
+                .padding(.top, 16)
+                .padding(.bottom, 12)
+                .frame(maxWidth: .infinity)
+                .background(
+                    LinearGradient(
+                        colors: [
+                            Color.black.opacity(0.8),
+                            Color.black.opacity(0.4),
+                            Color.clear
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .ignoresSafeArea(edges: .top)
+                )
+
+                Spacer()
+
+                // Face guide
+                Ellipse()
+                    .stroke(Color.orange.opacity(0.4), lineWidth: 2)
+                    .frame(width: 200, height: 260)
+
+                Spacer()
+
+                // Recording indicator at bottom
+                VStack(spacing: 16) {
+                    HStack(spacing: 12) {
+                        Circle()
+                            .fill(Color.red)
+                            .frame(width: 12, height: 12)
+                            .scaleEffect(pulseScale)
+                            .animation(
+                                .easeInOut(duration: 0.8).repeatForever(autoreverses: true),
+                                value: pulseScale
+                            )
+
+                        Text("Słucham...")
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundColor(.white)
+                            .shadow(color: .black.opacity(0.5), radius: 4)
+                    }
+
+                    Text("Powiedz 'tak' lub 'nie'")
+                        .font(.system(size: 14))
+                        .foregroundColor(.white.opacity(0.6))
+                }
+                .padding(.vertical, 24)
+                .frame(maxWidth: .infinity)
+                .background(
+                    LinearGradient(
+                        colors: [
+                            Color.clear,
+                            Color.black.opacity(0.6),
+                            Color.black.opacity(0.8)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .ignoresSafeArea(edges: .bottom)
+                )
+            }
+        }
+        .onAppear {
+            withAnimation(.easeOut(duration: 0.3)) {
+                isAnimating = true
+            }
+            pulseScale = 1.2
         }
     }
 }

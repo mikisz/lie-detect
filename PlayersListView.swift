@@ -11,9 +11,11 @@ import SwiftData
 struct PlayersListView: View {
     @Environment(\.modelContext) private var modelContext
     @Query(sort: \Player.createdAt, order: .reverse) private var players: [Player]
-    
+
     @State private var showAddPlayer = false
     @State private var selectedPlayer: Player?
+    @State private var playerToCalibrate: Player?
+    @State private var showCalibration = false
     
     var body: some View {
         ZStack {
@@ -99,7 +101,22 @@ struct PlayersListView: View {
             }
         }
         .sheet(isPresented: $showAddPlayer) {
-            CreatePlayerView(isFirstPlayer: false)
+            CreatePlayerView(isFirstPlayer: false) { newPlayer in
+                // After player is created, trigger calibration
+                showAddPlayer = false
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                    playerToCalibrate = newPlayer
+                    showCalibration = true
+                }
+            }
+        }
+        .fullScreenCover(isPresented: $showCalibration) {
+            if let player = playerToCalibrate {
+                CalibrationFlowView(player: player) {
+                    showCalibration = false
+                    playerToCalibrate = nil
+                }
+            }
         }
         .navigationDestination(item: $selectedPlayer) { player in
             PlayerDetailView(player: player)

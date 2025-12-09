@@ -174,11 +174,11 @@ struct CalibrationCountdownView: View {
     @State private var count = 3
     @State private var scale: CGFloat = 0.5
     @State private var opacity: Double = 0
-    
+
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
-            
+
             if count > 0 {
                 Text("\(count)")
                     .font(.system(size: 150, weight: .black))
@@ -198,20 +198,30 @@ struct CalibrationCountdownView: View {
             animateCountdown()
         }
     }
-    
+
     private func animateCountdown() {
+        let audioService = AudioService.shared
+
         scale = 0.5
         opacity = 0
-        
+
         withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
             scale = 1.2
             opacity = 1
         }
-        
+
         // Haptic feedback
         let generator = UIImpactFeedbackGenerator(style: .heavy)
         generator.impactOccurred()
-        
+
+        // Play countdown voice
+        switch count {
+        case 3: audioService.playVoice(.countdown3)
+        case 2: audioService.playVoice(.countdown2)
+        case 1: audioService.playVoice(.countdown1)
+        default: break
+        }
+
         // Shrink after a moment
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.6) {
             withAnimation(.easeOut(duration: 0.2)) {
@@ -219,12 +229,15 @@ struct CalibrationCountdownView: View {
                 opacity = 0
             }
         }
-        
+
         // Move to next number
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.9) {
             if count > 1 {
                 count -= 1
                 animateCountdown()
+            } else {
+                // Play "Answer now!" after countdown finishes
+                audioService.playVoice(.countdownGo)
             }
         }
     }

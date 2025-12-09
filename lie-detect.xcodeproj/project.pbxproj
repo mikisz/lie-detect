@@ -37,6 +37,7 @@
 		A900001CAAAAAAAA00000001 /* PrepareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910001CAAAAAAAA00000001 /* PrepareView.swift */; };
 		A900001DAAAAAAAA00000001 /* SpeechRecognitionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910001DAAAAAAAA00000001 /* SpeechRecognitionService.swift */; };
 		A900001EAAAAAAAA00000001 /* VerdictRevealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910001EAAAAAAAA00000001 /* VerdictRevealView.swift */; };
+		A900001FAAAAAAAA00000001 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910001FAAAAAAAA00000001 /* OnboardingView.swift */; };
 		A9000020AAAAAAAA00000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9100020AAAAAAAA00000001 /* Assets.xcassets */; };
 		A9000021AAAAAAAA00000001 /* Localizable_en.strings in Resources */ = {isa = PBXBuildFile; fileRef = A9100021AAAAAAAA00000001 /* Localizable_en.strings */; };
 		A9000022AAAAAAAA00000001 /* Localizable_pl.strings in Resources */ = {isa = PBXBuildFile; fileRef = A9100022AAAAAAAA00000001 /* Localizable_pl.strings */; };
@@ -74,6 +75,7 @@
 		A910001CAAAAAAAA00000001 /* PrepareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareView.swift; sourceTree = "<group>"; };
 		A910001DAAAAAAAA00000001 /* SpeechRecognitionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognitionService.swift; sourceTree = "<group>"; };
 		A910001EAAAAAAAA00000001 /* VerdictRevealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerdictRevealView.swift; sourceTree = "<group>"; };
+		A910001FAAAAAAAA00000001 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
 		A9100020AAAAAAAA00000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A9100021AAAAAAAA00000001 /* Localizable_en.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable_en.strings; sourceTree = "<group>"; };
 		A9100022AAAAAAAA00000001 /* Localizable_pl.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable_pl.strings; sourceTree = "<group>"; };
@@ -125,6 +127,7 @@
 				A910001CAAAAAAAA00000001 /* PrepareView.swift */,
 				A910001DAAAAAAAA00000001 /* SpeechRecognitionService.swift */,
 				A910001EAAAAAAAA00000001 /* VerdictRevealView.swift */,
+				A910001FAAAAAAAA00000001 /* OnboardingView.swift */,
 				A9100020AAAAAAAA00000001 /* Assets.xcassets */,
 				A9100021AAAAAAAA00000001 /* Localizable_en.strings */,
 				A9100022AAAAAAAA00000001 /* Localizable_pl.strings */,
@@ -247,6 +250,7 @@
 				A900001CAAAAAAAA00000001 /* PrepareView.swift in Sources */,
 				A900001DAAAAAAAA00000001 /* SpeechRecognitionService.swift in Sources */,
 				A900001EAAAAAAAA00000001 /* VerdictRevealView.swift in Sources */,
+				A900001FAAAAAAAA00000001 /* OnboardingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

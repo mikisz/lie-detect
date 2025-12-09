@@ -124,6 +124,8 @@
 "game.view_results" = "View Results";
 "game.complete" = "Session Complete!";
 "game.finish" = "Finish";
+"game.read_question" = "Read the question";
+"game.ready_hint" = "When ready, look at the camera and answer";
 
 // MARK: - Verdict
 "verdict.truthful" = "Truth!";
@@ -225,13 +227,14 @@
 "question.category.secrets" = "Secrets";
 
 // MARK: - Hot Seat Mode
+"hotseat.title" = "Hot Seat";
 "hotseat.select_players" = "Select Players";
 "hotseat.min_players" = "Minimum %d players required";
 "hotseat.selected_count" = "%d selected";
 "hotseat.select_pack" = "Choose Question Pack";
 "hotseat.questions_per_player" = "%d questions per player";
 "hotseat.player_turn" = "%@'s Turn";
-"hotseat.pass_device" = "Pass the device to %@";
+"hotseat.pass_device" = "Pass the device";
 "hotseat.round" = "Round %d of %d";
 "hotseat.results" = "Results";
 "hotseat.winner" = "Winner: %@";
@@ -239,9 +242,36 @@
 "hotseat.score" = "%d truthful answers";
 "hotseat.ranking" = "Ranking";
 "hotseat.play_again" = "Play Again";
+"hotseat.player_count" = "%d players";
+"hotseat.questions_each" = "%d questions each";
+"hotseat.players_list" = "Players";
+"hotseat.remember" = "Remember";
+"hotseat.your_turn" = "Your turn";
+"hotseat.questions_for_you" = "%d questions for you";
+"hotseat.get_ready" = "Get ready!";
+"hotseat.pass_device_to" = "Pass the device to %@";
+"hotseat.player_complete" = "Round complete!";
+"hotseat.next_player" = "Next Player";
+"hotseat.accuracy" = "Accuracy";
+"hotseat.game_complete" = "Game Complete!";
+"hotseat.leaderboard" = "Leaderboard";
 
 // MARK: - Additional Buttons
 "button.continue" = "Continue";
 "button.back" = "Back";
 "button.start" = "Start";
 "button.ready" = "I'm Ready";
+"button.retry" = "Try Again";
+"button.skip" = "Skip";
+
+// MARK: - Speech Recognition
+"speech.not_authorized" = "Speech recognition not authorized";
+"speech.request_failed" = "Unable to create recognition request";
+"speech.timeout.title" = "Didn't hear an answer";
+"speech.timeout.message" = "Please speak 'yes' or 'no' clearly into the microphone.";
+"speech.listening" = "Listening...";
+"speech.say_answer" = "Say 'yes' or 'no'";
+
+// MARK: - Audio Errors
+"audio.setup_failed" = "Unable to configure audio session";
+"audio.engine_failed" = "Unable to start audio engine";

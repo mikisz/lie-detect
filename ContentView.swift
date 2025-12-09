@@ -11,11 +11,11 @@ import SwiftData
 struct ContentView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var players: [Player]
-    
+
     @State private var hasCompletedOnboarding = false
     @State private var isCheckingPlayers = true
     @State private var newPlayerToCalibrate: Player?
-    
+
     var body: some View {
         Group {
             if isCheckingPlayers {
@@ -30,13 +30,13 @@ struct ContentView: View {
                         endPoint: .bottomTrailing
                     )
                     .ignoresSafeArea()
-                    
+
                     ProgressView()
                         .tint(.white)
                         .scaleEffect(1.5)
                 }
-            } else if players.isEmpty && !hasCompletedOnboarding {
-                // First launch - show onboarding
+            } else if players.isEmpty {
+                // No players - show onboarding (works for first launch AND after all players deleted)
                 CreatePlayerView(isFirstPlayer: true) { player in
                     // After first player is created, launch calibration
                     hasCompletedOnboarding = true
@@ -56,6 +56,12 @@ struct ContentView: View {
             // Small delay to check for players
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                 isCheckingPlayers = false
+            }
+        }
+        .onChange(of: players.count) { oldCount, newCount in
+            // Reset onboarding flag when all players are deleted
+            if newCount == 0 {
+                hasCompletedOnboarding = false
             }
         }
     }

@@ -7,6 +7,7 @@
 
 import Foundation
 import ARKit
+import SceneKit
 import Combine
 
 /// Service responsible for managing ARKit face tracking session
@@ -16,50 +17,57 @@ class FaceTrackingService: NSObject, ObservableObject {
     @Published var faceQuality: FaceQuality = .unknown
     @Published var isTracking = false
     @Published var currentBlendShapes: [ARFaceAnchor.BlendShapeLocation: NSNumber] = [:]
-    
+
+    // MARK: - ARSCNView for camera preview
+    let sceneView: ARSCNView = {
+        let view = ARSCNView()
+        view.automaticallyUpdatesLighting = true
+        view.rendersCameraGrain = false
+        view.rendersMotionBlur = false
+        return view
+    }()
+
     // MARK: - Private Properties
-    private var arSession: ARSession?
     private var faceAnchor: ARFaceAnchor?
-    
+
     // Recording state
     private var isRecording = false
     private var recordedSamples: [FaceSample] = []
     private var recordingStartTime: Date?
-    
+
     // MARK: - Initialization
     override init() {
         super.init()
         _ = checkARSupport()
     }
-    
+
     // MARK: - Public Methods
-    
+
     /// Check if device supports ARKit face tracking
     func checkARSupport() -> Bool {
         return ARFaceTrackingConfiguration.isSupported
     }
-    
+
     /// Start the AR session for face tracking
     func startTracking() {
         guard ARFaceTrackingConfiguration.isSupported else {
             print("❌ ARKit face tracking not supported on this device")
             return
         }
-        
+
         let configuration = ARFaceTrackingConfiguration()
         configuration.isLightEstimationEnabled = true
-        
-        arSession = ARSession()
-        arSession?.delegate = self
-        arSession?.run(configuration, options: [.resetTracking, .removeExistingAnchors])
-        
+
+        sceneView.session.delegate = self
+        sceneView.session.run(configuration, options: [.resetTracking, .removeExistingAnchors])
+
         isTracking = true
         print("✅ Face tracking started")
     }
-    
+
     /// Stop the AR session
     func stopTracking() {
-        arSession?.pause()
+        sceneView.session.pause()
         isTracking = false
         isFaceDetected = false
         faceQuality = .unknown
@@ -89,21 +97,32 @@ class FaceTrackingService: NSObject, ObservableObject {
     /// Get current face quality assessment
     func assessFaceQuality(anchor: ARFaceAnchor) -> FaceQuality {
         // Check if face is roughly centered (within reasonable bounds)
+        // Position is in meters from camera origin - typically face is 0.3-0.6m away
         let position = anchor.transform.columns.3
-        let isReasonablyCentered = abs(position.x) < 0.2 && abs(position.y) < 0.2
-        
-        // Check rotation (pitch, yaw, roll should be reasonable)
+
+        // X: left/right offset (negative = left, positive = right)
+        // Y: up/down offset (negative = down, positive = up)
+        // More lenient thresholds - 0.15m is about 15cm offset which is quite visible
+        let xOffset = abs(position.x)
+        let yOffset = abs(position.y)
+
+        let isCentered = xOffset < 0.08 && yOffset < 0.08        // Well centered
+        let isReasonablyCentered = xOffset < 0.15 && yOffset < 0.15  // Acceptable
+
+        // Check rotation (pitch, yaw, roll in radians)
+        // 0.3 radians ≈ 17 degrees, 0.5 radians ≈ 29 degrees
         let eulerAngles = anchor.transform.eulerAngles
-        let pitch = abs(eulerAngles.x)
-        let yaw = abs(eulerAngles.y)
-        let roll = abs(eulerAngles.z)
-        
-        let isReasonablyFacingCamera = pitch < 0.5 && yaw < 0.5 && roll < 0.5
-        
-        // Overall quality
-        if isReasonablyCentered && isReasonablyFacingCamera {
+        let pitch = abs(eulerAngles.x)  // Looking up/down
+        let yaw = abs(eulerAngles.y)    // Turning left/right
+        let roll = abs(eulerAngles.z)   // Tilting head
+
+        let isFacingCamera = pitch < 0.25 && yaw < 0.25 && roll < 0.25       // Looking straight
+        let isReasonablyFacing = pitch < 0.45 && yaw < 0.45 && roll < 0.45   // Acceptable angle
+
+        // Overall quality assessment
+        if isCentered && isFacingCamera {
             return .good
-        } else if isReasonablyCentered || isReasonablyFacingCamera {
+        } else if isReasonablyCentered && isReasonablyFacing {
             return .fair
         } else {
             return .poor
@@ -117,25 +136,32 @@ class FaceTrackingService: NSObject, ObservableObject {
 
 // MARK: - ARSessionDelegate
 extension FaceTrackingService: ARSessionDelegate {
-    func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
-        guard let faceAnchor = anchors.compactMap({ $0 as? ARFaceAnchor }).first else {
-            DispatchQueue.main.async {
-                self.isFaceDetected = false
-                self.faceQuality = .unknown
-            }
-            return
-        }
-        
+    func session(_ session: ARSession, didAdd anchors: [ARAnchor]) {
+        guard let faceAnchor = anchors.compactMap({ $0 as? ARFaceAnchor }).first else { return }
+
         self.faceAnchor = faceAnchor
-        
+
         DispatchQueue.main.async {
             self.isFaceDetected = true
             self.faceQuality = self.assessFaceQuality(anchor: faceAnchor)
             self.currentBlendShapes = faceAnchor.blendShapes
+            print("👤 Face detected")
         }
-        
+    }
+
+    func session(_ session: ARSession, didUpdate anchors: [ARAnchor]) {
+        guard let faceAnchor = anchors.compactMap({ $0 as? ARFaceAnchor }).first else { return }
+
+        self.faceAnchor = faceAnchor
+
+        DispatchQueue.main.async {
+            self.isFaceDetected = faceAnchor.isTracked
+            self.faceQuality = faceAnchor.isTracked ? self.assessFaceQuality(anchor: faceAnchor) : .unknown
+            self.currentBlendShapes = faceAnchor.blendShapes
+        }
+
         // Record sample if we're recording
-        if isRecording, let startTime = recordingStartTime {
+        if isRecording, faceAnchor.isTracked, let startTime = recordingStartTime {
             let sample = FaceSample(
                 timestamp: Date().timeIntervalSince(startTime),
                 blendShapes: faceAnchor.blendShapes,
@@ -144,12 +170,25 @@ extension FaceTrackingService: ARSessionDelegate {
             recordedSamples.append(sample)
         }
     }
-    
+
+    func session(_ session: ARSession, didRemove anchors: [ARAnchor]) {
+        let removedFace = anchors.contains { $0 is ARFaceAnchor }
+        if removedFace {
+            self.faceAnchor = nil
+            DispatchQueue.main.async {
+                self.isFaceDetected = false
+                self.faceQuality = .unknown
+                print("👤 Face lost")
+            }
+        }
+    }
+
     func session(_ session: ARSession, didFailWithError error: Error) {
         print("❌ AR Session failed: \(error.localizedDescription)")
         DispatchQueue.main.async {
             self.isTracking = false
             self.isFaceDetected = false
+            self.faceQuality = .unknown
         }
     }
 }
@@ -161,16 +200,25 @@ enum FaceQuality {
     case poor      // Face not centered or at bad angle
     case fair      // Face visible but not ideal
     case good      // Face well positioned
-    
+
     var message: String {
         switch self {
         case .unknown: return "Przygotowanie..."
         case .poor: return "Spójrz prosto w kamerę"
-        case .fair: return "Wyśrodkuj twarz"
+        case .fair: return "Prawie dobrze - wyśrodkuj twarz"
         case .good: return "Doskonale!"
         }
     }
-    
+
+    var localizedMessage: String {
+        switch self {
+        case .unknown: return "face.quality.unknown".localized
+        case .poor: return "face.quality.poor".localized
+        case .fair: return "face.quality.fair".localized
+        case .good: return "face.quality.good".localized
+        }
+    }
+
     var color: String {
         switch self {
         case .unknown: return "gray"
@@ -215,7 +263,25 @@ extension simd_float4x4 {
         let pitch = atan2(self[2][1], self[2][2])
         let yaw = atan2(-self[2][0], sqrt(self[2][1] * self[2][1] + self[2][2] * self[2][2]))
         let roll = atan2(self[1][0], self[0][0])
-        
+
         return simd_float3(pitch, yaw, roll)
+    }
+}
+
+// MARK: - SwiftUI Camera Preview
+import SwiftUI
+
+/// SwiftUI wrapper for ARSCNView camera preview
+struct ARCameraPreview: UIViewRepresentable {
+    let faceTrackingService: FaceTrackingService
+
+    func makeUIView(context: Context) -> ARSCNView {
+        let view = faceTrackingService.sceneView
+        view.backgroundColor = .black
+        return view
+    }
+
+    func updateUIView(_ uiView: ARSCNView, context: Context) {
+        // No updates needed - the session manages itself
     }
 }

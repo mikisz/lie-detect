@@ -15,15 +15,22 @@ class CalibrationCoordinator {
     // MARK: - Services
     let faceTrackingService = FaceTrackingService()
     let speechService = SpeechRecognitionService()
-    
+
     // MARK: - State
     var player: Player
     var questions: [CalibrationQuestion] = []
     var currentQuestionIndex = 0
     var currentPhase: CalibrationPhase = .intro
-    
+
     // Collected data per question
     var questionResponses: [QuestionResponse] = []
+
+    // Wrong answer handling
+    var lastAnswerWasWrong = false
+    var wrongAnswerMessage = ""
+
+    // Timeout handling
+    var showTimeoutAlert = false
     
     // MARK: - Computed Properties
     var currentQuestion: CalibrationQuestion? {
@@ -52,8 +59,16 @@ class CalibrationCoordinator {
         currentPhase = .intro
         print("📋 Starting calibration for \(player.name)")
     }
-    
+
+    func proceedToFaceSetup() {
+        currentPhase = .faceSetup
+    }
+
     func proceedToNextQuestion() {
+        // Reset wrong answer state
+        lastAnswerWasWrong = false
+        wrongAnswerMessage = ""
+
         if currentQuestionIndex < questions.count {
             currentPhase = .prepare
         } else {
@@ -63,47 +78,114 @@ class CalibrationCoordinator {
     
     func startQuestionRecording() {
         currentPhase = .countdown
-        
-        // After countdown, move to question
+
+        // After countdown, show question for reading (no recording yet)
         DispatchQueue.main.asyncAfter(deadline: .now() + 3) { [weak self] in
-            self?.showQuestion()
+            self?.showReadQuestion()
         }
     }
-    
-    func showQuestion() {
-        currentPhase = .question
-        
+
+    /// Show question for user to read (no recording)
+    func showReadQuestion() {
+        currentPhase = .readQuestion
+        print("📖 Showing question for reading: \(currentQuestion?.text ?? "?")")
+    }
+
+    /// User is ready to answer - start recording
+    func startAnswerRecording() {
+        currentPhase = .answer
+
         // Start face tracking recording
         faceTrackingService.startRecording()
-        
+
         let questionStartTime = Date()
-        
-        // Start listening for answer
-        speechService.startListening { [weak self] answer in
+
+        // Start listening for answer with timeout
+        speechService.startListening(timeout: 10.0) { [weak self] result in
             guard let self = self else { return }
-            
-            let responseDuration = Date().timeIntervalSince(questionStartTime)
-            
-            // Stop recording face data
-            let faceSamples = self.faceTrackingService.stopRecording()
-            
-            // Store response
-            if let question = self.currentQuestion {
-                let response = QuestionResponse(
-                    question: question,
-                    spokenAnswer: answer,
-                    faceSamples: faceSamples,
-                    responseDuration: responseDuration
-                )
-                self.questionResponses.append(response)
-                
-                print("✅ Recorded answer '\(answer.rawValue)' for question \(self.currentQuestionIndex + 1)")
+
+            switch result {
+            case .answer(let answer):
+                let responseDuration = Date().timeIntervalSince(questionStartTime)
+
+                // Stop recording face data
+                let faceSamples = self.faceTrackingService.stopRecording()
+
+                // Store response
+                if let question = self.currentQuestion {
+                    // VERIFY: Check if answer matches expected answer
+                    if answer != question.expectedAnswer {
+                        // User lied during calibration - this invalidates the data
+                        self.lastAnswerWasWrong = true
+                        let expectedText = question.expectedAnswer == .yes ? "TAK" : "NIE"
+                        self.wrongAnswerMessage = "Podczas kalibracji musisz odpowiadać zgodnie z prawdą!\n\nOczekiwana odpowiedź: \(expectedText)"
+
+                        // Haptic error feedback
+                        let generator = UINotificationFeedbackGenerator()
+                        generator.notificationOccurred(.error)
+
+                        // Show wrong answer phase, then retry this question
+                        self.currentPhase = .wrongAnswer
+                        print("❌ Wrong answer! Expected '\(question.expectedAnswer.rawValue)', got '\(answer.rawValue)'")
+                        return
+                    }
+
+                    let response = QuestionResponse(
+                        question: question,
+                        spokenAnswer: answer,
+                        faceSamples: faceSamples,
+                        responseDuration: responseDuration
+                    )
+                    self.questionResponses.append(response)
+
+                    print("✅ Recorded answer '\(answer.rawValue)' for question \(self.currentQuestionIndex + 1)")
+
+                    // Haptic success feedback
+                    let generator = UIImpactFeedbackGenerator(style: .light)
+                    generator.impactOccurred()
+
+                    // Move to next question
+                    self.currentQuestionIndex += 1
+                    self.proceedToNextQuestion()
+                }
+
+            case .timeout:
+                // Stop recording face data
+                _ = self.faceTrackingService.stopRecording()
+
+                // Show timeout alert
+                self.showTimeoutAlert = true
+
+                // Haptic warning feedback
+                let generator = UINotificationFeedbackGenerator()
+                generator.notificationOccurred(.warning)
+
+                print("⏰ Speech recognition timed out")
+
+            case .error(let message):
+                // Stop recording face data
+                _ = self.faceTrackingService.stopRecording()
+
+                print("❌ Speech recognition error: \(message)")
+
+                // Show timeout alert with error message
+                self.showTimeoutAlert = true
             }
-            
-            // Move to next question
-            self.currentQuestionIndex += 1
-            self.proceedToNextQuestion()
         }
+    }
+
+    /// Retry current question after timeout
+    func retryAfterTimeout() {
+        showTimeoutAlert = false
+        speechService.resetTimeout()
+        currentPhase = .prepare
+    }
+
+    func retryCurrentQuestion() {
+        // Reset wrong answer state and go back to prepare
+        lastAnswerWasWrong = false
+        wrongAnswerMessage = ""
+        currentPhase = .prepare
     }
     
     func finishCalibration() -> CalibrationData? {
@@ -201,9 +283,12 @@ class CalibrationCoordinator {
 
 enum CalibrationPhase {
     case intro          // Introduction screen
+    case faceSetup      // Camera preview with face positioning guide
     case prepare        // Pre-question preparation
     case countdown      // 3-2-1 countdown
-    case question       // Showing question, recording answer
+    case readQuestion   // Show question for user to read (no recording)
+    case answer         // Recording phase - question at top, camera preview, listening
+    case wrongAnswer    // User gave wrong answer, must retry
     case complete       // All questions done
 }
 

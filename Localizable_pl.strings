@@ -124,6 +124,8 @@
 "game.view_results" = "Zobacz wyniki";
 "game.complete" = "Sesja zakończona!";
 "game.finish" = "Zakończ";
+"game.read_question" = "Przeczytaj pytanie";
+"game.ready_hint" = "Kiedy będziesz gotowy, spójrz w kamerę i odpowiedz";
 
 // MARK: - Verdict
 "verdict.truthful" = "Prawda!";
@@ -225,13 +227,14 @@
 "question.category.secrets" = "Sekrety";
 
 // MARK: - Hot Seat Mode
+"hotseat.title" = "Gorące Krzesło";
 "hotseat.select_players" = "Wybierz graczy";
 "hotseat.min_players" = "Minimum %d graczy wymaganych";
 "hotseat.selected_count" = "Wybrano: %d";
 "hotseat.select_pack" = "Wybierz pakiet pytań";
 "hotseat.questions_per_player" = "%d pytań na gracza";
 "hotseat.player_turn" = "Tura: %@";
-"hotseat.pass_device" = "Podaj urządzenie do %@";
+"hotseat.pass_device" = "Podaj urządzenie";
 "hotseat.round" = "Runda %d z %d";
 "hotseat.results" = "Wyniki";
 "hotseat.winner" = "Zwycięzca: %@";
@@ -239,9 +242,36 @@
 "hotseat.score" = "%d prawdziwych odpowiedzi";
 "hotseat.ranking" = "Ranking";
 "hotseat.play_again" = "Zagraj ponownie";
+"hotseat.player_count" = "%d graczy";
+"hotseat.questions_each" = "%d pytań każdy";
+"hotseat.players_list" = "Gracze";
+"hotseat.remember" = "Pamiętaj";
+"hotseat.your_turn" = "Twoja kolej";
+"hotseat.questions_for_you" = "%d pytań dla Ciebie";
+"hotseat.get_ready" = "Przygotuj się!";
+"hotseat.pass_device_to" = "Podaj urządzenie do %@";
+"hotseat.player_complete" = "Runda zakończona!";
+"hotseat.next_player" = "Następny gracz";
+"hotseat.accuracy" = "Trafność";
+"hotseat.game_complete" = "Gra zakończona!";
+"hotseat.leaderboard" = "Ranking";
 
 // MARK: - Additional Buttons
 "button.continue" = "Kontynuuj";
 "button.back" = "Wstecz";
 "button.start" = "Start";
 "button.ready" = "Jestem gotowy";
+"button.retry" = "Spróbuj ponownie";
+"button.skip" = "Pomiń";
+
+// MARK: - Speech Recognition
+"speech.not_authorized" = "Rozpoznawanie mowy nie jest autoryzowane";
+"speech.request_failed" = "Nie można utworzyć żądania rozpoznawania";
+"speech.timeout.title" = "Nie usłyszałem odpowiedzi";
+"speech.timeout.message" = "Proszę mówić wyraźnie 'tak' lub 'nie' do mikrofonu.";
+"speech.listening" = "Słucham...";
+"speech.say_answer" = "Powiedz 'tak' lub 'nie'";
+
+// MARK: - Audio Errors
+"audio.setup_failed" = "Nie można skonfigurować sesji audio";
+"audio.engine_failed" = "Nie można uruchomić silnika audio";

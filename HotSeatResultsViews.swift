@@ -128,27 +128,39 @@ struct HotSeatVerdictView: View {
     
     private func playRevealAnimation() {
         audioService.playSound(.suspense)
-        
+
         withAnimation(.linear(duration: 2).repeatForever(autoreverses: false)) {
             rotation = 360
         }
-        
+
+        // Play voice intro: "Ta odpowiedź to..."
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            audioService.playVoice(.verdictIntro)
+        }
+
         let generator = UINotificationFeedbackGenerator()
-        
+
         DispatchQueue.main.asyncAfter(deadline: .now() + 2.5) {
             withAnimation(.easeOut(duration: 0.3)) {
                 showSuspense = false
             }
-            
+
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) {
                 withAnimation(.easeIn(duration: 0.3)) {
                     showVerdict = true
                 }
-                
+
                 withAnimation(.spring(response: 0.6, dampingFraction: 0.5)) {
                     scale = 1.0
                 }
-                
+
+                // Play verdict voice: "PRAWDA!" or "PODEJRZANE!"
+                if result.verdict.isSuspicious {
+                    audioService.playVoice(.verdictSuspicious)
+                } else {
+                    audioService.playVoice(.verdictTruth)
+                }
+
                 audioService.playSound(result.verdict.isSuspicious ? .suspicious : .truthful)
                 generator.notificationOccurred(result.verdict.isSuspicious ? .warning : .success)
             }

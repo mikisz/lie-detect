@@ -11,35 +11,39 @@ import SwiftUI
 struct GameSessionView: View {
     let session: GameSession
     let onComplete: () -> Void
-    
+
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
-            
+
             Group {
                 switch session.currentPhase {
                 case .intro:
                     GameIntroView(session: session)
                         .transition(.opacity)
-                    
+
                 case .prepare:
                     GamePrepareView(session: session)
                         .transition(.opacity)
-                    
+
                 case .countdown:
                     GameCountdownView()
                         .transition(.opacity)
-                    
-                case .question:
-                    GameQuestionView(session: session)
+
+                case .readQuestion:
+                    GameReadQuestionView(session: session)
                         .transition(.opacity)
-                    
+
+                case .answer:
+                    GameAnswerView(session: session)
+                        .transition(.opacity)
+
                 case .verdict:
                     if let lastResult = session.questionResults.last {
                         GameVerdictView(result: lastResult, session: session)
                             .transition(.opacity)
                     }
-                    
+
                 case .sessionComplete:
                     GameCompleteView(session: session, onDismiss: onComplete)
                         .transition(.opacity)
@@ -49,6 +53,13 @@ struct GameSessionView: View {
         }
         .onDisappear {
             session.cleanup()
+        }
+        .alert("speech.timeout.title".localized, isPresented: Bindable(session).showTimeoutAlert) {
+            Button("button.retry".localized) {
+                session.retryAfterTimeout()
+            }
+        } message: {
+            Text("speech.timeout.message".localized)
         }
     }
 }
@@ -77,36 +88,36 @@ struct GameIntroView: View {
                     .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: isAnimating)
                 
                 VStack(spacing: 16) {
-                    Text("Rozpoczynamy!")
+                    Text("game.starting".localized)
                         .font(.system(size: 42, weight: .bold))
                         .foregroundColor(.white)
-                    
-                    Text("Gracz: \(session.player.name)")
+
+                    Text("game.player".localized(session.player.name))
                         .font(.system(size: 20))
                         .foregroundColor(.white.opacity(0.8))
-                    
-                    Text("\(session.questions.count) pytań")
+
+                    Text("game.questions_count".localized(session.questions.count))
                         .font(.system(size: 18))
                         .foregroundColor(.cyan)
                 }
-                
+
                 VStack(alignment: .leading, spacing: 12) {
-                    Text("💡 Pamiętaj:")
+                    Text("💡 \("game.remember".localized)")
                         .font(.system(size: 20, weight: .bold))
                         .foregroundColor(.white)
-                    
-                    InstructionRow(icon: "checkmark.circle.fill", text: "Odpowiadaj prawdę lub kłam celowo", color: .green)
-                    InstructionRow(icon: "eye.fill", text: "Patrz prosto w kamerę", color: .cyan)
-                    InstructionRow(icon: "mic.fill", text: "Mów wyraźnie 'tak' lub 'nie'", color: .cyan)
+
+                    InstructionRow(icon: "checkmark.circle.fill", text: "game.instruction.answer".localized, color: .green)
+                    InstructionRow(icon: "eye.fill", text: "game.instruction.camera".localized, color: .cyan)
+                    InstructionRow(icon: "mic.fill", text: "game.instruction.voice".localized, color: .cyan)
                 }
                 .padding(.horizontal, 40)
-                
+
                 Spacer()
-                
+
                 Button(action: {
                     session.proceedToNextQuestion()
                 }) {
-                    Text("Start")
+                    Text("general.start".localized)
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -163,49 +174,49 @@ struct GamePrepareView: View {
             VStack(spacing: 40) {
                 // Progress
                 VStack(spacing: 8) {
-                    Text("Pytanie \(session.currentQuestionIndex + 1) z \(session.questions.count)")
+                    Text("game.question_of".localized(session.currentQuestionIndex + 1, session.questions.count))
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(.white.opacity(0.7))
-                    
+
                     ProgressView(value: session.progress)
                         .tint(.cyan)
                         .scaleEffect(y: 2)
                         .padding(.horizontal, 40)
                 }
                 .padding(.top, 60)
-                
+
                 Spacer()
-                
+
                 // Face quality indicator
                 VStack(spacing: 24) {
                     ZStack {
                         Circle()
                             .stroke(Color.white.opacity(0.2), lineWidth: 8)
                             .frame(width: 150, height: 150)
-                        
+
                         Circle()
                             .fill(qualityColor.opacity(0.3))
                             .frame(width: 150, height: 150)
                             .scaleEffect(isAnimating ? 1.1 : 1.0)
                             .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: isAnimating)
-                        
+
                         Text(faceQuality.emoji)
                             .font(.system(size: 60))
                     }
-                    
-                    Text(faceQuality.message)
+
+                    Text(faceQuality.localizedMessage)
                         .font(.system(size: 22, weight: .bold))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
                 }
-                
+
                 Spacer()
-                
+
                 // Ready button
                 Button(action: {
                     session.startQuestionRecording()
                 }) {
-                    Text("Jestem gotowy")
+                    Text("button.im_ready".localized)
                         .font(.system(size: 20, weight: .bold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -256,11 +267,11 @@ extension FaceQuality {
 struct GameCountdownView: View {
     @State private var count = 3
     @State private var scale: CGFloat = 0.5
-    
+
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
-            
+
             Text("\(count)")
                 .font(.system(size: 180, weight: .black))
                 .foregroundStyle(
@@ -276,91 +287,245 @@ struct GameCountdownView: View {
                 }
         }
     }
-    
+
     private func startCountdown() {
+        let audioService = AudioService.shared
+
         for i in 0..<3 {
             DispatchQueue.main.asyncAfter(deadline: .now() + Double(i)) {
                 count = 3 - i
                 scale = 0.5
-                
+
                 // Haptic feedback
                 let generator = UIImpactFeedbackGenerator(style: .heavy)
                 generator.impactOccurred()
-                
+
+                // Play countdown voice
+                switch count {
+                case 3: audioService.playVoice(.countdown3)
+                case 2: audioService.playVoice(.countdown2)
+                case 1: audioService.playVoice(.countdown1)
+                default: break
+                }
+
                 withAnimation(.spring(response: 0.4, dampingFraction: 0.6)) {
                     scale = 1.2
                 }
             }
         }
+
+        // Play "Answer now!" after countdown
+        DispatchQueue.main.asyncAfter(deadline: .now() + 3.0) {
+            audioService.playVoice(.countdownGo)
+        }
     }
 }
 
-// MARK: - Game Question View
+// MARK: - Game Read Question View (Phase 1: Read, no recording)
 
-struct GameQuestionView: View {
+struct GameReadQuestionView: View {
     let session: GameSession
     @State private var isAnimating = false
-    
-    var recognizedText: String {
-        session.speechService.recognizedText
-    }
-    
+
     var body: some View {
         ZStack {
-            Color.black.ignoresSafeArea()
-            
-            VStack(spacing: 40) {
-                // Recording indicator
-                HStack(spacing: 12) {
-                    Circle()
-                        .fill(Color.red)
-                        .frame(width: 12, height: 12)
-                        .opacity(isAnimating ? 1.0 : 0.3)
-                        .animation(.easeInOut(duration: 0.8).repeatForever(autoreverses: true), value: isAnimating)
-                    
-                    Text("NAGRYWANIE")
-                        .font(.system(size: 14, weight: .bold))
-                        .foregroundColor(.red)
+            LinearGradient(
+                colors: [Color.blue.opacity(0.2), Color.cyan.opacity(0.2)],
+                startPoint: .topLeading,
+                endPoint: .bottomTrailing
+            )
+            .ignoresSafeArea()
+
+            VStack(spacing: 32) {
+                // Progress
+                VStack(spacing: 8) {
+                    Text("game.question_of".localized(session.currentQuestionIndex + 1, session.questions.count))
+                        .font(.system(size: 14, weight: .medium))
+                        .foregroundColor(.white.opacity(0.5))
+
+                    ProgressView(value: session.progress)
+                        .tint(.cyan)
+                        .scaleEffect(x: 1, y: 1.5, anchor: .center)
+                        .padding(.horizontal, 60)
                 }
                 .padding(.top, 60)
-                
+
                 Spacer()
-                
-                // Question text
+
+                // Instruction
+                Text("game.read_question".localized)
+                    .font(.system(size: 16, weight: .medium))
+                    .foregroundColor(.cyan)
+                    .opacity(isAnimating ? 1 : 0)
+
+                // Question text - large for reading
                 if let question = session.currentQuestion {
                     Text(question.text)
                         .font(.system(size: 32, weight: .bold))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
-                        .padding(.horizontal, 40)
+                        .padding(.horizontal, 32)
                         .lineSpacing(8)
+                        .scaleEffect(isAnimating ? 1.0 : 0.9)
+                        .opacity(isAnimating ? 1.0 : 0)
                 }
-                
+
                 Spacer()
-                
-                // Recognized text feedback
+
+                // Instruction for next step
                 VStack(spacing: 12) {
-                    Text("Powiedz: 'tak' lub 'nie'")
-                        .font(.system(size: 16))
+                    Image(systemName: "eye.fill")
+                        .font(.system(size: 24))
                         .foregroundColor(.white.opacity(0.5))
-                    
-                    if !recognizedText.isEmpty {
-                        Text("Słyszę: \(recognizedText)")
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundColor(.cyan)
-                            .padding(.horizontal, 20)
-                            .padding(.vertical, 12)
-                            .background(
-                                Capsule()
-                                    .fill(Color.cyan.opacity(0.2))
-                            )
-                    }
+
+                    Text("game.ready_hint".localized)
+                        .font(.system(size: 14))
+                        .foregroundColor(.white.opacity(0.5))
+                        .multilineTextAlignment(.center)
+                        .padding(.horizontal, 40)
                 }
-                .padding(.bottom, 80)
+
+                // Ready button
+                Button(action: {
+                    let generator = UIImpactFeedbackGenerator(style: .medium)
+                    generator.impactOccurred()
+                    session.startAnswerRecording()
+                }) {
+                    HStack(spacing: 12) {
+                        Text("button.im_ready".localized)
+                            .font(.system(size: 20, weight: .bold))
+
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 18, weight: .bold))
+                    }
+                    .foregroundColor(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 18)
+                    .background(
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(
+                                LinearGradient(
+                                    colors: [Color.cyan, Color.blue],
+                                    startPoint: .leading,
+                                    endPoint: .trailing
+                                )
+                            )
+                    )
+                    .shadow(color: Color.cyan.opacity(0.5), radius: 20, y: 10)
+                }
+                .padding(.horizontal, 32)
+                .padding(.bottom, 50)
             }
         }
         .onAppear {
-            isAnimating = true
+            withAnimation(.easeOut(duration: 0.5)) {
+                isAnimating = true
+            }
+        }
+    }
+}
+
+// MARK: - Game Answer View (Phase 2: Camera + recording)
+
+struct GameAnswerView: View {
+    let session: GameSession
+    @State private var isAnimating = false
+    @State private var pulseScale: CGFloat = 1.0
+
+    var body: some View {
+        ZStack {
+            // AR Camera Preview
+            ARCameraPreview(faceTrackingService: session.faceTrackingService)
+                .ignoresSafeArea()
+
+            // Dark overlay
+            Color.black.opacity(0.3)
+                .ignoresSafeArea()
+
+            VStack(spacing: 0) {
+                // Question at TOP - near camera
+                VStack(spacing: 8) {
+                    Text("\(session.currentQuestionIndex + 1)/\(session.questions.count)")
+                        .font(.system(size: 12, weight: .medium))
+                        .foregroundColor(.white.opacity(0.5))
+
+                    if let question = session.currentQuestion {
+                        Text(question.text)
+                            .font(.system(size: 20, weight: .bold))
+                            .foregroundColor(.white)
+                            .multilineTextAlignment(.center)
+                            .padding(.horizontal, 24)
+                            .shadow(color: .black.opacity(0.5), radius: 4)
+                    }
+                }
+                .padding(.top, 16)
+                .padding(.bottom, 12)
+                .frame(maxWidth: .infinity)
+                .background(
+                    LinearGradient(
+                        colors: [
+                            Color.black.opacity(0.8),
+                            Color.black.opacity(0.4),
+                            Color.clear
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .ignoresSafeArea(edges: .top)
+                )
+
+                Spacer()
+
+                // Face guide
+                Ellipse()
+                    .stroke(Color.cyan.opacity(0.4), lineWidth: 2)
+                    .frame(width: 200, height: 260)
+
+                Spacer()
+
+                // Recording indicator at bottom
+                VStack(spacing: 16) {
+                    HStack(spacing: 12) {
+                        Circle()
+                            .fill(Color.red)
+                            .frame(width: 12, height: 12)
+                            .scaleEffect(pulseScale)
+                            .animation(
+                                .easeInOut(duration: 0.8).repeatForever(autoreverses: true),
+                                value: pulseScale
+                            )
+
+                        Text("speech.listening".localized)
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundColor(.white)
+                            .shadow(color: .black.opacity(0.5), radius: 4)
+                    }
+
+                    Text("speech.say_answer".localized)
+                        .font(.system(size: 14))
+                        .foregroundColor(.white.opacity(0.6))
+                }
+                .padding(.vertical, 24)
+                .frame(maxWidth: .infinity)
+                .background(
+                    LinearGradient(
+                        colors: [
+                            Color.clear,
+                            Color.black.opacity(0.6),
+                            Color.black.opacity(0.8)
+                        ],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                    .ignoresSafeArea(edges: .bottom)
+                )
+            }
+        }
+        .onAppear {
+            withAnimation(.easeOut(duration: 0.3)) {
+                isAnimating = true
+            }
+            pulseScale = 1.2
         }
     }
 }
