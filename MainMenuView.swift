@@ -121,9 +121,7 @@ struct MainMenuView: View {
                 }
             }
             .navigationDestination(isPresented: $showPlayers) {
-                Text("Players List - Coming Soon")
-                    .font(.title)
-                    .foregroundColor(.white)
+                PlayersListView()
             }
             .sheet(isPresented: $showSettings) {
                 SettingsView()
@@ -132,10 +130,10 @@ struct MainMenuView: View {
                 TutorialView()
             }
             .fullScreenCover(isPresented: $showPlayAlone) {
-                ComingSoonView(title: "Graj Solo", message: "Tryb solo będzie dostępny wkrótce!")
+                PlayAloneFlowView()
             }
             .fullScreenCover(isPresented: $showHotSeat) {
-                ComingSoonView(title: "Gorące Krzesło", message: "Tryb multiplayer będzie dostępny wkrótce!")
+                HotSeatFlowView()
             }
         }
         .onAppear {
