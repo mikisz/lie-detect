@@ -307,17 +307,276 @@ struct ComingSoonView: View {
 
 struct SettingsView: View {
     @Environment(\.dismiss) var dismiss
-    
+    @State private var settings = AppSettings.shared
+    @State private var localization = LocalizationManager.shared
+    @State private var showLanguagePicker = false
+
+    var body: some View {
+        NavigationStack {
+            ZStack {
+                LinearGradient(
+                    colors: [
+                        Color(red: 0.05, green: 0.1, blue: 0.2),
+                        Color(red: 0.1, green: 0.15, blue: 0.3)
+                    ],
+                    startPoint: .topLeading,
+                    endPoint: .bottomTrailing
+                )
+                .ignoresSafeArea()
+
+                ScrollView {
+                    VStack(spacing: 24) {
+                        // Audio Section
+                        SettingsSection(title: "Dźwięk", icon: "speaker.wave.2.fill") {
+                            SettingsToggleRow(
+                                title: "Efekty dźwiękowe",
+                                subtitle: "Dźwięki przycisków i akcji",
+                                isOn: $settings.soundEffectsEnabled
+                            )
+
+                            if settings.soundEffectsEnabled {
+                                SettingsSliderRow(
+                                    title: "Głośność efektów",
+                                    value: $settings.soundEffectsVolume
+                                )
+                            }
+
+                            SettingsToggleRow(
+                                title: "Muzyka w tle",
+                                subtitle: "Atmosferyczna muzyka",
+                                isOn: $settings.backgroundMusicEnabled
+                            )
+
+                            if settings.backgroundMusicEnabled {
+                                SettingsSliderRow(
+                                    title: "Głośność muzyki",
+                                    value: $settings.backgroundMusicVolume
+                                )
+                            }
+                        }
+
+                        // Haptics Section
+                        SettingsSection(title: "Wibracje", icon: "waveform") {
+                            SettingsToggleRow(
+                                title: "Wibracje dotykowe",
+                                subtitle: "Haptyczna odpowiedź na dotyk",
+                                isOn: $settings.hapticsEnabled
+                            )
+                        }
+
+                        // Accessibility Section
+                        SettingsSection(title: "Dostępność", icon: "accessibility") {
+                            SettingsToggleRow(
+                                title: "Ogranicz animacje",
+                                subtitle: "Zmniejsz ruch interfejsu",
+                                isOn: $settings.reduceAnimations
+                            )
+                        }
+
+                        // Language Section
+                        SettingsSection(title: "Język", icon: "globe") {
+                            Button(action: { showLanguagePicker = true }) {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("Język aplikacji")
+                                            .font(.system(size: 17, weight: .medium))
+                                            .foregroundColor(.white)
+                                        Text(localization.currentLanguage.nativeName)
+                                            .font(.system(size: 14))
+                                            .foregroundColor(.cyan)
+                                    }
+                                    Spacer()
+                                    Image(systemName: "chevron.right")
+                                        .font(.system(size: 14, weight: .semibold))
+                                        .foregroundColor(.white.opacity(0.3))
+                                }
+                                .padding(.vertical, 12)
+                            }
+                        }
+
+                        // About Section
+                        SettingsSection(title: "O aplikacji", icon: "info.circle.fill") {
+                            SettingsInfoRow(title: "Wersja", value: "1.0.0")
+                            SettingsInfoRow(title: "Platforma", value: "iOS")
+                        }
+
+                        // Reset Button
+                        Button(action: {
+                            settings.resetToDefaults()
+                            let generator = UINotificationFeedbackGenerator()
+                            generator.notificationOccurred(.success)
+                        }) {
+                            HStack {
+                                Image(systemName: "arrow.counterclockwise")
+                                Text("Przywróć domyślne")
+                            }
+                            .font(.system(size: 17, weight: .medium))
+                            .foregroundColor(.red)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 16)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(Color.red.opacity(0.1))
+                            )
+                        }
+                        .padding(.horizontal, 20)
+                    }
+                    .padding(.vertical, 20)
+                }
+            }
+            .navigationTitle("Ustawienia")
+            .navigationBarTitleDisplayMode(.inline)
+            .toolbar {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button("Zamknij") {
+                        dismiss()
+                    }
+                    .foregroundColor(.cyan)
+                }
+            }
+            .sheet(isPresented: $showLanguagePicker) {
+                LanguagePickerView(currentLanguage: $localization.currentLanguage)
+            }
+        }
+    }
+}
+
+// MARK: - Settings Components
+
+struct SettingsSection<Content: View>: View {
+    let title: String
+    let icon: String
+    @ViewBuilder let content: Content
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 16) {
+            HStack(spacing: 8) {
+                Image(systemName: icon)
+                    .font(.system(size: 16, weight: .semibold))
+                    .foregroundColor(.cyan)
+                Text(title.uppercased())
+                    .font(.system(size: 13, weight: .bold))
+                    .foregroundColor(.white.opacity(0.5))
+                    .tracking(1)
+            }
+            .padding(.horizontal, 20)
+
+            VStack(spacing: 0) {
+                content
+            }
+            .padding(.horizontal, 16)
+            .padding(.vertical, 8)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.white.opacity(0.08))
+            )
+            .padding(.horizontal, 20)
+        }
+    }
+}
+
+struct SettingsToggleRow: View {
+    let title: String
+    let subtitle: String
+    @Binding var isOn: Bool
+
+    var body: some View {
+        HStack {
+            VStack(alignment: .leading, spacing: 4) {
+                Text(title)
+                    .font(.system(size: 17, weight: .medium))
+                    .foregroundColor(.white)
+                Text(subtitle)
+                    .font(.system(size: 13))
+                    .foregroundColor(.white.opacity(0.5))
+            }
+            Spacer()
+            Toggle("", isOn: $isOn)
+                .tint(.cyan)
+        }
+        .padding(.vertical, 8)
+    }
+}
+
+struct SettingsSliderRow: View {
+    let title: String
+    @Binding var value: Double
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack {
+                Text(title)
+                    .font(.system(size: 15))
+                    .foregroundColor(.white.opacity(0.7))
+                Spacer()
+                Text("\(Int(value * 100))%")
+                    .font(.system(size: 15, weight: .medium))
+                    .foregroundColor(.cyan)
+            }
+            Slider(value: $value, in: 0...1)
+                .tint(.cyan)
+        }
+        .padding(.vertical, 8)
+    }
+}
+
+struct SettingsInfoRow: View {
+    let title: String
+    let value: String
+
+    var body: some View {
+        HStack {
+            Text(title)
+                .font(.system(size: 17, weight: .medium))
+                .foregroundColor(.white)
+            Spacer()
+            Text(value)
+                .font(.system(size: 17))
+                .foregroundColor(.white.opacity(0.5))
+        }
+        .padding(.vertical, 12)
+    }
+}
+
+struct LanguagePickerView: View {
+    @Environment(\.dismiss) var dismiss
+    @Binding var currentLanguage: AppLanguage
+
     var body: some View {
         NavigationStack {
             ZStack {
                 Color(red: 0.05, green: 0.1, blue: 0.2).ignoresSafeArea()
-                
-                Text("Ustawienia")
-                    .font(.title)
-                    .foregroundColor(.white)
+
+                VStack(spacing: 16) {
+                    ForEach(AppLanguage.allCases, id: \.self) { language in
+                        Button(action: {
+                            currentLanguage = language
+                            dismiss()
+                        }) {
+                            HStack {
+                                Text(language.flag)
+                                    .font(.system(size: 32))
+                                Text(language.displayName)
+                                    .font(.system(size: 20, weight: .medium))
+                                    .foregroundColor(.white)
+                                Spacer()
+                                if language == currentLanguage {
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .font(.system(size: 24))
+                                        .foregroundColor(.cyan)
+                                }
+                            }
+                            .padding(20)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(language == currentLanguage ? Color.cyan.opacity(0.2) : Color.white.opacity(0.08))
+                            )
+                        }
+                    }
+                }
+                .padding(20)
             }
-            .navigationTitle("Ustawienia")
+            .navigationTitle("Wybierz język")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {

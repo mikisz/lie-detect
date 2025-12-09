@@ -223,3 +223,25 @@
 "question.category.spicy" = "Pikantne";
 "question.category.relationships" = "Związki";
 "question.category.secrets" = "Sekrety";
+
+// MARK: - Hot Seat Mode
+"hotseat.select_players" = "Wybierz graczy";
+"hotseat.min_players" = "Minimum %d graczy wymaganych";
+"hotseat.selected_count" = "Wybrano: %d";
+"hotseat.select_pack" = "Wybierz pakiet pytań";
+"hotseat.questions_per_player" = "%d pytań na gracza";
+"hotseat.player_turn" = "Tura: %@";
+"hotseat.pass_device" = "Podaj urządzenie do %@";
+"hotseat.round" = "Runda %d z %d";
+"hotseat.results" = "Wyniki";
+"hotseat.winner" = "Zwycięzca: %@";
+"hotseat.tie" = "Remis!";
+"hotseat.score" = "%d prawdziwych odpowiedzi";
+"hotseat.ranking" = "Ranking";
+"hotseat.play_again" = "Zagraj ponownie";
+
+// MARK: - Additional Buttons
+"button.continue" = "Kontynuuj";
+"button.back" = "Wstecz";
+"button.start" = "Start";
+"button.ready" = "Jestem gotowy";
