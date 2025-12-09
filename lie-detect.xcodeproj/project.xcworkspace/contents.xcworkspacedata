@@ -4,4 +4,100 @@
    <FileRef
       location = "self:">
    </FileRef>
+   <FileRef
+      location = "group:GameSession.swift">
+   </FileRef>
+   <FileRef
+      location = "group:GameQuestionGenerator.swift">
+   </FileRef>
+   <FileRef
+      location = "group:PlayAloneFlowView.swift">
+   </FileRef>
+   <FileRef
+      location = "group:GameSessionView.swift">
+   </FileRef>
+   <FileRef
+      location = "group:GameVerdictView.swift">
+   </FileRef>
+   <FileRef
+      location = "group:PHASE3_COMPLETE.md">
+   </FileRef>
+   <FileRef
+      location = "group:INFO_PLIST_PERMISSIONS.md">
+   </FileRef>
+   <FileRef
+      location = "group:QUICK_START.md">
+   </FileRef>
+   <FileRef
+      location = "group:README.md">
+   </FileRef>
+   <FileRef
+      location = "group:ARCHITECTURE.md">
+   </FileRef>
+   <FileRef
+      location = "group:AudioService.swift">
+   </FileRef>
+   <FileRef
+      location = "group:AppSettings.swift">
+   </FileRef>
+   <FileRef
+      location = "group:SettingsView_New.swift">
+   </FileRef>
+   <FileRef
+      location = "group:AUDIO_SYSTEM_GUIDE.md">
+   </FileRef>
+   <FileRef
+      location = "group:AudioButton.swift">
+   </FileRef>
+   <FileRef
+      location = "group:AUDIO_FILES_README.md">
+   </FileRef>
+   <FileRef
+      location = "group:AUDIO_SYSTEM_COMPLETE.md">
+   </FileRef>
+   <FileRef
+      location = "group:LocalizationManager.swift">
+   </FileRef>
+   <FileRef
+      location = "group:Localizable_en.strings">
+   </FileRef>
+   <FileRef
+      location = "group:Localizable_pl.strings">
+   </FileRef>
+   <FileRef
+      location = "group:AppSettingsWithLanguage.swift">
+   </FileRef>
+   <FileRef
+      location = "group:SettingsViewWithLocalization.swift">
+   </FileRef>
+   <FileRef
+      location = "group:LOCALIZATION_GUIDE.md">
+   </FileRef>
+   <FileRef
+      location = "group:LOCALIZATION_COMPLETE.md">
+   </FileRef>
+   <FileRef
+      location = "group:PHASE4_COMPLETE.md">
+   </FileRef>
+   <FileRef
+      location = "group:HotSeatSession.swift">
+   </FileRef>
+   <FileRef
+      location = "group:HotSeatFlowView.swift">
+   </FileRef>
+   <FileRef
+      location = "group:HotSeatGameView.swift">
+   </FileRef>
+   <FileRef
+      location = "group:HotSeatResultsViews.swift">
+   </FileRef>
+   <FileRef
+      location = "group:HotSeat_Localization_Strings.txt">
+   </FileRef>
+   <FileRef
+      location = "group:HOTSEAT_COMPLETE.md">
+   </FileRef>
+   <FileRef
+      location = "group:MVP_STATUS.md">
+   </FileRef>
 </Workspace>

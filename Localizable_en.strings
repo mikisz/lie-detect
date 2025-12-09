@@ -1,0 +1,225 @@
+/* 
+  Localizable.strings (English)
+  lie-detect
+  
+  Created by Mikołaj Niżnik on 09/12/2025.
+*/
+
+// MARK: - General
+"app.name" = "Lie Detect";
+"general.ok" = "OK";
+"general.cancel" = "Cancel";
+"general.done" = "Done";
+"general.yes" = "Yes";
+"general.no" = "No";
+"general.close" = "Close";
+"general.save" = "Save";
+"general.delete" = "Delete";
+"general.edit" = "Edit";
+"general.back" = "Back";
+"general.next" = "Next";
+"general.start" = "Start";
+"general.continue" = "Continue";
+
+// MARK: - Main Menu
+"menu.title" = "Lie Detect";
+"menu.play_solo" = "Play Solo";
+"menu.play_solo_subtitle" = "Test yourself";
+"menu.hot_seat" = "Hot Seat";
+"menu.hot_seat_subtitle" = "Play with friends";
+"menu.play_online" = "Play Online";
+"menu.play_online_subtitle" = "Coming soon...";
+"menu.players" = "Players";
+"menu.how_it_works" = "How it works?";
+"menu.settings" = "Settings";
+
+// MARK: - Settings
+"settings.title" = "Settings";
+"settings.audio" = "Sound";
+"settings.sound_effects" = "Sound Effects";
+"settings.sound_effects_subtitle" = "Button and action sounds";
+"settings.sound_effects_volume" = "Effects Volume";
+"settings.background_music" = "Background Music";
+"settings.background_music_subtitle" = "Atmospheric music";
+"settings.background_music_volume" = "Music Volume";
+"settings.haptics" = "Haptics";
+"settings.haptics_toggle" = "Haptic Feedback";
+"settings.haptics_subtitle" = "Touch response vibration";
+"settings.accessibility" = "Accessibility";
+"settings.reduce_animations" = "Reduce Animations";
+"settings.reduce_animations_subtitle" = "Less interface motion";
+"settings.language" = "Language";
+"settings.language_title" = "App Language";
+"settings.language_subtitle" = "Choose your language";
+"settings.about" = "About";
+"settings.version" = "Version";
+"settings.platform" = "Platform";
+"settings.reset_defaults" = "Reset to Defaults";
+"settings.test_sounds" = "Test Sounds";
+
+// MARK: - Onboarding
+"onboarding.welcome" = "Welcome!";
+"onboarding.create_profile" = "Create Your Profile";
+"onboarding.subtitle" = "Let's get started";
+
+// MARK: - Player
+"player.create" = "Create Player";
+"player.edit" = "Edit Player";
+"player.name" = "Name";
+"player.name_placeholder" = "Enter name";
+"player.age" = "Age";
+"player.gender" = "Gender";
+"player.gender.male" = "Male";
+"player.gender.female" = "Female";
+"player.gender.other" = "Other";
+"player.calibrated" = "Calibrated";
+"player.not_calibrated" = "Not Calibrated";
+"player.calibrate" = "Start Calibration";
+"player.recalibrate" = "Recalibrate";
+"player.delete_confirm" = "Delete Player?";
+"player.delete_message" = "This action cannot be undone.";
+"player.profile" = "Profile";
+"player.create_profile" = "Create Profile";
+"player.years_old" = "%d years old";
+"player.no_players" = "No Calibrated Players";
+"player.no_players_message" = "Complete calibration in Players section first";
+
+// MARK: - Calibration
+"calibration.title" = "Calibration";
+"calibration.subtitle" = "You'll answer %d simple questions";
+"calibration.instructions" = "Instructions";
+"calibration.start" = "Start Calibration";
+"calibration.ready" = "I'm Ready";
+"calibration.complete" = "Calibration Complete!";
+"calibration.question" = "Question";
+"calibration.question_of" = "Question %d of %d";
+"calibration.instruction.truth" = "Always answer truthfully";
+"calibration.instruction.camera" = "Look straight at the camera";
+"calibration.instruction.voice" = "Speak clearly 'yes' or 'no'";
+"calibration.preparing" = "Preparing...";
+"calibration.center_face" = "Center your face";
+"calibration.perfect" = "Perfect!";
+"calibration.look_camera" = "Look at the camera";
+"calibration.say_answer" = "Say: 'yes' or 'no'";
+"calibration.hearing" = "I hear: %@";
+"calibration.success" = "Calibration successful!";
+"calibration.saved" = "Baseline data saved";
+"calibration.finish" = "Finish";
+
+// MARK: - Game
+"game.select_player" = "Select Player";
+"game.select_only_calibrated" = "Only calibrated profiles";
+"game.select_pack" = "Choose Question Pack";
+"game.starting" = "Starting!";
+"game.player" = "Player: %@";
+"game.questions_count" = "%d questions";
+"game.remember" = "Remember:";
+"game.instruction.answer" = "Answer truth or lie intentionally";
+"game.instruction.camera" = "Look straight at the camera";
+"game.instruction.voice" = "Speak clearly 'yes' or 'no'";
+"game.question_of" = "Question %d of %d";
+"game.recording" = "RECORDING";
+"game.analyzing" = "Analyzing...";
+"game.next_question" = "Next Question";
+"game.view_results" = "View Results";
+"game.complete" = "Session Complete!";
+"game.finish" = "Finish";
+
+// MARK: - Verdict
+"verdict.truthful" = "Truth!";
+"verdict.suspicious" = "Suspicious!";
+"verdict.confidence" = "Confidence: %d%%";
+"verdict.factors" = "Detected:";
+"verdict.normal_pattern" = "Normal pattern";
+"verdict.more_blinks" = "Increased blinking";
+"verdict.less_blinks" = "Decreased blinking";
+"verdict.longer_response" = "Longer response time";
+"verdict.faster_response" = "Too fast response";
+"verdict.head_movement" = "Head movement";
+"verdict.facial_tension" = "Facial tension";
+"verdict.long_pause" = "Long pause";
+
+// MARK: - Session Verdict
+"session.mostly_truthful" = "Truthful!";
+"session.mixed" = "Mixed Signals";
+"session.mostly_lying" = "Suspicious...";
+"session.inconclusive" = "Inconclusive";
+"session.truthful_message" = "Most answers seem honest";
+"session.mixed_message" = "Some answers raise doubts";
+"session.lying_message" = "Many suspicious signals detected";
+"session.inconclusive_message" = "Cannot determine with certainty";
+"session.stats.truthful" = "Truth";
+"session.stats.suspicious" = "Suspicious";
+"session.stats.total" = "Total Questions";
+"session.details" = "Answer Details";
+
+// MARK: - Face Quality
+"face.quality.unknown" = "Preparing...";
+"face.quality.poor" = "Look at the camera";
+"face.quality.fair" = "Center your face";
+"face.quality.good" = "Perfect!";
+
+// MARK: - Question Packs
+"pack.quick" = "Quick Game";
+"pack.quick_desc" = "5 quick questions";
+"pack.quick_count" = "5 questions";
+"pack.standard" = "Standard";
+"pack.standard_desc" = "10 diverse questions";
+"pack.standard_count" = "10 questions";
+"pack.extended" = "Extended";
+"pack.extended_desc" = "15 questions - full session";
+"pack.extended_count" = "15 questions";
+"pack.spicy" = "Spicy 🌶️";
+"pack.spicy_desc" = "10 bold questions";
+"pack.spicy_count" = "10 questions";
+
+// MARK: - Errors & Alerts
+"error.arkit_not_supported" = "ARKit face tracking not supported on this device";
+"error.speech_not_authorized" = "Speech recognition not authorized";
+"error.camera_not_authorized" = "Camera access not authorized";
+"error.microphone_not_authorized" = "Microphone access not authorized";
+"alert.delete_player" = "Delete player?";
+"alert.delete_player_message" = "This will permanently delete %@ and all calibration data.";
+
+// MARK: - Empty States
+"empty.no_players" = "No Players";
+"empty.no_players_message" = "Create your first player to get started";
+"empty.no_calibrated" = "No Calibrated Players";
+"empty.no_calibrated_message" = "Complete calibration in the Players section first";
+
+// MARK: - Buttons
+"button.start_game" = "Start Game";
+"button.cancel" = "Cancel";
+"button.im_ready" = "I'm Ready";
+"button.next" = "Next";
+"button.finish" = "Finish";
+"button.close" = "Close";
+"button.delete" = "Delete";
+"button.save" = "Save";
+"button.edit" = "Edit";
+
+// MARK: - Tutorial
+"tutorial.title" = "How It Works";
+"tutorial.section1" = "Face Tracking";
+"tutorial.section1_desc" = "We use ARKit to analyze your facial expressions";
+"tutorial.section2" = "Speech Recognition";
+"tutorial.section2_desc" = "Answer questions with 'yes' or 'no'";
+"tutorial.section3" = "Calibration";
+"tutorial.section3_desc" = "First, we establish your baseline by asking truthful questions";
+"tutorial.section4" = "Detection";
+"tutorial.section4_desc" = "During games, we compare your behavior to your baseline";
+"tutorial.disclaimer" = "Disclaimer";
+"tutorial.disclaimer_message" = "This is a game and entertainment app. It's not a real polygraph and should not be used for serious purposes.";
+
+// MARK: - Countdown
+"countdown.get_ready" = "Get ready...";
+"countdown.3" = "3";
+"countdown.2" = "2";
+"countdown.1" = "1";
+
+// MARK: - Questions (used if dynamic generation)
+"question.category.general" = "General";
+"question.category.personal" = "Personal";
+"question.category.spicy" = "Spicy";
+"question.category.relationships" = "Relationships";
+"question.category.secrets" = "Secrets";

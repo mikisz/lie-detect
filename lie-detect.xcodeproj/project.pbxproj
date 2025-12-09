@@ -6,17 +6,80 @@
 	objectVersion = 77;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		A9000001AAAAAAAA00000001 /* AppSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100001AAAAAAAA00000001 /* AppSettings.swift */; };
+		A9000002AAAAAAAA00000001 /* AudioButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100002AAAAAAAA00000001 /* AudioButton.swift */; };
+		A9000003AAAAAAAA00000001 /* AudioService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100003AAAAAAAA00000001 /* AudioService.swift */; };
+		A9000004AAAAAAAA00000001 /* CalibrationCoordinator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100004AAAAAAAA00000001 /* CalibrationCoordinator.swift */; };
+		A9000005AAAAAAAA00000001 /* CalibrationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100005AAAAAAAA00000001 /* CalibrationData.swift */; };
+		A9000006AAAAAAAA00000001 /* CalibrationFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100006AAAAAAAA00000001 /* CalibrationFlowView.swift */; };
+		A9000007AAAAAAAA00000001 /* CalibrationPrepareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100007AAAAAAAA00000001 /* CalibrationPrepareView.swift */; };
+		A9000008AAAAAAAA00000001 /* CalibrationQuestionGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100008AAAAAAAA00000001 /* CalibrationQuestionGenerator.swift */; };
+		A9000009AAAAAAAA00000001 /* CalibrationQuestionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100009AAAAAAAA00000001 /* CalibrationQuestionView.swift */; };
+		A900000AAAAAAAAA00000001 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910000AAAAAAAAA00000001 /* ContentView.swift */; };
+		A900000BAAAAAAAA00000001 /* CreatePlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910000BAAAAAAAA00000001 /* CreatePlayerView.swift */; };
+		A900000CAAAAAAAA00000001 /* FaceTrackingService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910000CAAAAAAAA00000001 /* FaceTrackingService.swift */; };
+		A900000DAAAAAAAA00000001 /* GameQuestionGenerator.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910000DAAAAAAAA00000001 /* GameQuestionGenerator.swift */; };
+		A900000EAAAAAAAA00000001 /* GameSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910000EAAAAAAAA00000001 /* GameSession.swift */; };
+		A900000FAAAAAAAA00000001 /* GameSessionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910000FAAAAAAAA00000001 /* GameSessionView.swift */; };
+		A9000010AAAAAAAA00000001 /* GameVerdictView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100010AAAAAAAA00000001 /* GameVerdictView.swift */; };
+		A9000011AAAAAAAA00000001 /* HotSeatFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100011AAAAAAAA00000001 /* HotSeatFlowView.swift */; };
+		A9000012AAAAAAAA00000001 /* HotSeatGameView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100012AAAAAAAA00000001 /* HotSeatGameView.swift */; };
+		A9000013AAAAAAAA00000001 /* HotSeatResultsViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100013AAAAAAAA00000001 /* HotSeatResultsViews.swift */; };
+		A9000014AAAAAAAA00000001 /* HotSeatSession.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100014AAAAAAAA00000001 /* HotSeatSession.swift */; };
+		A9000015AAAAAAAA00000001 /* lie_detectApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100015AAAAAAAA00000001 /* lie_detectApp.swift */; };
+		A9000016AAAAAAAA00000001 /* LocalizationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100016AAAAAAAA00000001 /* LocalizationManager.swift */; };
+		A9000017AAAAAAAA00000001 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100017AAAAAAAA00000001 /* MainMenuView.swift */; };
+		A9000018AAAAAAAA00000001 /* PlayAloneFlowView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100018AAAAAAAA00000001 /* PlayAloneFlowView.swift */; };
+		A9000019AAAAAAAA00000001 /* Player.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100019AAAAAAAA00000001 /* Player.swift */; };
+		A900001AAAAAAAAA00000001 /* PlayerDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910001AAAAAAAAA00000001 /* PlayerDetailView.swift */; };
+		A900001BAAAAAAAA00000001 /* PlayersListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910001BAAAAAAAA00000001 /* PlayersListView.swift */; };
+		A900001CAAAAAAAA00000001 /* PrepareView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910001CAAAAAAAA00000001 /* PrepareView.swift */; };
+		A900001DAAAAAAAA00000001 /* SpeechRecognitionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910001DAAAAAAAA00000001 /* SpeechRecognitionService.swift */; };
+		A900001EAAAAAAAA00000001 /* VerdictRevealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910001EAAAAAAAA00000001 /* VerdictRevealView.swift */; };
+		A9000020AAAAAAAA00000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9100020AAAAAAAA00000001 /* Assets.xcassets */; };
+		A9000021AAAAAAAA00000001 /* Localizable_en.strings in Resources */ = {isa = PBXBuildFile; fileRef = A9100021AAAAAAAA00000001 /* Localizable_en.strings */; };
+		A9000022AAAAAAAA00000001 /* Localizable_pl.strings in Resources */ = {isa = PBXBuildFile; fileRef = A9100022AAAAAAAA00000001 /* Localizable_pl.strings */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		A931A5062EE861AD00541F65 /* lie-detect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "lie-detect.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		A9100001AAAAAAAA00000001 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
+		A9100002AAAAAAAA00000001 /* AudioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioButton.swift; sourceTree = "<group>"; };
+		A9100003AAAAAAAA00000001 /* AudioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioService.swift; sourceTree = "<group>"; };
+		A9100004AAAAAAAA00000001 /* CalibrationCoordinator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationCoordinator.swift; sourceTree = "<group>"; };
+		A9100005AAAAAAAA00000001 /* CalibrationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationData.swift; sourceTree = "<group>"; };
+		A9100006AAAAAAAA00000001 /* CalibrationFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationFlowView.swift; sourceTree = "<group>"; };
+		A9100007AAAAAAAA00000001 /* CalibrationPrepareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationPrepareView.swift; sourceTree = "<group>"; };
+		A9100008AAAAAAAA00000001 /* CalibrationQuestionGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationQuestionGenerator.swift; sourceTree = "<group>"; };
+		A9100009AAAAAAAA00000001 /* CalibrationQuestionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalibrationQuestionView.swift; sourceTree = "<group>"; };
+		A910000AAAAAAAAA00000001 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		A910000BAAAAAAAA00000001 /* CreatePlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePlayerView.swift; sourceTree = "<group>"; };
+		A910000CAAAAAAAA00000001 /* FaceTrackingService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FaceTrackingService.swift; sourceTree = "<group>"; };
+		A910000DAAAAAAAA00000001 /* GameQuestionGenerator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameQuestionGenerator.swift; sourceTree = "<group>"; };
+		A910000EAAAAAAAA00000001 /* GameSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSession.swift; sourceTree = "<group>"; };
+		A910000FAAAAAAAA00000001 /* GameSessionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSessionView.swift; sourceTree = "<group>"; };
+		A9100010AAAAAAAA00000001 /* GameVerdictView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameVerdictView.swift; sourceTree = "<group>"; };
+		A9100011AAAAAAAA00000001 /* HotSeatFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotSeatFlowView.swift; sourceTree = "<group>"; };
+		A9100012AAAAAAAA00000001 /* HotSeatGameView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotSeatGameView.swift; sourceTree = "<group>"; };
+		A9100013AAAAAAAA00000001 /* HotSeatResultsViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotSeatResultsViews.swift; sourceTree = "<group>"; };
+		A9100014AAAAAAAA00000001 /* HotSeatSession.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HotSeatSession.swift; sourceTree = "<group>"; };
+		A9100015AAAAAAAA00000001 /* lie_detectApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = lie_detectApp.swift; sourceTree = "<group>"; };
+		A9100016AAAAAAAA00000001 /* LocalizationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocalizationManager.swift; sourceTree = "<group>"; };
+		A9100017AAAAAAAA00000001 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
+		A9100018AAAAAAAA00000001 /* PlayAloneFlowView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayAloneFlowView.swift; sourceTree = "<group>"; };
+		A9100019AAAAAAAA00000001 /* Player.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Player.swift; sourceTree = "<group>"; };
+		A910001AAAAAAAAA00000001 /* PlayerDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerDetailView.swift; sourceTree = "<group>"; };
+		A910001BAAAAAAAA00000001 /* PlayersListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayersListView.swift; sourceTree = "<group>"; };
+		A910001CAAAAAAAA00000001 /* PrepareView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PrepareView.swift; sourceTree = "<group>"; };
+		A910001DAAAAAAAA00000001 /* SpeechRecognitionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognitionService.swift; sourceTree = "<group>"; };
+		A910001EAAAAAAAA00000001 /* VerdictRevealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerdictRevealView.swift; sourceTree = "<group>"; };
+		A9100020AAAAAAAA00000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		A9100021AAAAAAAA00000001 /* Localizable_en.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable_en.strings; sourceTree = "<group>"; };
+		A9100022AAAAAAAA00000001 /* Localizable_pl.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable_pl.strings; sourceTree = "<group>"; };
+		A9100023AAAAAAAA00000001 /* ARCHITECTURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ARCHITECTURE.md; sourceTree = "<group>"; };
+		A9100024AAAAAAAA00000001 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		A931A5082EE861AD00541F65 /* lie-detect */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = "lie-detect";
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		A931A5032EE861AD00541F65 /* Frameworks */ = {
@@ -32,7 +95,41 @@
 		A931A4FD2EE861AD00541F65 = {
 			isa = PBXGroup;
 			children = (
-				A931A5082EE861AD00541F65 /* lie-detect */,
+				A9100001AAAAAAAA00000001 /* AppSettings.swift */,
+				A9100002AAAAAAAA00000001 /* AudioButton.swift */,
+				A9100003AAAAAAAA00000001 /* AudioService.swift */,
+				A9100004AAAAAAAA00000001 /* CalibrationCoordinator.swift */,
+				A9100005AAAAAAAA00000001 /* CalibrationData.swift */,
+				A9100006AAAAAAAA00000001 /* CalibrationFlowView.swift */,
+				A9100007AAAAAAAA00000001 /* CalibrationPrepareView.swift */,
+				A9100008AAAAAAAA00000001 /* CalibrationQuestionGenerator.swift */,
+				A9100009AAAAAAAA00000001 /* CalibrationQuestionView.swift */,
+				A910000AAAAAAAAA00000001 /* ContentView.swift */,
+				A910000BAAAAAAAA00000001 /* CreatePlayerView.swift */,
+				A910000CAAAAAAAA00000001 /* FaceTrackingService.swift */,
+				A910000DAAAAAAAA00000001 /* GameQuestionGenerator.swift */,
+				A910000EAAAAAAAA00000001 /* GameSession.swift */,
+				A910000FAAAAAAAA00000001 /* GameSessionView.swift */,
+				A9100010AAAAAAAA00000001 /* GameVerdictView.swift */,
+				A9100011AAAAAAAA00000001 /* HotSeatFlowView.swift */,
+				A9100012AAAAAAAA00000001 /* HotSeatGameView.swift */,
+				A9100013AAAAAAAA00000001 /* HotSeatResultsViews.swift */,
+				A9100014AAAAAAAA00000001 /* HotSeatSession.swift */,
+				A9100015AAAAAAAA00000001 /* lie_detectApp.swift */,
+				A9100016AAAAAAAA00000001 /* LocalizationManager.swift */,
+				A9100017AAAAAAAA00000001 /* MainMenuView.swift */,
+				A9100018AAAAAAAA00000001 /* PlayAloneFlowView.swift */,
+				A9100019AAAAAAAA00000001 /* Player.swift */,
+				A910001AAAAAAAAA00000001 /* PlayerDetailView.swift */,
+				A910001BAAAAAAAA00000001 /* PlayersListView.swift */,
+				A910001CAAAAAAAA00000001 /* PrepareView.swift */,
+				A910001DAAAAAAAA00000001 /* SpeechRecognitionService.swift */,
+				A910001EAAAAAAAA00000001 /* VerdictRevealView.swift */,
+				A9100020AAAAAAAA00000001 /* Assets.xcassets */,
+				A9100021AAAAAAAA00000001 /* Localizable_en.strings */,
+				A9100022AAAAAAAA00000001 /* Localizable_pl.strings */,
+				A9100023AAAAAAAA00000001 /* ARCHITECTURE.md */,
+				A9100024AAAAAAAA00000001 /* README.md */,
 				A931A5072EE861AD00541F65 /* Products */,
 			);
 			sourceTree = "<group>";
@@ -59,9 +156,6 @@
 			buildRules = (
 			);
 			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				A931A5082EE861AD00541F65 /* lie-detect */,
 			);
 			name = "lie-detect";
 			packageProductDependencies = (
@@ -91,6 +185,7 @@
 			knownRegions = (
 				en,
 				Base,
+				pl,
 			);
 			mainGroup = A931A4FD2EE861AD00541F65;
 			minimizedProjectReferenceProxies = 1;
@@ -109,6 +204,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9000020AAAAAAAA00000001 /* Assets.xcassets in Resources */,
+				A9000021AAAAAAAA00000001 /* Localizable_en.strings in Resources */,
+				A9000022AAAAAAAA00000001 /* Localizable_pl.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -119,6 +217,36 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A9000001AAAAAAAA00000001 /* AppSettings.swift in Sources */,
+				A9000002AAAAAAAA00000001 /* AudioButton.swift in Sources */,
+				A9000003AAAAAAAA00000001 /* AudioService.swift in Sources */,
+				A9000004AAAAAAAA00000001 /* CalibrationCoordinator.swift in Sources */,
+				A9000005AAAAAAAA00000001 /* CalibrationData.swift in Sources */,
+				A9000006AAAAAAAA00000001 /* CalibrationFlowView.swift in Sources */,
+				A9000007AAAAAAAA00000001 /* CalibrationPrepareView.swift in Sources */,
+				A9000008AAAAAAAA00000001 /* CalibrationQuestionGenerator.swift in Sources */,
+				A9000009AAAAAAAA00000001 /* CalibrationQuestionView.swift in Sources */,
+				A900000AAAAAAAAA00000001 /* ContentView.swift in Sources */,
+				A900000BAAAAAAAA00000001 /* CreatePlayerView.swift in Sources */,
+				A900000CAAAAAAAA00000001 /* FaceTrackingService.swift in Sources */,
+				A900000DAAAAAAAA00000001 /* GameQuestionGenerator.swift in Sources */,
+				A900000EAAAAAAAA00000001 /* GameSession.swift in Sources */,
+				A900000FAAAAAAAA00000001 /* GameSessionView.swift in Sources */,
+				A9000010AAAAAAAA00000001 /* GameVerdictView.swift in Sources */,
+				A9000011AAAAAAAA00000001 /* HotSeatFlowView.swift in Sources */,
+				A9000012AAAAAAAA00000001 /* HotSeatGameView.swift in Sources */,
+				A9000013AAAAAAAA00000001 /* HotSeatResultsViews.swift in Sources */,
+				A9000014AAAAAAAA00000001 /* HotSeatSession.swift in Sources */,
+				A9000015AAAAAAAA00000001 /* lie_detectApp.swift in Sources */,
+				A9000016AAAAAAAA00000001 /* LocalizationManager.swift in Sources */,
+				A9000017AAAAAAAA00000001 /* MainMenuView.swift in Sources */,
+				A9000018AAAAAAAA00000001 /* PlayAloneFlowView.swift in Sources */,
+				A9000019AAAAAAAA00000001 /* Player.swift in Sources */,
+				A900001AAAAAAAAA00000001 /* PlayerDetailView.swift in Sources */,
+				A900001BAAAAAAAA00000001 /* PlayersListView.swift in Sources */,
+				A900001CAAAAAAAA00000001 /* PrepareView.swift in Sources */,
+				A900001DAAAAAAAA00000001 /* SpeechRecognitionService.swift in Sources */,
+				A900001EAAAAAAAA00000001 /* VerdictRevealView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -178,7 +306,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
 				MTL_FAST_MATH = YES;
@@ -236,7 +364,7 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
-				IPHONEOS_DEPLOYMENT_TARGET = 26.1;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.0;
 				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
 				MTL_ENABLE_DEBUG_INFO = NO;
 				MTL_FAST_MATH = YES;
@@ -256,6 +384,10 @@
 				DEVELOPMENT_TEAM = VZ6X9UP2DH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.trivia-games";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We use the camera to analyze your face during the game";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We use the microphone to recognize your yes or no answers";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "We use speech recognition to analyze your answers";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -268,11 +400,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ainjaapp.lie-detect";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
@@ -288,6 +416,10 @@
 				DEVELOPMENT_TEAM = VZ6X9UP2DH;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.trivia-games";
+				INFOPLIST_KEY_NSCameraUsageDescription = "We use the camera to analyze your face during the game";
+				INFOPLIST_KEY_NSMicrophoneUsageDescription = "We use the microphone to recognize your yes or no answers";
+				INFOPLIST_KEY_NSSpeechRecognitionUsageDescription = "We use speech recognition to analyze your answers";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -300,11 +432,7 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "ainjaapp.lie-detect";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				STRING_CATALOG_GENERATE_SYMBOLS = YES;
-				SWIFT_APPROACHABLE_CONCURRENCY = YES;
-				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
 				SWIFT_EMIT_LOC_STRINGS = YES;
-				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
 			};
