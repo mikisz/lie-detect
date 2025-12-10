@@ -147,12 +147,12 @@ struct OnboardingView: View {
                         }) {
                             HStack(spacing: 8) {
                                 Image(systemName: "chevron.left")
-                                Text("Wstecz")
+                                Text("button.back".localized)
                             }
                             .font(.system(size: 17, weight: .medium))
                             .foregroundColor(.white.opacity(0.7))
                             .padding(.horizontal, 24)
-                            .padding(.vertical, 14)
+                            .padding(.vertical, 18) // Increased from 14 to 18 for 44pt min touch target
                             .background(
                                 RoundedRectangle(cornerRadius: 14)
                                     .fill(Color.white.opacity(0.1))
@@ -172,13 +172,13 @@ struct OnboardingView: View {
                         }
                     }) {
                         HStack(spacing: 8) {
-                            Text(currentPage < pages.count - 1 ? "Dalej" : "Rozpocznij")
+                            Text(currentPage < pages.count - 1 ? "button.next".localized : "onboarding.start".localized)
                             Image(systemName: currentPage < pages.count - 1 ? "chevron.right" : "arrow.right")
                         }
                         .font(.system(size: 17, weight: .bold))
                         .foregroundColor(.white)
                         .padding(.horizontal, 28)
-                        .padding(.vertical, 14)
+                        .padding(.vertical, 18) // Increased from 14 to 18 for 44pt min touch target
                         .background(
                             RoundedRectangle(cornerRadius: 14)
                                 .fill(
@@ -383,7 +383,7 @@ struct ParticlesView: View {
                     y: CGFloat.random(in: 0...size.height)
                 ),
                 size: CGFloat.random(in: 20...80),
-                color: [Color.cyan, Color.blue, Color.purple, Color.teal].randomElement()!.opacity(0.3)
+                color: ([Color.cyan, Color.blue, Color.purple, Color.teal].randomElement() ?? .cyan).opacity(0.3)
             )
         }
     }

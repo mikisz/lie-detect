@@ -7,6 +7,7 @@
 
 import SwiftUI
 import SwiftData
+import PhotosUI
 
 struct PlayerDetailView: View {
     @Environment(\.modelContext) private var modelContext
@@ -89,7 +90,7 @@ struct PlayerDetailView: View {
                                 Text("•")
                                     .foregroundColor(.white.opacity(0.5))
                                 
-                                Text("\(player.age) lat")
+                                Text("player.years".localized(with: player.age))
                                     .font(.system(size: 16, weight: .medium))
                                     .foregroundColor(.white.opacity(0.7))
                             }
@@ -103,23 +104,23 @@ struct PlayerDetailView: View {
                             Image(systemName: player.isCalibrated ? "checkmark.seal.fill" : "exclamationmark.triangle.fill")
                                 .font(.system(size: 28))
                                 .foregroundColor(player.isCalibrated ? .green : .orange)
-                            
+
                             VStack(alignment: .leading, spacing: 4) {
-                                Text(player.isCalibrated ? "Skalibrowany" : "Wymaga kalibracji")
+                                Text(player.isCalibrated ? "player.calibrated".localized : "player.requires_calibration".localized)
                                     .font(.system(size: 20, weight: .bold))
                                     .foregroundColor(.white)
-                                
+
                                 if let lastCalibrated = player.lastCalibratedAt {
-                                    Text("Ostatnia kalibracja: \(lastCalibrated.formatted(date: .abbreviated, time: .omitted))")
+                                    Text("player.last_calibration".localized(with: lastCalibrated.formatted(date: .abbreviated, time: .omitted)))
                                         .font(.system(size: 14))
                                         .foregroundColor(.white.opacity(0.6))
                                 } else {
-                                    Text("Ten gracz nie został jeszcze skalibrowany")
+                                    Text("player.not_calibrated_yet".localized)
                                         .font(.system(size: 14))
                                         .foregroundColor(.white.opacity(0.6))
                                 }
                             }
-                            
+
                             Spacer()
                         }
                         .padding(20)
@@ -141,23 +142,23 @@ struct PlayerDetailView: View {
                     VStack(spacing: 12) {
                         ActionButton(
                             icon: player.isCalibrated ? "arrow.triangle.2.circlepath" : "camera.fill",
-                            title: player.isCalibrated ? "Kalibruj ponownie" : "Rozpocznij kalibrację",
+                            title: player.isCalibrated ? "player.recalibrate".localized : "player.start_calibration".localized,
                             gradient: [Color.blue, Color.cyan]
                         ) {
                             showCalibration = true
                         }
-                        
+
                         ActionButton(
                             icon: "pencil",
-                            title: "Edytuj profil",
+                            title: "player.edit_profile".localized,
                             gradient: [Color.cyan, Color.blue]
                         ) {
                             showEditSheet = true
                         }
-                        
+
                         ActionButton(
                             icon: "trash.fill",
-                            title: "Usuń gracza",
+                            title: "player.delete_player".localized,
                             gradient: [Color.red, Color.orange],
                             isDestructive: true
                         ) {
@@ -172,16 +173,16 @@ struct PlayerDetailView: View {
         .navigationTitle("")
         .navigationBarTitleDisplayMode(.inline)
         .confirmationDialog(
-            "Usuń gracza",
+            "player.delete_confirm_title".localized,
             isPresented: $showDeleteConfirmation,
             titleVisibility: .visible
         ) {
-            Button("Usuń \(player.name)", role: .destructive) {
+            Button(String(format: "player.delete_name".localized, player.name), role: .destructive) {
                 deletePlayer()
             }
-            Button("Anuluj", role: .cancel) {}
+            Button("button.cancel".localized, role: .cancel) {}
         } message: {
-            Text("Czy na pewno chcesz usunąć tego gracza? Tej operacji nie można cofnąć.")
+            Text("player.delete_confirm_message".localized)
         }
         .sheet(isPresented: $showEditSheet) {
             EditPlayerView(player: player)
@@ -247,7 +248,7 @@ struct ActionButton: View {
                 RoundedRectangle(cornerRadius: 16)
                     .stroke(Color.white.opacity(0.2), lineWidth: 1)
             )
-            .shadow(color: gradient.first!.opacity(0.3), radius: 15, y: 8)
+            .shadow(color: (gradient.first ?? .clear).opacity(0.3), radius: 15, y: 8)
             .scaleEffect(isPressed ? 0.97 : 1.0)
         }
         .buttonStyle(PlainButtonStyle())
@@ -270,25 +271,28 @@ struct ActionButton: View {
 struct EditPlayerView: View {
     @Environment(\.dismiss) private var dismiss
     @Bindable var player: Player
-    
+
     @State private var name: String
     @State private var age: String
     @State private var selectedGender: Gender
-    
+    @State private var selectedPhoto: PhotosPickerItem?
+    @State private var profileImageData: Data?
+
     init(player: Player) {
         self.player = player
         _name = State(initialValue: player.name)
         _age = State(initialValue: String(player.age))
         _selectedGender = State(initialValue: player.gender)
+        _profileImageData = State(initialValue: player.profileImageData)
     }
-    
+
     var isValid: Bool {
         !name.trimmingCharacters(in: .whitespaces).isEmpty &&
         Int(age) != nil &&
         (Int(age) ?? 0) >= 1 &&
         (Int(age) ?? 0) <= 120
     }
-    
+
     var body: some View {
         NavigationStack {
             ZStack {
@@ -301,17 +305,74 @@ struct EditPlayerView: View {
                     endPoint: .bottomTrailing
                 )
                 .ignoresSafeArea()
-                
+
                 ScrollView {
                     VStack(spacing: 24) {
+                        // Photo picker
+                        PhotosPicker(selection: $selectedPhoto, matching: .images) {
+                            ZStack {
+                                Circle()
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [Color.cyan.opacity(0.3), Color.blue.opacity(0.3)],
+                                            startPoint: .topLeading,
+                                            endPoint: .bottomTrailing
+                                        )
+                                    )
+                                    .frame(width: 100, height: 100)
+
+                                if let imageData = profileImageData,
+                                   let uiImage = UIImage(data: imageData) {
+                                    Image(uiImage: uiImage)
+                                        .resizable()
+                                        .scaledToFill()
+                                        .frame(width: 100, height: 100)
+                                        .clipShape(Circle())
+                                } else {
+                                    Text(player.initials)
+                                        .font(.system(size: 40, weight: .bold))
+                                        .foregroundColor(.white)
+                                }
+
+                                // Camera overlay
+                                VStack {
+                                    Spacer()
+                                    HStack {
+                                        Spacer()
+                                        Image(systemName: "camera.fill")
+                                            .font(.system(size: 14))
+                                            .foregroundColor(.white)
+                                            .padding(8)
+                                            .background(Circle().fill(Color.cyan))
+                                    }
+                                }
+                                .frame(width: 100, height: 100)
+                            }
+                            .overlay(
+                                Circle()
+                                    .stroke(Color.white.opacity(0.3), lineWidth: 2)
+                            )
+                        }
+                        .onChange(of: selectedPhoto) { _, newValue in
+                            Task {
+                                if let data = try? await newValue?.loadTransferable(type: Data.self) {
+                                    profileImageData = data
+                                }
+                            }
+                        }
+
+                        Text("create.change_photo".localized)
+                            .font(.system(size: 14))
+                            .foregroundColor(.cyan)
+
                         // Name field
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Imię")
+                            Text("create.name".localized)
                                 .font(.system(size: 14, weight: .semibold))
                                 .foregroundColor(.white.opacity(0.7))
                                 .textCase(.uppercase)
-                            
-                            TextField("Wpisz imię", text: $name)
+
+                            TextField("create.name_placeholder".localized, text: $name)
                                 .font(.system(size: 20, weight: .medium))
                                 .foregroundColor(.white)
                                 .padding()
@@ -324,15 +385,15 @@ struct EditPlayerView: View {
                                         .stroke(Color.white.opacity(0.2), lineWidth: 1)
                                 )
                         }
-                        
+
                         // Age field
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Wiek")
+                            Text("create.age".localized)
                                 .font(.system(size: 14, weight: .semibold))
                                 .foregroundColor(.white.opacity(0.7))
                                 .textCase(.uppercase)
-                            
-                            TextField("Wpisz wiek", text: $age)
+
+                            TextField("create.age_placeholder".localized, text: $age)
                                 .font(.system(size: 20, weight: .medium))
                                 .foregroundColor(.white)
                                 .keyboardType(.numberPad)
@@ -346,14 +407,14 @@ struct EditPlayerView: View {
                                         .stroke(Color.white.opacity(0.2), lineWidth: 1)
                                 )
                         }
-                        
+
                         // Gender picker
                         VStack(alignment: .leading, spacing: 8) {
-                            Text("Płeć")
+                            Text("create.gender".localized)
                                 .font(.system(size: 14, weight: .semibold))
                                 .foregroundColor(.white.opacity(0.7))
                                 .textCase(.uppercase)
-                            
+
                             HStack(spacing: 12) {
                                 ForEach(Gender.allCases, id: \.self) { gender in
                                     GenderButton(
@@ -371,18 +432,18 @@ struct EditPlayerView: View {
                     .padding(24)
                 }
             }
-            .navigationTitle("Edytuj profil")
+            .navigationTitle("player.edit_title".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarLeading) {
-                    Button("Anuluj") {
+                    Button("button.cancel".localized) {
                         dismiss()
                     }
                     .foregroundColor(.white.opacity(0.7))
                 }
-                
+
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Zapisz") {
+                    Button("button.save".localized) {
                         saveChanges()
                     }
                     .foregroundColor(.cyan)
@@ -392,17 +453,18 @@ struct EditPlayerView: View {
             }
         }
     }
-    
+
     private func saveChanges() {
         guard isValid, let ageInt = Int(age) else { return }
-        
+
         player.name = name.trimmingCharacters(in: .whitespaces)
         player.age = ageInt
         player.gender = selectedGender
-        
+        player.profileImageData = profileImageData
+
         let generator = UINotificationFeedbackGenerator()
         generator.notificationOccurred(.success)
-        
+
         dismiss()
     }
 }

@@ -31,7 +31,7 @@ struct ReadQuestionView: View {
             VStack(spacing: 32) {
                 // Progress indicator
                 VStack(spacing: 8) {
-                    Text("Pytanie \(coordinator.currentQuestionIndex + 1) z \(coordinator.questions.count)")
+                    Text("calibration.question_of".localized(coordinator.currentQuestionIndex + 1, coordinator.questions.count))
                         .font(.system(size: 14, weight: .medium))
                         .foregroundColor(.white.opacity(0.5))
 
@@ -45,7 +45,7 @@ struct ReadQuestionView: View {
                 Spacer()
 
                 // Instruction
-                Text("Przeczytaj pytanie")
+                Text("game.read_question".localized)
                     .font(.system(size: 16, weight: .medium))
                     .foregroundColor(.cyan)
                     .opacity(isAnimating ? 1 : 0)
@@ -68,7 +68,7 @@ struct ReadQuestionView: View {
                             .font(.system(size: 14))
                             .foregroundColor(.green.opacity(0.8))
 
-                        Text("Odpowiedz zgodnie z prawdą: \(question.expectedAnswer == .yes ? "TAK" : "NIE")")
+                        Text("calibration.answer_truthfully".localized(with: question.expectedAnswer == .yes ? "general.yes".localized : "general.no".localized))
                             .font(.system(size: 14, weight: .medium))
                             .foregroundColor(.white.opacity(0.6))
                     }
@@ -84,7 +84,7 @@ struct ReadQuestionView: View {
                         .font(.system(size: 24))
                         .foregroundColor(.white.opacity(0.5))
 
-                    Text("Kiedy będziesz gotowy, spójrz w kamerę i odpowiedz")
+                    Text("game.ready_hint".localized)
                         .font(.system(size: 14))
                         .foregroundColor(.white.opacity(0.5))
                         .multilineTextAlignment(.center)
@@ -98,7 +98,7 @@ struct ReadQuestionView: View {
                     coordinator.startAnswerRecording()
                 }) {
                     HStack(spacing: 12) {
-                        Text("Jestem gotowy")
+                        Text("button.im_ready".localized)
                             .font(.system(size: 20, weight: .bold))
 
                         Image(systemName: "arrow.right")
@@ -154,7 +154,7 @@ struct AnswerView: View {
                 // Question at TOP - near camera for eye contact
                 VStack(spacing: 8) {
                     // Small progress indicator
-                    Text("Pytanie \(coordinator.currentQuestionIndex + 1)/\(coordinator.questions.count)")
+                    Text("calibration.question_of".localized(coordinator.currentQuestionIndex + 1, coordinator.questions.count))
                         .font(.system(size: 12, weight: .medium))
                         .foregroundColor(.white.opacity(0.5))
 
@@ -205,13 +205,13 @@ struct AnswerView: View {
                                 value: pulseScale
                             )
 
-                        Text("Słucham...")
+                        Text("speech.listening".localized)
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(.white)
                             .shadow(color: .black.opacity(0.5), radius: 4)
                     }
 
-                    Text("Powiedz 'tak' lub 'nie'")
+                    Text("speech.say_answer".localized)
                         .font(.system(size: 14))
                         .foregroundColor(.white.opacity(0.6))
                 }
@@ -288,12 +288,12 @@ struct CalibrationCompleteView: View {
                 }
                 
                 VStack(spacing: 16) {
-                    Text("Kalibracja ukończona!")
+                    Text("calibration.complete".localized)
                         .font(.system(size: 36, weight: .bold))
                         .foregroundColor(.white)
                         .multilineTextAlignment(.center)
-                    
-                    Text("Poznaliśmy Twoje naturalne reakcje")
+
+                    Text("calibration.baseline_collected".localized)
                         .font(.system(size: 18))
                         .foregroundColor(.white.opacity(0.7))
                         .multilineTextAlignment(.center)
@@ -304,14 +304,14 @@ struct CalibrationCompleteView: View {
                 VStack(spacing: 16) {
                     StatRow(
                         icon: "checkmark.circle.fill",
-                        label: "Odpowiedzi",
+                        label: "calibration.answers".localized,
                         value: "\(coordinator.questionResponses.count)/\(coordinator.questions.count)"
                     )
-                    
+
                     StatRow(
                         icon: "brain.head.profile",
-                        label: "Bazowe dane",
-                        value: "Zebrane"
+                        label: "calibration.baseline_data".localized,
+                        value: "calibration.collected".localized
                     )
                 }
                 .padding(.horizontal, 40)
@@ -324,7 +324,7 @@ struct CalibrationCompleteView: View {
                     generator.notificationOccurred(.success)
                     onFinish()
                 }) {
-                    Text("Zakończ")
+                    Text("button.finish".localized)
                         .font(.system(size: 20, weight: .bold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)

@@ -13,10 +13,13 @@ struct PlayersListView: View {
     @Query(sort: \Player.createdAt, order: .reverse) private var players: [Player]
 
     @State private var showAddPlayer = false
-    @State private var selectedPlayer: Player?
+    @State private var selectedPlayerId: UUID?
     @State private var playerToCalibrate: Player?
     @State private var showCalibration = false
-    
+    @State private var playerToDelete: Player?
+    @State private var showDeleteConfirmation = false
+    @State private var isPreparingCalibration = false
+
     var body: some View {
         ZStack {
             // Background
@@ -29,26 +32,26 @@ struct PlayersListView: View {
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
-            
+
             if players.isEmpty {
                 // Empty state
                 VStack(spacing: 20) {
                     Text("👥")
                         .font(.system(size: 80))
-                    
-                    Text("Brak graczy")
+
+                    Text("players.no_players".localized)
                         .font(.system(size: 28, weight: .bold))
                         .foregroundColor(.white)
-                    
-                    Text("Dodaj pierwszego gracza, aby rozpocząć")
+
+                    Text("players.add_first".localized)
                         .font(.system(size: 16))
                         .foregroundColor(.white.opacity(0.6))
                         .multilineTextAlignment(.center)
-                    
+
                     Button(action: { showAddPlayer = true }) {
                         HStack {
                             Image(systemName: "plus")
-                            Text("Dodaj gracza")
+                            Text("player.create".localized)
                         }
                         .font(.system(size: 18, weight: .semibold))
                         .foregroundColor(.white)
@@ -72,18 +75,48 @@ struct PlayersListView: View {
                 ScrollView {
                     LazyVStack(spacing: 16) {
                         ForEach(players) { player in
-                            PlayerCard(player: player)
-                                .onTapGesture {
-                                    selectedPlayer = player
+                            NavigationLink(value: player.id) {
+                                PlayerCard(player: player)
+                            }
+                            .buttonStyle(PlainButtonStyle())
+                            .contextMenu {
+                                Button(role: .destructive) {
+                                    playerToDelete = player
+                                    showDeleteConfirmation = true
+                                } label: {
+                                    Label("button.delete".localized, systemImage: "trash")
                                 }
+                            }
+                            .swipeActions(edge: .trailing, allowsFullSwipe: true) {
+                                Button(role: .destructive) {
+                                    playerToDelete = player
+                                    showDeleteConfirmation = true
+                                } label: {
+                                    Label("button.delete".localized, systemImage: "trash")
+                                }
+                            }
                         }
                     }
                     .padding(.horizontal, 20)
                     .padding(.vertical, 20)
                 }
             }
+
+            // Loading overlay for calibration preparation
+            if isPreparingCalibration {
+                Color.black.opacity(0.6)
+                    .ignoresSafeArea()
+                VStack(spacing: 16) {
+                    ProgressView()
+                        .scaleEffect(1.5)
+                        .tint(.white)
+                    Text("players.preparing".localized)
+                        .font(.system(size: 16, weight: .medium))
+                        .foregroundColor(.white)
+                }
+            }
         }
-        .navigationTitle("Gracze")
+        .navigationTitle("players.title".localized)
         .navigationBarTitleDisplayMode(.large)
         .toolbar {
             ToolbarItem(placement: .topBarTrailing) {
@@ -104,8 +137,10 @@ struct PlayersListView: View {
             CreatePlayerView(isFirstPlayer: false) { newPlayer in
                 // After player is created, trigger calibration
                 showAddPlayer = false
-                DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+                isPreparingCalibration = true
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
                     playerToCalibrate = newPlayer
+                    isPreparingCalibration = false
                     showCalibration = true
                 }
             }
@@ -118,8 +153,30 @@ struct PlayersListView: View {
                 }
             }
         }
-        .navigationDestination(item: $selectedPlayer) { player in
-            PlayerDetailView(player: player)
+        .navigationDestination(for: UUID.self) { playerId in
+            if let player = players.first(where: { $0.id == playerId }) {
+                PlayerDetailView(player: player)
+            } else {
+                Text("players.not_found".localized)
+                    .foregroundColor(.white)
+            }
+        }
+        .confirmationDialog(
+            "player.delete_confirm_title".localized,
+            isPresented: $showDeleteConfirmation,
+            titleVisibility: .visible
+        ) {
+            Button("player.delete_player".localized, role: .destructive) {
+                if let player = playerToDelete {
+                    modelContext.delete(player)
+                    playerToDelete = nil
+                }
+            }
+            Button("button.cancel".localized, role: .cancel) {
+                playerToDelete = nil
+            }
+        } message: {
+            Text("player.delete_confirm_message".localized)
         }
     }
 }
@@ -173,11 +230,11 @@ struct PlayerCard: View {
                     HStack(spacing: 4) {
                         Text(player.gender.emoji)
                             .font(.system(size: 14))
-                        Text("\(player.age) lat")
+                        Text("player.years".localized(with: player.age))
                             .font(.system(size: 14, weight: .medium))
-                            .foregroundColor(.white.opacity(0.6))
+                            .foregroundColor(.white.opacity(0.75))
                     }
-                    
+
                     CalibrationBadge(isCalibrated: player.isCalibrated)
                 }
             }
@@ -209,13 +266,13 @@ struct PlayerCard: View {
 
 struct CalibrationBadge: View {
     let isCalibrated: Bool
-    
+
     var body: some View {
         HStack(spacing: 4) {
             Image(systemName: isCalibrated ? "checkmark.circle.fill" : "exclamationmark.circle.fill")
                 .font(.system(size: 12))
-            
-            Text(isCalibrated ? "Skalibrowany" : "Wymaga kalibracji")
+
+            Text(isCalibrated ? "player.calibrated".localized : "player.requires_calibration".localized)
                 .font(.system(size: 12, weight: .semibold))
         }
         .foregroundColor(isCalibrated ? .green : .orange)

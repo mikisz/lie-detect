@@ -13,8 +13,8 @@ enum Verdict {
     
     var text: String {
         switch self {
-        case .truth: return "PRAWDA"
-        case .lie: return "KŁAMSTWO"
+        case .truth: return "verdict.truthful".localized.uppercased()
+        case .lie: return "verdict.suspicious".localized.uppercased()
         }
     }
     
@@ -66,7 +66,7 @@ struct VerdictRevealView: View {
                         .scaleEffect(scale)
                         .opacity(opacity)
                     
-                    Text("Analizuję odpowiedź...")
+                    Text("game.analyzing".localized)
                         .font(.system(size: 24, weight: .semibold))
                         .foregroundColor(.white)
                         .opacity(opacity)
@@ -98,7 +98,7 @@ struct VerdictRevealView: View {
                         )
                         .scaleEffect(scale)
                         .opacity(opacity)
-                        .shadow(color: verdict.colors.first!.opacity(0.8), radius: 30, y: 10)
+                        .shadow(color: (verdict.colors.first ?? .clear).opacity(0.8), radius: 30, y: 10)
                     
                     // Decorative lines
                     HStack(spacing: 20) {

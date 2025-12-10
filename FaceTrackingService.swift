@@ -8,15 +8,15 @@
 import Foundation
 import ARKit
 import SceneKit
-import Combine
 
 /// Service responsible for managing ARKit face tracking session
-class FaceTrackingService: NSObject, ObservableObject {
-    // MARK: - Published Properties
-    @Published var isFaceDetected = false
-    @Published var faceQuality: FaceQuality = .unknown
-    @Published var isTracking = false
-    @Published var currentBlendShapes: [ARFaceAnchor.BlendShapeLocation: NSNumber] = [:]
+@Observable
+class FaceTrackingService: NSObject {
+    // MARK: - Observable Properties
+    var isFaceDetected = false
+    var faceQuality: FaceQuality = .unknown
+    var isTracking = false
+    var currentBlendShapes: [ARFaceAnchor.BlendShapeLocation: NSNumber] = [:]
 
     // MARK: - ARSCNView for camera preview
     let sceneView: ARSCNView = {
@@ -30,7 +30,8 @@ class FaceTrackingService: NSObject, ObservableObject {
     // MARK: - Private Properties
     private var faceAnchor: ARFaceAnchor?
 
-    // Recording state
+    // Recording state - use serial queue for thread safety
+    private let recordingQueue = DispatchQueue(label: "com.liedetect.facetracking.recording")
     private var isRecording = false
     private var recordedSamples: [FaceSample] = []
     private var recordingStartTime: Date?
@@ -77,19 +78,24 @@ class FaceTrackingService: NSObject, ObservableObject {
     /// Start recording facial data samples
     func startRecording() {
         guard isTracking else { return }
-        
-        isRecording = true
-        recordedSamples = []
-        recordingStartTime = Date()
+
+        recordingQueue.sync {
+            isRecording = true
+            recordedSamples = []
+            recordingStartTime = Date()
+        }
         print("🎬 Started recording facial data")
     }
-    
+
     /// Stop recording and return collected samples
     func stopRecording() -> [FaceSample] {
-        isRecording = false
-        let samples = recordedSamples
-        recordedSamples = []
-        recordingStartTime = nil
+        var samples: [FaceSample] = []
+        recordingQueue.sync {
+            isRecording = false
+            samples = recordedSamples
+            recordedSamples = []
+            recordingStartTime = nil
+        }
         print("⏹️ Stopped recording. Collected \(samples.count) samples")
         return samples
     }
@@ -102,22 +108,22 @@ class FaceTrackingService: NSObject, ObservableObject {
 
         // X: left/right offset (negative = left, positive = right)
         // Y: up/down offset (negative = down, positive = up)
-        // More lenient thresholds - 0.15m is about 15cm offset which is quite visible
+        // More lenient thresholds - 0.12m is about 12cm offset
         let xOffset = abs(position.x)
         let yOffset = abs(position.y)
 
-        let isCentered = xOffset < 0.08 && yOffset < 0.08        // Well centered
-        let isReasonablyCentered = xOffset < 0.15 && yOffset < 0.15  // Acceptable
+        let isCentered = xOffset < 0.12 && yOffset < 0.12        // Well centered (relaxed from 8cm to 12cm)
+        let isReasonablyCentered = xOffset < 0.18 && yOffset < 0.18  // Acceptable
 
         // Check rotation (pitch, yaw, roll in radians)
-        // 0.3 radians ≈ 17 degrees, 0.5 radians ≈ 29 degrees
+        // 0.35 radians ≈ 20 degrees, 0.5 radians ≈ 29 degrees
         let eulerAngles = anchor.transform.eulerAngles
         let pitch = abs(eulerAngles.x)  // Looking up/down
         let yaw = abs(eulerAngles.y)    // Turning left/right
         let roll = abs(eulerAngles.z)   // Tilting head
 
-        let isFacingCamera = pitch < 0.25 && yaw < 0.25 && roll < 0.25       // Looking straight
-        let isReasonablyFacing = pitch < 0.45 && yaw < 0.45 && roll < 0.45   // Acceptable angle
+        let isFacingCamera = pitch < 0.35 && yaw < 0.35 && roll < 0.35       // Looking straight (relaxed from 14° to 20°)
+        let isReasonablyFacing = pitch < 0.52 && yaw < 0.52 && roll < 0.52   // Acceptable angle (~30°)
 
         // Overall quality assessment
         if isCentered && isFacingCamera {
@@ -160,14 +166,19 @@ extension FaceTrackingService: ARSessionDelegate {
             self.currentBlendShapes = faceAnchor.blendShapes
         }
 
-        // Record sample if we're recording
-        if isRecording, faceAnchor.isTracked, let startTime = recordingStartTime {
+        // Record sample if we're recording (thread-safe)
+        recordingQueue.async { [weak self] in
+            guard let self = self,
+                  self.isRecording,
+                  faceAnchor.isTracked,
+                  let startTime = self.recordingStartTime else { return }
+
             let sample = FaceSample(
                 timestamp: Date().timeIntervalSince(startTime),
                 blendShapes: faceAnchor.blendShapes,
                 transform: faceAnchor.transform
             )
-            recordedSamples.append(sample)
+            self.recordedSamples.append(sample)
         }
     }
 
@@ -253,6 +264,51 @@ struct FaceSample {
     
     var eulerAngles: simd_float3 {
         transform.eulerAngles
+    }
+
+    // Eye gaze blendshapes for precise gaze direction tracking
+    var eyeLookInLeft: Float { blendShapes[.eyeLookInLeft]?.floatValue ?? 0 }
+    var eyeLookInRight: Float { blendShapes[.eyeLookInRight]?.floatValue ?? 0 }
+    var eyeLookOutLeft: Float { blendShapes[.eyeLookOutLeft]?.floatValue ?? 0 }
+    var eyeLookOutRight: Float { blendShapes[.eyeLookOutRight]?.floatValue ?? 0 }
+    var eyeLookUpLeft: Float { blendShapes[.eyeLookUpLeft]?.floatValue ?? 0 }
+    var eyeLookUpRight: Float { blendShapes[.eyeLookUpRight]?.floatValue ?? 0 }
+    var eyeLookDownLeft: Float { blendShapes[.eyeLookDownLeft]?.floatValue ?? 0 }
+    var eyeLookDownRight: Float { blendShapes[.eyeLookDownRight]?.floatValue ?? 0 }
+
+    // Additional stress/microexpression indicators
+    var browOuterUpLeft: Float { blendShapes[.browOuterUpLeft]?.floatValue ?? 0 }
+    var browOuterUpRight: Float { blendShapes[.browOuterUpRight]?.floatValue ?? 0 }
+    var eyeSquintLeft: Float { blendShapes[.eyeSquintLeft]?.floatValue ?? 0 }
+    var eyeSquintRight: Float { blendShapes[.eyeSquintRight]?.floatValue ?? 0 }
+    var mouthSmileLeft: Float { blendShapes[.mouthSmileLeft]?.floatValue ?? 0 }
+    var mouthSmileRight: Float { blendShapes[.mouthSmileRight]?.floatValue ?? 0 }
+    var cheekPuff: Float { blendShapes[.cheekPuff]?.floatValue ?? 0 }
+    var noseSneerLeft: Float { blendShapes[.noseSneerLeft]?.floatValue ?? 0 }
+    var noseSneerRight: Float { blendShapes[.noseSneerRight]?.floatValue ?? 0 }
+
+    /// Computed horizontal gaze direction (-1 = looking left, 0 = center, 1 = looking right)
+    var horizontalGaze: Float {
+        let leftEyeHorizontal = eyeLookOutLeft - eyeLookInLeft
+        let rightEyeHorizontal = eyeLookInRight - eyeLookOutRight
+        return (leftEyeHorizontal + rightEyeHorizontal) / 2
+    }
+
+    /// Computed vertical gaze direction (-1 = looking down, 0 = center, 1 = looking up)
+    var verticalGaze: Float {
+        let leftEyeVertical = eyeLookUpLeft - eyeLookDownLeft
+        let rightEyeVertical = eyeLookUpRight - eyeLookDownRight
+        return (leftEyeVertical + rightEyeVertical) / 2
+    }
+
+    /// Smile asymmetry (0 = symmetric, higher = more asymmetric)
+    var smileAsymmetry: Float {
+        abs(mouthSmileLeft - mouthSmileRight)
+    }
+
+    /// Brow asymmetry (0 = symmetric, higher = more asymmetric)
+    var browAsymmetry: Float {
+        abs(browOuterUpLeft - browOuterUpRight)
     }
 }
 

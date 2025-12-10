@@ -72,9 +72,11 @@ struct CalibrationFlowView: View {
         .onAppear {
             coordinator.faceTrackingService.startTracking()
             coordinator.startCalibration()
+            AudioService.shared.playCalibrationMusic()
         }
         .onDisappear {
-            coordinator.cleanup()
+            AudioService.shared.stopBackgroundMusic()
+            // Note: cleanup() is called in saveCalibrationAndDismiss() before dismiss
         }
         .alert("speech.timeout.title".localized, isPresented: Bindable(coordinator).showTimeoutAlert) {
             Button("button.retry".localized) {
@@ -89,14 +91,23 @@ struct CalibrationFlowView: View {
         if let calibrationData = coordinator.finishCalibration() {
             player.calibrationData = calibrationData
             player.lastCalibratedAt = Date()
-            
+
+            // CRITICAL: Save to SwiftData
+            do {
+                try modelContext.save()
+                print("✅ Saved calibration data for \(player.name)")
+            } catch {
+                print("❌ Failed to save calibration: \(error)")
+            }
+
             // Haptic success feedback
             let generator = UINotificationFeedbackGenerator()
             generator.notificationOccurred(.success)
-            
-            print("✅ Saved calibration data for \(player.name)")
         }
-        
+
+        // Clean up BEFORE dismissing
+        coordinator.cleanup()
+
         onComplete?()
         dismiss()
     }
@@ -134,30 +145,30 @@ struct CalibrationIntroView: View {
                     )
                 
                 VStack(spacing: 20) {
-                    Text("Kalibracja")
+                    Text("calibration.title".localized)
                         .font(.system(size: 42, weight: .bold))
                         .foregroundColor(.white)
-                    
-                    Text("Za chwilę odpowiesz na \(coordinator.questions.count) prostych pytań")
+
+                    Text("calibration.subtitle".localized(with: coordinator.questions.count))
                         .font(.system(size: 18))
                         .foregroundColor(.white.opacity(0.7))
                         .multilineTextAlignment(.center)
                         .padding(.horizontal, 40)
                 }
-                
+
                 VStack(alignment: .leading, spacing: 16) {
-                    InstructionRow(icon: "checkmark.circle.fill", text: "Odpowiadaj zawsze prawdą", color: .green)
-                    InstructionRow(icon: "eye.fill", text: "Patrz prosto w kamerę", color: .cyan)
-                    InstructionRow(icon: "mic.fill", text: "Mów wyraźnie 'tak' lub 'nie'", color: .cyan)
+                    InstructionRow(icon: "checkmark.circle.fill", text: "calibration.instruction.truth".localized, color: .green)
+                    InstructionRow(icon: "eye.fill", text: "calibration.instruction.camera".localized, color: .cyan)
+                    InstructionRow(icon: "mic.fill", text: "calibration.instruction.voice".localized, color: .cyan)
                 }
                 .padding(.horizontal, 40)
-                
+
                 Spacer()
-                
+
                 Button(action: {
                     coordinator.proceedToFaceSetup()
                 }) {
-                    Text("Rozpocznij kalibrację")
+                    Text("calibration.start".localized)
                         .font(.system(size: 20, weight: .bold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -223,12 +234,12 @@ struct FaceSetupView: View {
             VStack(spacing: 0) {
                 // Top instruction
                 VStack(spacing: 8) {
-                    Text("Ustaw twarz")
+                    Text("calibration.face_setup.title".localized)
                         .font(.system(size: 28, weight: .bold))
                         .foregroundColor(.white)
                         .shadow(color: .black.opacity(0.5), radius: 4)
 
-                    Text("Umieść twarz w ramce poniżej")
+                    Text("calibration.face_setup.subtitle".localized)
                         .font(.system(size: 16))
                         .foregroundColor(.white.opacity(0.9))
                         .shadow(color: .black.opacity(0.5), radius: 4)
@@ -286,7 +297,7 @@ struct FaceSetupView: View {
                     // Face detection status
                     StatusRow(
                         icon: coordinator.faceTrackingService.isFaceDetected ? "checkmark.circle.fill" : "xmark.circle.fill",
-                        text: coordinator.faceTrackingService.isFaceDetected ? "Twarz wykryta" : "Szukam twarzy...",
+                        text: coordinator.faceTrackingService.isFaceDetected ? "calibration.face_detected".localized : "calibration.searching_face".localized,
                         color: coordinator.faceTrackingService.isFaceDetected ? .green : .orange
                     )
 
@@ -301,7 +312,7 @@ struct FaceSetupView: View {
                     if coordinator.faceTrackingService.faceQuality == .poor {
                         StatusRow(
                             icon: "lightbulb.fill",
-                            text: "Upewnij się, że twarz jest dobrze oświetlona",
+                            text: "calibration.good_lighting".localized,
                             color: .yellow
                         )
                     }
@@ -309,20 +320,18 @@ struct FaceSetupView: View {
                 .padding(.horizontal, 32)
                 .padding(.bottom, 24)
 
-                // Continue button
+                // Continue button - hidden when not ready but keeps space
                 Button(action: {
                     let generator = UIImpactFeedbackGenerator(style: .medium)
                     generator.impactOccurred()
                     coordinator.proceedToNextQuestion()
                 }) {
                     HStack(spacing: 12) {
-                        Text("Kontynuuj")
+                        Text("button.continue".localized)
                             .font(.system(size: 20, weight: .bold))
 
-                        if isReadyToContinue {
-                            Image(systemName: "arrow.right")
-                                .font(.system(size: 18, weight: .bold))
-                        }
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 18, weight: .bold))
                     }
                     .foregroundColor(.white)
                     .frame(maxWidth: .infinity)
@@ -330,26 +339,17 @@ struct FaceSetupView: View {
                     .background(
                         RoundedRectangle(cornerRadius: 16)
                             .fill(
-                                isReadyToContinue ?
                                 LinearGradient(
                                     colors: [Color.green, Color.teal],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                ) :
-                                LinearGradient(
-                                    colors: [Color.gray.opacity(0.3), Color.gray.opacity(0.3)],
                                     startPoint: .leading,
                                     endPoint: .trailing
                                 )
                             )
                     )
-                    .shadow(
-                        color: isReadyToContinue ? Color.green.opacity(0.5) : Color.clear,
-                        radius: 20,
-                        y: 10
-                    )
+                    .shadow(color: Color.green.opacity(0.5), radius: 20, y: 10)
                 }
                 .disabled(!isReadyToContinue)
+                .opacity(isReadyToContinue ? 1.0 : 0.0)
                 .padding(.horizontal, 32)
                 .padding(.bottom, 50)
             }
@@ -363,7 +363,8 @@ struct FaceSetupView: View {
 
     private var isReadyToContinue: Bool {
         coordinator.faceTrackingService.isFaceDetected &&
-        coordinator.faceTrackingService.faceQuality == .good
+        (coordinator.faceTrackingService.faceQuality == .good ||
+         coordinator.faceTrackingService.faceQuality == .fair)
     }
 
     private var qualityColor: Color {
@@ -389,13 +390,13 @@ struct FaceSetupView: View {
 
     private var qualityMessage: String {
         if !coordinator.faceTrackingService.isFaceDetected {
-            return "Ustaw twarz w ramce"
+            return "calibration.set_face_in_frame".localized
         }
         switch coordinator.faceTrackingService.faceQuality {
-        case .unknown: return "Analizuję..."
-        case .poor: return "Spójrz prosto w kamerę"
-        case .fair: return "Prawie dobrze - wyśrodkuj twarz"
-        case .good: return "Idealnie! Możesz kontynuować"
+        case .unknown: return "calibration.analyzing".localized
+        case .poor: return "calibration.look_camera".localized
+        case .fair: return "calibration.almost_good".localized
+        case .good: return "calibration.perfect_continue".localized
         }
     }
 }
@@ -515,7 +516,7 @@ struct WrongAnswerView: View {
                 }
 
                 VStack(spacing: 16) {
-                    Text("Nieprawidłowa odpowiedź!")
+                    Text("calibration.wrong_answer".localized)
                         .font(.system(size: 28, weight: .bold))
                         .foregroundColor(.white)
 
@@ -532,7 +533,7 @@ struct WrongAnswerView: View {
                         .font(.system(size: 24))
                         .foregroundColor(.yellow)
 
-                    Text("Kalibracja wymaga szczerych odpowiedzi, aby działać poprawnie")
+                    Text("calibration.honest_required".localized)
                         .font(.system(size: 14, weight: .medium))
                         .foregroundColor(.white.opacity(0.8))
                         .multilineTextAlignment(.leading)
@@ -556,7 +557,7 @@ struct WrongAnswerView: View {
                         Image(systemName: "arrow.counterclockwise")
                             .font(.system(size: 18, weight: .bold))
 
-                        Text("Spróbuj ponownie")
+                        Text("calibration.try_again".localized)
                             .font(.system(size: 20, weight: .bold))
                     }
                     .foregroundColor(.white)

@@ -26,6 +26,15 @@ class SpeechRecognitionService: NSObject, ObservableObject {
     @Published var detectedAnswer: SpokenAnswer?
     @Published var confidence: Float = 0.0
     @Published var didTimeout = false
+    @Published var lastError: String? = nil
+
+    /// Whether there's an error state
+    var hasError: Bool { lastError != nil }
+
+    /// Clear any error state
+    func clearError() {
+        lastError = nil
+    }
 
     // MARK: - Configuration
     var timeoutDuration: TimeInterval = 10.0  // Default 10 seconds
@@ -129,22 +138,29 @@ class SpeechRecognitionService: NSObject, ObservableObject {
 
     /// Internal method to start the audio recognition engine
     private func startAudioRecognition() {
+        // Clear any previous error
+        lastError = nil
+
         // Configure audio session
         let audioSession = AVAudioSession.sharedInstance()
         do {
             try audioSession.setCategory(.record, mode: .measurement, options: .duckOthers)
             try audioSession.setActive(true, options: .notifyOthersOnDeactivation)
         } catch {
+            let errorMessage = "audio.setup_failed".localized
             print("❌ Audio session setup failed: \(error)")
-            resultCallback?(.error("audio.setup_failed".localized))
+            lastError = errorMessage
+            resultCallback?(.error(errorMessage))
             return
         }
 
         // Create and configure recognition request
         recognitionRequest = SFSpeechAudioBufferRecognitionRequest()
         guard let recognitionRequest = recognitionRequest else {
+            let errorMessage = "speech.request_failed".localized
             print("❌ Unable to create recognition request")
-            resultCallback?(.error("speech.request_failed".localized))
+            lastError = errorMessage
+            resultCallback?(.error(errorMessage))
             return
         }
 
@@ -163,8 +179,10 @@ class SpeechRecognitionService: NSObject, ObservableObject {
         do {
             try audioEngine.start()
         } catch {
+            let errorMessage = "audio.engine_failed".localized
             print("❌ Audio engine failed to start: \(error)")
-            resultCallback?(.error("audio.engine_failed".localized))
+            lastError = errorMessage
+            resultCallback?(.error(errorMessage))
             return
         }
 

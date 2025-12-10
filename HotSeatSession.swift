@@ -20,6 +20,7 @@ class HotSeatSession {
     let players: [Player]
     let questions: [GameQuestion]
     let questionsPerPlayer: Int
+    let verdictMode: VerdictMode
     
     // MARK: - Session State
     var currentPlayerIndex = 0
@@ -78,11 +79,12 @@ class HotSeatSession {
     }
     
     // MARK: - Initialization
-    init(players: [Player], questions: [GameQuestion], questionsPerPlayer: Int = 5) {
+    init(players: [Player], questions: [GameQuestion], questionsPerPlayer: Int = 5, verdictMode: VerdictMode = .afterEach) {
         self.players = players
         self.questions = questions
         self.questionsPerPlayer = questionsPerPlayer
-        
+        self.verdictMode = verdictMode
+
         // Initialize results dictionary
         for player in players {
             allResults[player.id] = []
@@ -164,8 +166,13 @@ class HotSeatSession {
                     print("✅ \(self.currentPlayer.name) answered - Verdict: \(verdict.isSuspicious ? "SUSPICIOUS" : "TRUTHFUL")")
                 }
 
-                // Show verdict
-                self.currentPhase = .verdict
+                // Show verdict or skip based on mode
+                if self.verdictMode == .afterEach {
+                    self.currentPhase = .verdict
+                } else {
+                    // atEnd mode - skip verdict, go to next question
+                    self.advanceToNextQuestion()
+                }
 
             case .timeout:
                 // Stop recording face data
@@ -238,61 +245,61 @@ class HotSeatSession {
             return QuestionVerdict(
                 confidence: 0.5,
                 isSuspicious: false,
-                factors: ["Brak kalibracji".localized]
+                factors: ["factor.no_calibration".localized]
             )
         }
-        
+
         // Get baseline
         let baseline = answer == .yes ? calibration.yesBaseline : calibration.noBaseline
-        
+
         var suspicionScore: Float = 0.0
         var factors: [String] = []
-        
+
         // 1. Blink rate
         let blinkCount = countBlinks(in: faceSamples)
         let sampleDuration = faceSamples.last?.timestamp ?? 1.0
         let blinkRate = Float(blinkCount) / Float(sampleDuration)
-        
+
         let blinkDelta = abs(blinkRate - baseline.blinkRateMean)
         if blinkDelta > baseline.blinkRateStdDev * 2 {
             suspicionScore += 0.3
-            factors.append(blinkRate > baseline.blinkRateMean ? "verdict.more_blinks".localized : "verdict.less_blinks".localized)
+            factors.append(blinkRate > baseline.blinkRateMean ? "factor.more_blinking".localized : "factor.less_blinking".localized)
         }
-        
+
         // 2. Response time
         let durationDelta = abs(Float(duration) - Float(baseline.responseDurationMean))
         if durationDelta > Float(baseline.responseDurationStdDev) * 2 {
             suspicionScore += 0.25
-            factors.append(duration > baseline.responseDurationMean ? "verdict.longer_response".localized : "verdict.faster_response".localized)
+            factors.append(duration > baseline.responseDurationMean ? "factor.longer_response".localized : "factor.faster_response".localized)
         }
-        
+
         // 3. Head movement
         let headMovement = calculateHeadMovement(in: faceSamples)
         if headMovement > 0.3 {
             suspicionScore += 0.2
-            factors.append("verdict.head_movement".localized)
+            factors.append("factor.head_movement".localized)
         }
-        
+
         // 4. Facial tension
-        let avgBrowMovement = faceSamples.map { $0.browInnerUp }.reduce(0, +) / Float(faceSamples.count)
+        let avgBrowMovement = faceSamples.isEmpty ? 0 : faceSamples.map { $0.browInnerUp }.reduce(0, +) / Float(faceSamples.count)
         if avgBrowMovement > 0.5 {
             suspicionScore += 0.15
-            factors.append("verdict.facial_tension".localized)
+            factors.append("factor.facial_tension".localized)
         }
-        
+
         // 5. Extended pause
         if duration > baseline.responseDurationMean + baseline.responseDurationStdDev * 3 {
             suspicionScore += 0.1
-            factors.append("verdict.long_pause".localized)
+            factors.append("factor.long_pause".localized)
         }
-        
+
         suspicionScore = min(suspicionScore, 1.0)
         let isSuspicious = suspicionScore > 0.5
-        
+
         if factors.isEmpty {
-            factors.append("verdict.normal_pattern".localized)
+            factors.append("factor.normal_pattern".localized)
         }
-        
+
         return QuestionVerdict(
             confidence: suspicionScore,
             isSuspicious: isSuspicious,
@@ -402,13 +409,13 @@ struct PlayerScore {
     
     var rank: String {
         if truthfulPercentage >= 80 {
-            return "Mistrz Prawdy".localized
+            return "rank.truth_master".localized
         } else if truthfulPercentage >= 60 {
-            return "Uczciwy".localized
+            return "rank.honest".localized
         } else if truthfulPercentage >= 40 {
-            return "Średnio".localized
+            return "rank.average".localized
         } else {
-            return "Podejrzany".localized
+            return "rank.suspicious".localized
         }
     }
 }

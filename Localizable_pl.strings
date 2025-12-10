@@ -42,6 +42,9 @@
 "settings.background_music" = "Muzyka w tle";
 "settings.background_music_subtitle" = "Atmosferyczna muzyka";
 "settings.background_music_volume" = "Głośność muzyki";
+"settings.voice" = "Głos lektora";
+"settings.voice_subtitle" = "Komentarz głosowy podczas gry";
+"settings.voice_volume" = "Głośność głosu";
 "settings.haptics" = "Wibracje";
 "settings.haptics_toggle" = "Wibracje dotykowe";
 "settings.haptics_subtitle" = "Haptyczna odpowiedź na dotyk";
@@ -51,6 +54,8 @@
 "settings.language" = "Język";
 "settings.language_title" = "Język aplikacji";
 "settings.language_subtitle" = "Wybierz swój język";
+"settings.app_language" = "Język aplikacji";
+"settings.choose_language" = "Wybierz język";
 "settings.about" = "O aplikacji";
 "settings.version" = "Wersja";
 "settings.platform" = "Platforma";
@@ -105,6 +110,7 @@
 "calibration.success" = "Kalibracja udana!";
 "calibration.saved" = "Dane bazowe zapisane";
 "calibration.finish" = "Zakończ";
+"calibration.answer_truthfully" = "Odpowiedz zgodnie z prawdą: %@";
 
 // MARK: - Game
 "game.select_player" = "Wybierz gracza";
@@ -275,3 +281,204 @@
 // MARK: - Audio Errors
 "audio.setup_failed" = "Nie można skonfigurować sesji audio";
 "audio.engine_failed" = "Nie można uruchomić silnika audio";
+
+// MARK: - Game Setup (New Pack System)
+"game.setup.select_pack" = "Wybierz pakiet";
+"game.setup.how_many" = "Ile pytań?";
+"game.setup.questions" = "pytań";
+"game.setup.available_questions" = "Dostępne: %d pytań";
+"game.setup.selection_mode" = "Tryb wyboru";
+"game.setup.verdict_mode" = "Tryb werdyktu";
+"game.setup.start" = "Rozpocznij grę";
+"game.setup.choose_questions" = "Wybierz pytania";
+"game.setup.selected" = "wybrano";
+"game.setup.search" = "Szukaj pytań...";
+
+// MARK: - Selection Mode
+"selection.random" = "Losowo";
+"selection.manual" = "Wybierz sam";
+"selection.random.description" = "Pytania będą wylosowane";
+"selection.manual.description" = "Sam wybierasz pytania";
+
+// MARK: - Verdict Mode
+"verdict.mode.after_each" = "Po każdym pytaniu";
+"verdict.mode.at_end" = "Na końcu";
+"verdict.mode.after_each.description" = "Zobacz werdykt zaraz po odpowiedzi";
+"verdict.mode.at_end.description" = "Zobacz wszystkie werdykty po grze";
+"verdict.mode.coming_soon" = "Wkrótce";
+
+// MARK: - Pack Categories
+"pack.category.general" = "Ogólne";
+"pack.category.spicy" = "Pikantne";
+"pack.category.relationships" = "Związki";
+"pack.category.secrets" = "Sekrety";
+"pack.category.party" = "Imprezowe";
+
+// MARK: - Difficulty
+"difficulty.easy" = "Łatwe";
+"difficulty.medium" = "Średnie";
+"difficulty.hard" = "Trudne";
+
+// MARK: - Player Selection
+"player.select.title" = "Wybierz gracza";
+"player.select.subtitle" = "Tylko skalibrowane profile";
+"player.select.no_players" = "Brak skalibrowanych graczy";
+"player.select.no_players_hint" = "Najpierw ukończ kalibrację w sekcji Gracze";
+"player.age_years" = "%d lat";
+"player.calibrated" = "Skalibrowany";
+
+// MARK: - Hot Seat (New Pack System)
+"hotseat.pack_info" = "Pytania będą podzielone między %d graczy";
+"hotseat.per_player" = "%d na gracza";
+
+// MARK: - Face Setup (Calibration)
+"calibration.face_setup.title" = "Ustaw twarz";
+"calibration.face_setup.subtitle" = "Umieść twarz w ramce poniżej";
+"calibration.face_detected" = "Twarz wykryta";
+"calibration.searching_face" = "Szukam twarzy...";
+"calibration.good_lighting" = "Upewnij się, że twarz jest dobrze oświetlona";
+"calibration.analyzing" = "Analizuję...";
+"calibration.almost_good" = "Prawie dobrze - wyśrodkuj twarz";
+"calibration.perfect_continue" = "Idealnie! Możesz kontynuować";
+"calibration.set_face_in_frame" = "Ustaw twarz w ramce";
+"calibration.wrong_answer" = "Nieprawidłowa odpowiedź!";
+"calibration.honest_required" = "Kalibracja wymaga szczerych odpowiedzi, aby działać poprawnie";
+"calibration.try_again" = "Spróbuj ponownie";
+"calibration.great_ready" = "Świetnie! Jesteś gotowy.";
+"calibration.finding_face" = "Szukam Twojej twarzy...";
+
+// MARK: - Create Player
+"create.welcome" = "Witaj!";
+"create.new_player" = "Nowy gracz";
+"create.subtitle_first" = "Stwórz swój profil, aby rozpocząć";
+"create.subtitle_add" = "Dodaj nowego gracza";
+"create.name" = "Imię";
+"create.name_placeholder" = "Wpisz swoje imię";
+"create.age" = "Wiek";
+"create.age_placeholder" = "Wpisz swój wiek";
+"create.gender" = "Płeć";
+"create.add_photo" = "Dodaj zdjęcie";
+"create.change_photo" = "Zmień zdjęcie";
+
+// MARK: - Player Detail
+"player.years" = "%d lat";
+"player.requires_calibration" = "Wymaga kalibracji";
+"player.last_calibration" = "Ostatnia kalibracja: %@";
+"player.not_calibrated_yet" = "Ten gracz nie został jeszcze skalibrowany";
+"player.start_calibration" = "Rozpocznij kalibrację";
+"player.edit_profile" = "Edytuj profil";
+"player.delete_player" = "Usuń gracza";
+"player.delete_confirm_title" = "Usuń gracza";
+"player.delete_confirm_message" = "Czy na pewno chcesz usunąć tego gracza? Tej operacji nie można cofnąć.";
+"player.delete_name" = "Usuń %@";
+"player.edit_title" = "Edytuj profil";
+
+// MARK: - Players List
+"players.title" = "Gracze";
+"players.no_players" = "Brak graczy";
+"players.add_first" = "Dodaj pierwszego gracza, aby rozpocząć";
+"players.not_found" = "Gracz nie znaleziony";
+"players.preparing" = "Przygotowuję...";
+
+// MARK: - Calibration Questions
+"calibration.q.is_your_name" = "Czy masz na imię %@?";
+"calibration.q.are_you_gender" = "Czy jesteś %@?";
+"calibration.q.can_see_screen" = "Czy widzisz teraz ekran telefonu?";
+"calibration.q.is_today" = "Czy dzisiaj jest %@?";
+"calibration.q.are_you_age" = "Czy masz %d lat?";
+"calibration.q.are_you_opposite_gender" = "Czy jesteś %@?";
+"calibration.q.are_you_sleeping" = "Czy teraz śpisz?";
+"calibration.q.is_month" = "Czy jest teraz %@?";
+
+// MARK: - Days of Week
+"day.monday" = "poniedziałek";
+"day.tuesday" = "wtorek";
+"day.wednesday" = "środa";
+"day.thursday" = "czwartek";
+"day.friday" = "piątek";
+"day.saturday" = "sobota";
+"day.sunday" = "niedziela";
+
+// MARK: - Months
+"month.january" = "styczeń";
+"month.february" = "luty";
+"month.march" = "marzec";
+"month.april" = "kwiecień";
+"month.may" = "maj";
+"month.june" = "czerwiec";
+"month.july" = "lipiec";
+"month.august" = "sierpień";
+"month.september" = "wrzesień";
+"month.october" = "październik";
+"month.november" = "listopad";
+"month.december" = "grudzień";
+
+// MARK: - Gender (for calibration questions)
+"gender.male_nominative" = "mężczyzną";
+"gender.female_nominative" = "kobietą";
+"gender.other_nominative" = "inną osobą";
+
+// MARK: - Onboarding Pages
+"onboarding.page1.title" = "Witaj w Lie Detect!";
+"onboarding.page1.subtitle" = "Odkryj prawdę w zabawnej grze towarzyskiej";
+"onboarding.page2.title" = "Jak to działa";
+"onboarding.page2.subtitle" = "Analizujemy mimikę twarzy i głos";
+"onboarding.page3.title" = "Kalibracja";
+"onboarding.page3.subtitle" = "Najpierw poznajemy Twoją bazę";
+"onboarding.skip" = "Pomiń";
+"onboarding.next" = "Dalej";
+"onboarding.start" = "Rozpocznij";
+
+// MARK: - Permissions
+"permissions.title" = "Potrzebujemy uprawnień";
+"permissions.message" = "Aby aplikacja działała poprawnie, potrzebujemy dostępu do kamery, mikrofonu i rozpoznawania mowy.";
+"permissions.grant" = "Przyznaj dostęp";
+
+// MARK: - Player Rankings
+"rank.truth_master" = "Mistrz Prawdy";
+"rank.honest" = "Uczciwy";
+"rank.average" = "Średnio";
+"rank.suspicious" = "Podejrzany";
+
+// MARK: - Calibration Completion
+"calibration.baseline_collected" = "Poznaliśmy Twoje naturalne reakcje";
+"calibration.answers" = "Odpowiedzi";
+"calibration.baseline_data" = "Bazowe dane";
+"calibration.collected" = "Zebrane";
+
+// MARK: - Verdict Display
+"verdict.analyzing" = "Analizuję...";
+"verdict.suspicious" = "Podejrzane!";
+"verdict.truthful" = "Prawda!";
+"verdict.confidence" = "Pewność: %d%%";
+"verdict.detected" = "Wykryto:";
+"verdict.see_results" = "Zobacz wyniki";
+"verdict.next_question" = "Następne pytanie";
+
+// MARK: - Session Complete
+"session.complete" = "Sesja zakończona!";
+"session.total_questions" = "Łącznie pytań";
+"session.answer_details" = "Szczegóły odpowiedzi";
+"session.question_number" = "Pytanie %d";
+"session.answer" = "Odpowiedź: %@";
+
+// MARK: - Session Verdicts
+"session.verdict.truthful.title" = "Prawdomówny!";
+"session.verdict.truthful.message" = "Większość odpowiedzi wydaje się szczera";
+"session.verdict.mixed.title" = "Mieszane sygnały";
+"session.verdict.mixed.message" = "Niektóre odpowiedzi budzą wątpliwości";
+"session.verdict.lying.title" = "Podejrzane...";
+"session.verdict.lying.message" = "Wykryto wiele podejrzanych sygnałów";
+"session.verdict.inconclusive.title" = "Niejednoznaczne";
+"session.verdict.inconclusive.message" = "Nie można określić z wystarczającą pewnością";
+
+// MARK: - Analysis Factors
+"factor.no_calibration" = "Brak kalibracji";
+"factor.more_blinking" = "Częstsze mruganie";
+"factor.less_blinking" = "Rzadsze mruganie";
+"factor.longer_response" = "Dłuższy czas odpowiedzi";
+"factor.faster_response" = "Zbyt szybka odpowiedź";
+"factor.head_movement" = "Ruch głową";
+"factor.facial_tension" = "Napięcie twarzy";
+"factor.long_pause" = "Długa pauza";
+"factor.normal_pattern" = "Normalny wzorzec";

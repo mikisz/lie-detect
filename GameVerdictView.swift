@@ -35,7 +35,7 @@ struct GameVerdictView: View {
                         .font(.system(size: 100))
                         .rotationEffect(.degrees(rotation))
                     
-                    Text("Analizuję...")
+                    Text("verdict.analyzing".localized)
                         .font(.system(size: 32, weight: .bold))
                         .foregroundColor(.white)
                     
@@ -55,18 +55,18 @@ struct GameVerdictView: View {
                     
                     // Verdict text
                     VStack(spacing: 12) {
-                        Text(result.verdict.isSuspicious ? "Podejrzane!" : "Prawda!")
+                        Text(result.verdict.isSuspicious ? "verdict.suspicious".localized : "verdict.truthful".localized)
                             .font(.system(size: 48, weight: .black))
                             .foregroundColor(.white)
-                        
-                        Text("Pewność: \(result.verdict.percentage)%")
+
+                        Text("verdict.confidence".localized(result.verdict.percentage))
                             .font(.system(size: 24, weight: .semibold))
                             .foregroundColor(.white.opacity(0.8))
                     }
                     
                     // Factors
                     VStack(alignment: .leading, spacing: 12) {
-                        Text("Wykryto:")
+                        Text("verdict.detected".localized)
                             .font(.system(size: 18, weight: .bold))
                             .foregroundColor(.white.opacity(0.9))
                         
@@ -93,7 +93,7 @@ struct GameVerdictView: View {
                     Button(action: {
                         session.advanceToNextQuestion()
                     }) {
-                        Text(session.isComplete ? "Zobacz wyniki" : "Następne pytanie")
+                        Text(session.isComplete ? "verdict.see_results".localized : "verdict.next_question".localized)
                             .font(.system(size: 20, weight: .bold))
                             .foregroundColor(.white)
                             .frame(maxWidth: .infinity)
@@ -179,9 +179,16 @@ struct GameVerdictView: View {
 struct GameCompleteView: View {
     let session: GameSession
     let onDismiss: () -> Void
-    
+
     @State private var isAnimating = false
-    @State private var showResults = false
+    @State private var showResults: Bool
+
+    init(session: GameSession, onDismiss: @escaping () -> Void) {
+        self.session = session
+        self.onDismiss = onDismiss
+        // For atEnd mode, automatically expand results
+        self._showResults = State(initialValue: session.verdictMode == .atEnd)
+    }
     
     var body: some View {
         ZStack {
@@ -198,7 +205,7 @@ struct GameCompleteView: View {
                             .scaleEffect(isAnimating ? 1.1 : 1.0)
                             .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: isAnimating)
                         
-                        Text("Sesja zakończona!")
+                        Text("session.complete".localized)
                             .font(.system(size: 36, weight: .black))
                             .foregroundColor(.white)
                         
@@ -218,21 +225,21 @@ struct GameCompleteView: View {
                     VStack(spacing: 16) {
                         StatCard(
                             icon: "checkmark.circle.fill",
-                            title: "Prawda",
+                            title: "verdict.truthful".localized,
                             value: "\(truthfulCount)",
                             color: .green
                         )
-                        
+
                         StatCard(
                             icon: "exclamationmark.triangle.fill",
-                            title: "Podejrzane",
+                            title: "verdict.suspicious".localized,
                             value: "\(suspiciousCount)",
                             color: .orange
                         )
-                        
+
                         StatCard(
                             icon: "chart.bar.fill",
-                            title: "Łącznie pytań",
+                            title: "session.total_questions".localized,
                             value: "\(session.questionResults.count)",
                             color: .cyan
                         )
@@ -246,7 +253,7 @@ struct GameCompleteView: View {
                         }
                     }) {
                         HStack {
-                            Text("Szczegóły odpowiedzi")
+                            Text("session.answer_details".localized)
                                 .font(.system(size: 16, weight: .semibold))
                             Spacer()
                             Image(systemName: showResults ? "chevron.up" : "chevron.down")
@@ -272,7 +279,7 @@ struct GameCompleteView: View {
                     // Action buttons
                     VStack(spacing: 12) {
                         Button(action: onDismiss) {
-                            Text("Zakończ")
+                            Text("button.finish".localized)
                                 .font(.system(size: 20, weight: .bold))
                                 .foregroundColor(.white)
                                 .frame(maxWidth: .infinity)
@@ -364,35 +371,35 @@ struct StatCard: View {
 struct QuestionResultRow: View {
     let index: Int
     let result: QuestionResult
-    
+
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack {
-                Text("Pytanie \(index)")
+                Text("session.question_number".localized(index))
                     .font(.system(size: 14, weight: .bold))
                     .foregroundColor(.white.opacity(0.8))
-                
+
                 Spacer()
-                
-                Text(result.verdict.isSuspicious ? "🤥 Podejrzane" : "✅ Prawda")
+
+                Text(result.verdict.isSuspicious ? "🤥 \("verdict.suspicious".localized)" : "✅ \("verdict.truthful".localized)")
                     .font(.system(size: 14, weight: .semibold))
                     .foregroundColor(result.verdict.isSuspicious ? .orange : .green)
             }
-            
+
             Text(result.question.text)
                 .font(.system(size: 13))
                 .foregroundColor(.white.opacity(0.7))
                 .lineLimit(2)
-            
+
             HStack(spacing: 8) {
-                Text("Odpowiedź: \(result.spokenAnswer.displayText)")
+                Text("session.answer".localized(result.spokenAnswer.displayText))
                     .font(.system(size: 12))
                     .foregroundColor(.white.opacity(0.6))
-                
+
                 Text("•")
                     .foregroundColor(.white.opacity(0.3))
-                
-                Text("Pewność: \(result.verdict.percentage)%")
+
+                Text("verdict.confidence".localized(result.verdict.percentage))
                     .font(.system(size: 12))
                     .foregroundColor(.white.opacity(0.6))
             }

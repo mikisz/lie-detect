@@ -63,26 +63,26 @@ struct MainMenuView: View {
                         VStack(spacing: 16) {
                             MenuButton(
                                 icon: "person.fill",
-                                title: "Graj Solo",
-                                subtitle: "Przetestuj się sam",
+                                title: "menu.play_solo".localized,
+                                subtitle: "menu.play_solo_subtitle".localized,
                                 gradient: [Color.blue, Color.cyan]
                             ) {
                                 showPlayAlone = true
                             }
-                            
+
                             MenuButton(
                                 icon: "person.3.fill",
-                                title: "Gorące Krzesło",
-                                subtitle: "Graj z przyjaciółmi",
+                                title: "menu.hot_seat".localized,
+                                subtitle: "menu.hot_seat_subtitle".localized,
                                 gradient: [Color.orange, Color.red]
                             ) {
                                 showHotSeat = true
                             }
-                            
+
                             MenuButton(
                                 icon: "wifi",
-                                title: "Graj Online",
-                                subtitle: "Wkrótce...",
+                                title: "menu.play_online".localized,
+                                subtitle: "menu.play_online_subtitle".localized,
                                 gradient: [Color.blue, Color.cyan],
                                 isDisabled: true
                             ) {
@@ -90,26 +90,26 @@ struct MainMenuView: View {
                             }
                         }
                         .padding(.horizontal, 24)
-                        
+
                         // Secondary menu
                         VStack(spacing: 12) {
                             SecondaryMenuButton(
                                 icon: "person.2.fill",
-                                title: "Gracze"
+                                title: "menu.players".localized
                             ) {
                                 showPlayers = true
                             }
-                            
+
                             SecondaryMenuButton(
                                 icon: "lightbulb.fill",
-                                title: "Jak to działa?"
+                                title: "menu.how_it_works".localized
                             ) {
                                 showTutorial = true
                             }
-                            
+
                             SecondaryMenuButton(
                                 icon: "gearshape.fill",
-                                title: "Ustawienia"
+                                title: "menu.settings".localized
                             ) {
                                 showSettings = true
                             }
@@ -138,6 +138,7 @@ struct MainMenuView: View {
         }
         .onAppear {
             isAnimating = true
+            AudioService.shared.playMenuMusic()
         }
     }
 }
@@ -203,7 +204,7 @@ struct MenuButton: View {
                 RoundedRectangle(cornerRadius: 20)
                     .stroke(Color.white.opacity(0.2), lineWidth: 1)
             )
-            .shadow(color: isDisabled ? .clear : gradient.first!.opacity(0.3), radius: 20, y: 10)
+            .shadow(color: isDisabled ? .clear : (gradient.first ?? .clear).opacity(0.3), radius: 20, y: 10)
             .scaleEffect(isPressed ? 0.95 : 1.0)
         }
         .disabled(isDisabled)
@@ -268,27 +269,27 @@ struct ComingSoonView: View {
     @Environment(\.dismiss) var dismiss
     let title: String
     let message: String
-    
+
     var body: some View {
         ZStack {
             Color.black.ignoresSafeArea()
-            
+
             VStack(spacing: 30) {
                 Text("🚧")
                     .font(.system(size: 100))
-                
+
                 Text(title)
                     .font(.system(size: 32, weight: .bold))
                     .foregroundColor(.white)
-                
+
                 Text(message)
                     .font(.system(size: 18))
                     .foregroundColor(.white.opacity(0.7))
                     .multilineTextAlignment(.center)
                     .padding(.horizontal, 40)
-                
+
                 Button(action: { dismiss() }) {
-                    Text("Zamknij")
+                    Text("button.close".localized)
                         .font(.system(size: 20, weight: .bold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -327,71 +328,71 @@ struct SettingsView: View {
                 ScrollView {
                     VStack(spacing: 24) {
                         // Audio Section
-                        SettingsSection(title: "Dźwięk", icon: "speaker.wave.2.fill") {
+                        SettingsSection(title: "settings.audio".localized, icon: "speaker.wave.2.fill") {
                             SettingsToggleRow(
-                                title: "Efekty dźwiękowe",
-                                subtitle: "Dźwięki przycisków i akcji",
+                                title: "settings.sound_effects".localized,
+                                subtitle: "settings.sound_effects_subtitle".localized,
                                 isOn: $settings.soundEffectsEnabled
                             )
 
                             if settings.soundEffectsEnabled {
                                 SettingsSliderRow(
-                                    title: "Głośność efektów",
+                                    title: "settings.sound_effects_volume".localized,
                                     value: $settings.soundEffectsVolume
                                 )
                             }
 
                             SettingsToggleRow(
-                                title: "Muzyka w tle",
-                                subtitle: "Atmosferyczna muzyka",
+                                title: "settings.background_music".localized,
+                                subtitle: "settings.background_music_subtitle".localized,
                                 isOn: $settings.backgroundMusicEnabled
                             )
 
                             if settings.backgroundMusicEnabled {
                                 SettingsSliderRow(
-                                    title: "Głośność muzyki",
+                                    title: "settings.background_music_volume".localized,
                                     value: $settings.backgroundMusicVolume
                                 )
                             }
 
                             SettingsToggleRow(
-                                title: "Głos lektora",
-                                subtitle: "Komentarz głosowy podczas gry",
+                                title: "settings.voice".localized,
+                                subtitle: "settings.voice_subtitle".localized,
                                 isOn: $settings.voiceEnabled
                             )
 
                             if settings.voiceEnabled {
                                 SettingsSliderRow(
-                                    title: "Głośność głosu",
+                                    title: "settings.voice_volume".localized,
                                     value: $settings.voiceVolume
                                 )
                             }
                         }
 
                         // Haptics Section
-                        SettingsSection(title: "Wibracje", icon: "waveform") {
+                        SettingsSection(title: "settings.haptics".localized, icon: "waveform") {
                             SettingsToggleRow(
-                                title: "Wibracje dotykowe",
-                                subtitle: "Haptyczna odpowiedź na dotyk",
+                                title: "settings.haptics_toggle".localized,
+                                subtitle: "settings.haptics_subtitle".localized,
                                 isOn: $settings.hapticsEnabled
                             )
                         }
 
                         // Accessibility Section
-                        SettingsSection(title: "Dostępność", icon: "accessibility") {
+                        SettingsSection(title: "settings.accessibility".localized, icon: "accessibility") {
                             SettingsToggleRow(
-                                title: "Ogranicz animacje",
-                                subtitle: "Zmniejsz ruch interfejsu",
+                                title: "settings.reduce_animations".localized,
+                                subtitle: "settings.reduce_animations_subtitle".localized,
                                 isOn: $settings.reduceAnimations
                             )
                         }
 
                         // Language Section
-                        SettingsSection(title: "Język", icon: "globe") {
+                        SettingsSection(title: "settings.language".localized, icon: "globe") {
                             Button(action: { showLanguagePicker = true }) {
                                 HStack {
                                     VStack(alignment: .leading, spacing: 4) {
-                                        Text("Język aplikacji")
+                                        Text("settings.app_language".localized)
                                             .font(.system(size: 17, weight: .medium))
                                             .foregroundColor(.white)
                                         Text(localization.currentLanguage.nativeName)
@@ -408,9 +409,9 @@ struct SettingsView: View {
                         }
 
                         // About Section
-                        SettingsSection(title: "O aplikacji", icon: "info.circle.fill") {
-                            SettingsInfoRow(title: "Wersja", value: "1.0.0")
-                            SettingsInfoRow(title: "Platforma", value: "iOS")
+                        SettingsSection(title: "settings.about".localized, icon: "info.circle.fill") {
+                            SettingsInfoRow(title: "settings.version".localized, value: "1.0.0")
+                            SettingsInfoRow(title: "settings.platform".localized, value: "iOS")
                         }
 
                         // Reset Button
@@ -421,7 +422,7 @@ struct SettingsView: View {
                         }) {
                             HStack {
                                 Image(systemName: "arrow.counterclockwise")
-                                Text("Przywróć domyślne")
+                                Text("settings.reset_defaults".localized)
                             }
                             .font(.system(size: 17, weight: .medium))
                             .foregroundColor(.red)
@@ -437,11 +438,11 @@ struct SettingsView: View {
                     .padding(.vertical, 20)
                 }
             }
-            .navigationTitle("Ustawienia")
+            .navigationTitle("settings.title".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Zamknij") {
+                    Button("button.close".localized) {
                         dismiss()
                     }
                     .foregroundColor(.cyan)
@@ -589,11 +590,11 @@ struct LanguagePickerView: View {
                 }
                 .padding(20)
             }
-            .navigationTitle("Wybierz język")
+            .navigationTitle("settings.choose_language".localized)
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Zamknij") {
+                    Button("button.close".localized) {
                         dismiss()
                     }
                     .foregroundColor(.cyan)

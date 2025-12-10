@@ -1,0 +1,1036 @@
+{
+  "packs": [
+    {
+      "id": "pure_truth",
+      "name": {
+        "pl": "Czysta Prawda",
+        "en": "Pure Truth"
+      },
+      "description": {
+        "pl": "Paczka o małych brudach z życia codziennego: obgadywanie, zazdrość, znikanie bez słowa i udawanie świętego przy ludziach. Idealna, żeby sprawdzić, kto tu naprawdę gra fair, a kto tylko dobrze kłamie.",
+        "en": "A pack about the little dirty things we do in everyday life: gossip, jealousy, disappearing without a word and acting innocent in front of others. Perfect to see who's actually playing fair here... and who's just good at lying."
+      },
+      "emoji": "🟣",
+      "imageName": "pack_pure_truth",
+      "category": "general",
+      "isPremium": false,
+      "version": "1.0",
+      "questions": [
+        {
+          "id": "pt_001",
+          "text": {
+            "pl": "Czy przy tym stole jest ktoś, kogo ostatnio obgadywałeś?",
+            "en": "Is there someone in this group you've talked about behind their back recently?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "pt_002",
+          "text": {
+            "pl": "Czy udawałeś, że lubisz kogoś tylko dlatego, że wygodnie mieć go w znajomych?",
+            "en": "Have you ever pretended to like someone just because it's convenient to have them around?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "pt_003",
+          "text": {
+            "pl": "Czy przekazałeś kiedyś dalej sekret, który miał zostać tylko między wami?",
+            "en": "Have you ever shared a secret that was supposed to stay just between you two?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "pt_004",
+          "text": {
+            "pl": "Czy skłamałeś, że cieszysz się z czyjegoś sukcesu, chociaż byłeś zazdrosny?",
+            "en": "Have you ever lied about being happy for someone's success while actually feeling jealous?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "pt_005",
+          "text": {
+            "pl": "Czy specjalnie nie odpisałeś komuś, żeby pokazać kto tu rządzi?",
+            "en": "Have you ever ignored someone's message on purpose just to show who's in control?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "pt_006",
+          "text": {
+            "pl": "Czy zdarzyło Ci się skopiować cudzy pomysł i udawać, że jest twój?",
+            "en": "Have you ever copied someone's idea and acted like it was yours?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "pt_007",
+          "text": {
+            "pl": "Czy opisałeś kogoś gorzej, niż zasługiwał, żeby samemu wypaść lepiej?",
+            "en": "Have you ever talked about someone in a worse way than they deserved just to make yourself look better?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "pt_008",
+          "text": {
+            "pl": "Czy trzymasz z kimś kontakt głównie dla własnej korzyści?",
+            "en": "Are you keeping in touch with someone mainly because it benefits you?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "pt_009",
+          "text": {
+            "pl": "Czy przy tym stole jest ktoś, przed kim ukrywasz coś ważnego?",
+            "en": "Is there someone in this group you're hiding something important from?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "pt_010",
+          "text": {
+            "pl": "Czy udawałeś, że nie pamiętasz sytuacji, w której zachowałeś się słabo?",
+            "en": "Have you ever pretended not to remember a situation where you acted badly?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "pt_011",
+          "text": {
+            "pl": "Czy kłamałeś o swoim stanie psychicznym, żeby nikt nie drążył tematu?",
+            "en": "Have you ever lied about how you're really doing mentally, just so no one would dig into it?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "pt_012",
+          "text": {
+            "pl": "Czy udawałeś, że masz mniej problemów, niż naprawdę, żeby nie wyjść na drama queen?",
+            "en": "Have you ever downplayed your problems so you wouldn't seem like a drama queen?"
+          },
+          "difficulty": "easy"
+        },
+        {
+          "id": "pt_013",
+          "text": {
+            "pl": "Czy zazdrościłeś komuś relacji tak bardzo, że życzyłeś mu, żeby mu nie wyszło?",
+            "en": "Have you ever been so jealous of someone's relationship that you secretly wished it would fall apart?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "pt_014",
+          "text": {
+            "pl": "Czy specjalnie pominąłeś kogoś przy zaproszeniu, bo psułby atmosferę?",
+            "en": "Have you ever left someone out of an invite on purpose because they would ruin the vibe?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "pt_015",
+          "text": {
+            "pl": "Czy ukryłeś przed kimś, że to ty puściłeś dalej plotkę?",
+            "en": "Have you ever hidden the fact that you were the one who spread a rumor?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "pt_016",
+          "text": {
+            "pl": "Czy zrobiłeś z siebie ofiarę w historii, w której wcale nie byłeś niewinny?",
+            "en": "Have you ever played the victim in a story where you weren't actually innocent?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "pt_017",
+          "text": {
+            "pl": "Czy wykorzystałeś czyjąś słabość albo kompleks w kłótni?",
+            "en": "Have you ever used someone's weakness or insecurity against them in an argument?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "pt_018",
+          "text": {
+            "pl": "Czy powiedziałeś komuś 'nie jesteś problemem', choć uważałeś odwrotnie?",
+            "en": "Have you ever told someone 'you're not the problem' even though you thought they were?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "pt_019",
+          "text": {
+            "pl": "Czy żałowałeś, że komuś pomogłeś, bo nie dostałeś dość wdzięczności?",
+            "en": "Have you ever regretted helping someone because they didn't show enough gratitude?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "pt_020",
+          "text": {
+            "pl": "Czy wrzuciłeś coś do sociali tylko po to, żeby kogoś zabolało?",
+            "en": "Have you ever posted something on social media mainly to get under someone's skin?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "pt_021",
+          "text": {
+            "pl": "Czy udawałeś, że nie widzisz kogoś na żywo, choć go zauważyłeś?",
+            "en": "Have you ever pretended not to see someone in real life even though you clearly did?"
+          },
+          "difficulty": "easy"
+        },
+        {
+          "id": "pt_022",
+          "text": {
+            "pl": "Czy pisałeś o kimś paskudnie na privie, a na żywo byłeś dla niego miły?",
+            "en": "Have you ever talked badly about someone in private chats while being nice to them in person?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "pt_023",
+          "text": {
+            "pl": "Czy celowo zignorowałeś czyjeś wołanie o pomoc, bo nie miałeś siły się tym zająć?",
+            "en": "Have you ever ignored someone asking for help simply because you didn't feel like dealing with it?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "pt_024",
+          "text": {
+            "pl": "Czy podkręciłeś kiedyś historię o kimś, żeby była bardziej dramatyczna lub śmieszna?",
+            "en": "Have you ever exaggerated a story about someone to make it more dramatic or funny?"
+          },
+          "difficulty": "easy"
+        },
+        {
+          "id": "pt_025",
+          "text": {
+            "pl": "Czy życzyłeś komuś, żeby mu się nie udało, tylko dlatego, że Cię irytował?",
+            "en": "Have you ever wished someone would fail just because they annoyed you?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "pt_026",
+          "text": {
+            "pl": "Czy zrobiłeś coś pasywno-agresywnego, a potem udawałeś, że przecież nic takiego?",
+            "en": "Have you ever done something passive-aggressive and then pretended it was no big deal?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "pt_027",
+          "text": {
+            "pl": "Czy skłamałeś komuś prosto w twarz, patrząc mu w oczy?",
+            "en": "Have you ever lied straight to someone's face while looking them in the eye?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "pt_028",
+          "text": {
+            "pl": "Czy zniknąłeś komuś z życia bez słowa, choć nie zasłużył na to?",
+            "en": "Have you ever completely disappeared from someone's life without a word, even though they didn't deserve it?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "pt_029",
+          "text": {
+            "pl": "Czy udawałeś, że coś Cię bawi, chociaż w środku ostro tę osobę oceniałeś?",
+            "en": "Have you ever pretended to be amused while silently judging that person hard inside?"
+          },
+          "difficulty": "easy"
+        },
+        {
+          "id": "pt_030",
+          "text": {
+            "pl": "Czy w tej grupie jest ktoś, komu kiedyś powiedziałeś tylko połowę prawdy?",
+            "en": "Is there someone in this group you once told only half the truth to?"
+          },
+          "difficulty": "medium"
+        }
+      ]
+    },
+    {
+      "id": "spicy_secrets",
+      "name": {
+        "pl": "Spicy Secrets",
+        "en": "Spicy Secrets"
+      },
+      "description": {
+        "pl": "Paczka o rzeczach, o których zwykle mówi się tylko po alkoholu albo wcale: ukryte crashe, flirty tak tylko dla zabawy, stare rozmowy z ex, zazdrość, sekrety z łóżka i rzeczy, których partner lepiej nie zobaczy w telefonie. Idealna dla par i znajomych, którzy nie boją się gorących pytań.",
+        "en": "A pack about the stuff people usually talk about only after a few drinks - or never: secret crushes, just for fun flirting, old chats with exes, jealousy, bedroom secrets and things you really don't want your partner to see on your phone. Perfect for couples and friends who aren't afraid of spicy questions."
+      },
+      "emoji": "🌶️",
+      "imageName": "pack_spicy_secrets",
+      "category": "spicy",
+      "isPremium": false,
+      "version": "1.0",
+      "questions": [
+        {
+          "id": "ss_001",
+          "text": {
+            "pl": "Czy flirtowałeś kiedyś z kimś, będąc w związku?",
+            "en": "Have you ever flirted with someone while you were in a relationship?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ss_002",
+          "text": {
+            "pl": "Czy celowo pisałeś z kimś w taki sposób, żeby partner był zazdrosny, gdyby to zobaczył?",
+            "en": "Have you ever texted someone in a way that would make your partner jealous if they saw it?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ss_003",
+          "text": {
+            "pl": "Czy trzymasz w telefonie rozmowy, których wolałbyś nie pokazywać obecnej lub potencjalnej drugiej połówce?",
+            "en": "Are there chats on your phone you'd rather not show to your current or future partner?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ss_004",
+          "text": {
+            "pl": "Czy dalej obserwujesz w socialach kogoś, z kim kiedyś mocno flirtowałeś?",
+            "en": "Are you still following someone on socials you used to flirt with a lot?"
+          },
+          "difficulty": "easy"
+        },
+        {
+          "id": "ss_005",
+          "text": {
+            "pl": "Czy zdarzyło Ci się odpisać na wiadomość od ex, choć wiedziałeś, że to zły pomysł?",
+            "en": "Have you ever replied to an ex even though you knew it was a bad idea?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ss_006",
+          "text": {
+            "pl": "Czy przy tym stole jest ktoś, z kim flirtowałbyś, gdyby wszystko było bez konsekwencji?",
+            "en": "Is there someone in this group you'd flirt with if there were no consequences?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ss_007",
+          "text": {
+            "pl": "Czy zdarzyło Ci się dla sportu pisać z kimś, kto był wyraźnie wkręcony w Ciebie?",
+            "en": "Have you ever kept texting someone who was clearly into you, just for sport?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ss_008",
+          "text": {
+            "pl": "Czy kiedykolwiek specjalnie wrzucałeś prowokujące zdjęcie, myśląc o konkretnej osobie, która ma to zobaczyć?",
+            "en": "Have you ever posted a provocative photo with one specific person in mind who you wanted to see it?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ss_009",
+          "text": {
+            "pl": "Czy ukryłeś kiedyś, że ktoś Cię podrywa, bo podobała Ci się ta uwaga?",
+            "en": "Have you ever hidden the fact that someone was hitting on you because you liked the attention?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ss_010",
+          "text": {
+            "pl": "Czy zdarzyło Ci się porównać w głowie obecną osobę do byłej/byłego pod względem łóżkowym?",
+            "en": "Have you ever compared your current partner to an ex in the bedroom in your head?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ss_011",
+          "text": {
+            "pl": "Czy kiedykolwiek przesadziłeś z opisem swoich doświadczeń, żeby wypaść ciekawiej?",
+            "en": "Have you ever exaggerated your past experiences to make yourself seem more interesting?"
+          },
+          "difficulty": "easy"
+        },
+        {
+          "id": "ss_012",
+          "text": {
+            "pl": "Czy skłamałeś kiedyś na temat tego, ile osób przed obecną miałeś na poważnie?",
+            "en": "Have you ever lied about how many people you were serious with before your current partner?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ss_013",
+          "text": {
+            "pl": "Czy zdarzyło Ci się udawać większe zadowolenie z czyjejś bliskości, niż naprawdę czułeś?",
+            "en": "Have you ever pretended to be more satisfied with someone physically than you really were?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ss_014",
+          "text": {
+            "pl": "Czy kiedykolwiek ukryłeś, że jesteś znudzony w łóżku?",
+            "en": "Have you ever hidden the fact that you were bored in bed?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ss_015",
+          "text": {
+            "pl": "Czy zdarzyło Ci się myśleć o kimś innym podczas całowania się z kimś?",
+            "en": "Have you ever thought about someone else while kissing a person?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ss_016",
+          "text": {
+            "pl": "Czy kiedykolwiek utrzymywałeś opcję awaryjną, będąc niby w poważnej relacji?",
+            "en": "Have you ever kept a backup option while supposedly being in a serious relationship?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ss_017",
+          "text": {
+            "pl": "Czy przy tym stole jest ktoś, o kim miałeś kiedyś fantazję?",
+            "en": "Is there someone in this group you've had a fantasy about?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ss_018",
+          "text": {
+            "pl": "Czy zdarzyło Ci się specjalnie odpowiedzieć komuś zbyt flirciarsko, żeby podbić sobie ego?",
+            "en": "Have you ever replied to someone in an overly flirty way just to boost your ego?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ss_019",
+          "text": {
+            "pl": "Czy kiedykolwiek umawiałeś się na niezobowiązujące spotkanie, licząc po cichu, że skończy się czymś więcej?",
+            "en": "Have you ever agreed to a casual hangout secretly hoping it would turn into something more?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ss_020",
+          "text": {
+            "pl": "Czy ukryłeś kiedyś, że dalej masz zdjęcia kogoś, kto Cię kiedyś mocno kręcił?",
+            "en": "Have you ever hidden the fact that you still have photos of someone you used to be really into?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ss_021",
+          "text": {
+            "pl": "Czy zdarzyło Ci się wejść na profil kogoś tylko po to, żeby zobaczyć, jak teraz wygląda... i utknąć tam na dłużej?",
+            "en": "Have you ever gone to someone's profile just to see what they look like now... and stayed scrolling way too long?"
+          },
+          "difficulty": "easy"
+        },
+        {
+          "id": "ss_022",
+          "text": {
+            "pl": "Czy kiedykolwiek użyłeś czyjejś zazdrości, żeby poczuć, że Ci naprawdę zależy?",
+            "en": "Have you ever used someone's jealousy to convince yourself they really care about you?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ss_023",
+          "text": {
+            "pl": "Czy zdarzyło Ci się celowo nie mówić, że spotykasz się z kimś, bo sam nie byłeś do końca lojalny?",
+            "en": "Have you ever forgotten to mention you're seeing someone because you weren't fully loyal yourself?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ss_024",
+          "text": {
+            "pl": "Czy kiedykolwiek bawiło Cię, że ktoś, kto ma partnera, wyraźnie na Ciebie leci?",
+            "en": "Have you ever secretly enjoyed the fact that someone in a relationship was clearly into you?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ss_025",
+          "text": {
+            "pl": "Czy przy tym stole jest ktoś, kogo partnera/partnerkę uważasz za atrakcyjną w sposób, o którym lepiej nie mówić?",
+            "en": "Is there someone here whose partner you find attractive in a way you probably shouldn't mention?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ss_026",
+          "text": {
+            "pl": "Czy zdarzyło Ci się zaglądać komuś w telefon z ciekawości, z kim pisze po cichu?",
+            "en": "Have you ever secretly checked someone's phone just to see who they're chatting with?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ss_027",
+          "text": {
+            "pl": "Czy kiedykolwiek myślałeś o zakończeniu relacji, ale zatrzymała Cię chemia między wami?",
+            "en": "Have you ever thought about ending a relationship but stayed because the chemistry was too good?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ss_028",
+          "text": {
+            "pl": "Czy zdarzyło Ci się udawać bardziej niewinnego, niż jesteś, gdy padło pytanie o Twoją przeszłość?",
+            "en": "Have you ever acted more innocent than you really are when asked about your past?"
+          },
+          "difficulty": "easy"
+        },
+        {
+          "id": "ss_029",
+          "text": {
+            "pl": "Czy skłamałeś kiedyś, że jakaś wiadomość to tylko znajomy/znajoma, choć była czymś więcej?",
+            "en": "Have you ever lied that a message was just a friend even though it was more than that?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ss_030",
+          "text": {
+            "pl": "Czy jest ktoś, z kim wiesz, że nie powinieneś pisać... a i tak od czasu do czasu to robisz?",
+            "en": "Is there someone you know you shouldn't be texting... but you still do from time to time?"
+          },
+          "difficulty": "hard"
+        }
+      ]
+    },
+    {
+      "id": "love_loyalty",
+      "name": {
+        "pl": "Love & Loyalty",
+        "en": "Love & Loyalty"
+      },
+      "description": {
+        "pl": "Paczka o miłości, zaufaniu i lojalności. Pytania o momenty, kiedy zastanawiałeś się nad przyszłością związku, ukrywałeś prawdę lub testowałeś czyjeś uczucia. Dla tych, którzy chcą sprawdzić, jak głęboko sięgają ich relacje.",
+        "en": "A pack about love, trust and loyalty. Questions about moments when you questioned the future of a relationship, hid the truth or tested someone's feelings. For those who want to see how deep their relationships really go."
+      },
+      "emoji": "❤️",
+      "imageName": "pack_love_loyalty",
+      "category": "relationships",
+      "isPremium": false,
+      "version": "1.0",
+      "questions": [
+        {
+          "id": "ll_001",
+          "text": {
+            "pl": "Czy był kiedyś moment, w którym pomyślałeś, że już nie kochasz osoby, z którą byłeś?",
+            "en": "Has there ever been a moment when you thought you no longer loved the person you were with?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ll_002",
+          "text": {
+            "pl": "Czy zdarzyło Ci się zostać w relacji tylko dlatego, że bałeś się samotności?",
+            "en": "Have you ever stayed in a relationship just because you were afraid of being alone?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ll_003",
+          "text": {
+            "pl": "Czy ukryłeś kiedyś przed partnerem coś, co mogłoby zmienić sposób, w jaki na Ciebie patrzy?",
+            "en": "Have you ever kept something from your partner that could change the way they see you?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ll_004",
+          "text": {
+            "pl": "Czy mówiłeś kiedyś 'jest okej', choć w środku czułeś, że relacja się sypie?",
+            "en": "Have you ever said 'we're fine' while feeling inside that the relationship was falling apart?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ll_005",
+          "text": {
+            "pl": "Czy zdarzyło Ci się wyobrażać sobie życie z kimś innym, gdy byłeś w związku?",
+            "en": "Have you imagined a future with someone else while you were in a relationship?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ll_006",
+          "text": {
+            "pl": "Czy kiedykolwiek udawałeś większe zaangażowanie, niż naprawdę czułeś?",
+            "en": "Have you ever pretended to be more committed than you really were?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ll_007",
+          "text": {
+            "pl": "Czy w przeszłości zdradziłeś czyjeś zaufanie i nigdy się do tego nie przyznałeś?",
+            "en": "Have you ever broken someone's trust and never admitted it?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ll_008",
+          "text": {
+            "pl": "Czy przy tym stole jest ktoś, komu nie powiedziałeś całej prawdy o swojej relacji?",
+            "en": "Is there someone at this table you haven't told the full truth about your relationship to?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ll_009",
+          "text": {
+            "pl": "Czy zdarzyło Ci się zostać w związku, w którym wiedziałeś, że druga strona zasługuje na kogoś lepszego niż Ty?",
+            "en": "Have you ever stayed in a relationship knowing the other person deserved someone better than you?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ll_010",
+          "text": {
+            "pl": "Czy kiedykolwiek myślałeś o rozstaniu tak poważnie, że miałeś to zaplanowane w głowie?",
+            "en": "Have you ever thought about breaking up so seriously that you planned it out in your head?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ll_011",
+          "text": {
+            "pl": "Czy ukryłeś kiedyś wiadomości lub rozmowy, które mogłyby zranić partnera?",
+            "en": "Have you ever hidden messages or conversations that could hurt your partner?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ll_012",
+          "text": {
+            "pl": "Czy zdarzyło Ci się porównać swojego partnera do kogoś innego... i partner wypadł gorzej?",
+            "en": "Have you ever compared your partner to someone else... and your partner came out worse?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ll_013",
+          "text": {
+            "pl": "Czy mówiłeś kiedyś 'to nie Twoja wina', choć w głowie obwiniałeś właśnie tę osobę?",
+            "en": "Have you ever said 'it's not your fault' while blaming that person in your head?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ll_014",
+          "text": {
+            "pl": "Czy kiedykolwiek czułeś ulgę, gdy partner odwołał spotkanie?",
+            "en": "Have you ever felt relieved when your partner cancelled plans?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ll_015",
+          "text": {
+            "pl": "Czy zdarzyło Ci się udawać, że wszystko jest dobrze, bo bałeś się reakcji na prawdę?",
+            "en": "Have you ever pretended everything was fine because you were afraid of their reaction to the truth?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ll_016",
+          "text": {
+            "pl": "Czy kiedykolwiek pomyślałeś: 'gdyby naprawdę mnie znał/znała, już by ze mną nie był/była'?",
+            "en": "Have you ever thought: 'if they really knew me, they wouldn't still be with me'?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ll_017",
+          "text": {
+            "pl": "Czy ukryłeś kiedyś, że ktoś inny sprawia, że czujesz się bardziej widziany/słyszany niż Twój partner?",
+            "en": "Have you ever hidden the fact that someone else makes you feel more seen or heard than your partner does?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ll_018",
+          "text": {
+            "pl": "Czy zdarzyło Ci się testować czyjąś lojalność, zamiast po prostu o coś zapytać?",
+            "en": "Have you ever tested someone's loyalty instead of just asking them directly?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ll_019",
+          "text": {
+            "pl": "Czy kiedykolwiek przestałeś ufać komuś na dobre, ale nie powiedziałeś tego wprost?",
+            "en": "Have you ever stopped trusting someone for good but never said it out loud?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ll_020",
+          "text": {
+            "pl": "Czy był moment, w którym czułeś, że to Ty jesteś toksyczną stroną w relacji?",
+            "en": "Was there a moment when you felt like you were the toxic one in the relationship?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ll_021",
+          "text": {
+            "pl": "Czy zdarzyło Ci się zostać z kimś tylko dlatego, że wspólne wspomnienia było łatwiej zatrzymać niż zostawić?",
+            "en": "Have you ever stayed with someone just because keeping the shared memories felt easier than letting go?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ll_022",
+          "text": {
+            "pl": "Czy mówiłeś kiedyś 'nic się nie stało', choć w środku czułeś się zdradzony?",
+            "en": "Have you ever said 'it's fine' while feeling betrayed inside?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ll_023",
+          "text": {
+            "pl": "Czy kiedykolwiek miałeś wrażenie, że trzymasz kogoś przy sobie na wszelki wypadek?",
+            "en": "Have you ever felt like you were keeping someone in your life just in case?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ll_024",
+          "text": {
+            "pl": "Czy zdarzyło Ci się świadomie nie stanąć po stronie partnera, żeby dobrze wypaść przed innymi?",
+            "en": "Have you ever chosen not to take your partner's side just to look good in front of others?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ll_025",
+          "text": {
+            "pl": "Czy ukryłeś kiedyś, jak bardzo zraniło Cię coś, co zrobiła bliska osoba?",
+            "en": "Have you ever hidden how deeply you were hurt by something a close person did?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ll_026",
+          "text": {
+            "pl": "Czy kiedykolwiek czułeś, że kochasz kogoś, ale nie lubisz go jako człowieka?",
+            "en": "Have you ever felt like you love someone but don't really like them as a person?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ll_027",
+          "text": {
+            "pl": "Czy zdarzyło Ci się żałować, że komuś zaufałeś, ale zostać przy nim mimo wszystko?",
+            "en": "Have you ever regretted trusting someone but stayed with them anyway?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ll_028",
+          "text": {
+            "pl": "Czy przy tym stole jest ktoś, kogo kiedyś zawiodłeś bardziej, niż on lub ona o tym wie?",
+            "en": "Is there someone at this table you've disappointed more than they realize?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "ll_029",
+          "text": {
+            "pl": "Czy kiedykolwiek myślałeś, że łatwiej byłoby zacząć wszystko od zera z kimś nowym?",
+            "en": "Have you ever thought it would be easier to start over with someone completely new?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "ll_030",
+          "text": {
+            "pl": "Czy zdarzyło Ci się powiedzieć 'zawsze możesz na mnie liczyć', wiedząc, że to nie do końca prawda?",
+            "en": "Have you ever said 'you can always count on me' knowing it wasn't entirely true?"
+          },
+          "difficulty": "medium"
+        }
+      ]
+    },
+    {
+      "id": "dramatic_confessions",
+      "name": {
+        "pl": "Dramatyczne wyznania",
+        "en": "Dramatic Confessions"
+      },
+      "description": {
+        "pl": "Paczka dla tych momentów, kiedy gra zaczyna wchodzić głębiej niż śmieszne anegdotki. Pytania o rzeczy, które chowasz najdalej: złamane zaufanie, przekroczone granice, decyzje, których się wstydzisz i sekrety, których naprawdę nie chcesz usłyszeć na głos. To ten zestaw, przy którym wychodzi na jaw, kto ma w życiu więcej mroku, niż pokazuje na co dzień.",
+        "en": "A pack for the moments when the game goes way deeper than fun stories. Questions about the things you hide the furthest: broken trust, crossed lines, decisions you're ashamed of and secrets you really don't want spoken out loud. This is the set where you find out who's carrying more darkness than they let on."
+      },
+      "emoji": "🎭",
+      "imageName": "pack_dramatic_confessions",
+      "category": "secrets",
+      "isPremium": false,
+      "version": "1.0",
+      "questions": [
+        {
+          "id": "dc_001",
+          "text": {
+            "pl": "Czy zrobiłeś kiedyś coś, o czym szczerze myślisz: 'tego nie mogę nikomu powiedzieć'?",
+            "en": "Have you done something you honestly think: 'I can never tell anyone about this'?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_002",
+          "text": {
+            "pl": "Czy kiedykolwiek świadomie złamałeś czyjeś zaufanie, wiedząc, że już Ci nie zaufa tak samo?",
+            "en": "Have you ever knowingly broken someone's trust, knowing they'd never trust you the same again?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_003",
+          "text": {
+            "pl": "Czy zdarzyło Ci się zdradzić kogoś - emocjonalnie albo fizycznie - i nigdy się do tego nie przyznać?",
+            "en": "Have you ever cheated on someone - emotionally or physically - and never admitted it?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_004",
+          "text": {
+            "pl": "Czy przy tym stole jest osoba, o której zrobiłeś lub powiedziałeś coś naprawdę podłego?",
+            "en": "Is there someone at this table you've done or said something truly nasty about?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_005",
+          "text": {
+            "pl": "Czy kiedykolwiek chciałeś, żeby komuś, kogo znasz, naprawdę mocno w życiu nie wyszło?",
+            "en": "Have you ever genuinely wished for someone you know to seriously fail in life?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_006",
+          "text": {
+            "pl": "Czy zdarzyło Ci się zrobić coś tylko po to, żeby kogoś zranić, a nie 'bo tak wyszło'?",
+            "en": "Have you ever done something purely to hurt someone, not just by accident?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_007",
+          "text": {
+            "pl": "Czy kiedykolwiek udawałeś, że kogoś wspierasz, a w środku liczyłeś, że mu się nie uda?",
+            "en": "Have you ever pretended to support someone while secretly hoping they wouldn't succeed?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_008",
+          "text": {
+            "pl": "Czy ukryłeś kiedyś przed kimś prawdę, która mogłaby kompletnie zmienić jego decyzję życiową?",
+            "en": "Have you ever kept a truth from someone that could've completely changed a major life decision for them?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_009",
+          "text": {
+            "pl": "Czy zdarzyło Ci się wykorzystać czyjąś bardzo osobistą historię w rozmowie z kimś innym?",
+            "en": "Have you ever used someone's deeply personal story in a conversation with someone else?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_010",
+          "text": {
+            "pl": "Czy kiedykolwiek pozwoliłeś, żeby ktoś inny został obwiniony za coś, w czym miałeś swój udział?",
+            "en": "Have you ever let someone else take the blame for something you were involved in?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_011",
+          "text": {
+            "pl": "Czy zdarzyło Ci się kogoś świadomie popsuć w oczach innych, żeby samemu wyglądać lepiej?",
+            "en": "Have you ever deliberately damaged someone's image in others' eyes to make yourself look better?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_012",
+          "text": {
+            "pl": "Czy skłamałeś kiedyś w sprawie tak poważnej, że do dziś boisz się, że to wyjdzie?",
+            "en": "Have you ever lied about something so serious that you're still afraid it might come out?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_013",
+          "text": {
+            "pl": "Czy kiedykolwiek trzymałeś przy sobie osobę, wiedząc, że tylko ją przeciągasz i blokujesz?",
+            "en": "Have you ever kept someone close, knowing you were just stringing them along and holding them back?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_014",
+          "text": {
+            "pl": "Czy był moment, w którym wiesz, że złamałeś komuś serce - i nigdy naprawdę go za to nie przeprosiłeś?",
+            "en": "Was there a moment when you know you broke someone's heart and never truly apologized for it?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_015",
+          "text": {
+            "pl": "Czy kiedykolwiek odciąłeś się od kogoś dokładnie wtedy, kiedy najbardziej Cię potrzebował?",
+            "en": "Have you ever walked away from someone exactly when they needed you most?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_016",
+          "text": {
+            "pl": "Czy zdarzyło Ci się udawać, że coś zapomniałeś, tylko po to, żeby uniknąć odpowiedzialności?",
+            "en": "Have you ever pretended to forget something just to avoid taking responsibility?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "dc_017",
+          "text": {
+            "pl": "Czy kiedykolwiek celowo powiedziałeś coś, co wiedziałeś, że zostanie źle przekazane dalej?",
+            "en": "Have you ever intentionally said something knowing it would be twisted or spread in a harmful way?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_018",
+          "text": {
+            "pl": "Czy miałeś kiedyś taką myśl: 'gdyby ludzie wiedzieli o mnie to jedno, patrzyliby na mnie inaczej'?",
+            "en": "Have you ever thought: 'If people knew this one thing about me, they'd see me differently'?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_019",
+          "text": {
+            "pl": "Czy zdarzyło Ci się świadomie wciągnąć kogoś w dramat, który Cię tak naprawdę nie dotyczył?",
+            "en": "Have you ever dragged someone into drama that didn't really concern them?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "dc_020",
+          "text": {
+            "pl": "Czy kiedykolwiek żałowałeś, że komuś pomogłeś... nie dlatego, że Cię wykorzystał, tylko bo wolałbyś, żeby sobie nie poradził?",
+            "en": "Have you ever regretted helping someone not because they used you, but because part of you wished they'd struggle?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_021",
+          "text": {
+            "pl": "Czy kiedykolwiek byłeś po tej stronie historii, która w cudzej wersji wygląda dużo gorzej, niż opowiadasz ją Ty?",
+            "en": "Have you ever been the villain in someone else's version of a story you tell very differently?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_022",
+          "text": {
+            "pl": "Czy zdarzyło Ci się udawać, że kogoś 'rozumiesz i nie oceniasz', a w środku totalnie go oceniać?",
+            "en": "Have you ever said 'I understand, I'm not judging you' while harshly judging that person inside?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "dc_023",
+          "text": {
+            "pl": "Czy kiedykolwiek byłeś w sytuacji, w której wiesz, że złamałeś swoje własne granice moralne?",
+            "en": "Have you ever been in a situation where you know you crossed your own moral boundaries?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_024",
+          "text": {
+            "pl": "Czy zdarzyło Ci się liczyć na to, że ktoś się posypie, żeby nie wyszło na jaw, co sam zrobiłeś?",
+            "en": "Have you ever hoped someone else would fall apart so your part in something wouldn't be exposed?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_025",
+          "text": {
+            "pl": "Czy kiedykolwiek udawałeś, że czegoś nie widziałeś, choć dobrze wiedziałeś, że to było złe?",
+            "en": "Have you ever pretended not to see something you knew was wrong?"
+          },
+          "difficulty": "medium"
+        },
+        {
+          "id": "dc_026",
+          "text": {
+            "pl": "Czy przy tym stole jest osoba, której nie powiedziałeś całej prawdy o tym, dlaczego naprawdę z kimś zerwałeś / coś zakończyłeś?",
+            "en": "Is there someone at this table who doesn't know the full truth about why you really ended a relationship or situation?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_027",
+          "text": {
+            "pl": "Czy zdarzyło Ci się tak poprowadzić rozmowę, żeby ktoś podjął decyzję, której chciałeś - ale nigdy się nie zorientował, że to przez Ciebie?",
+            "en": "Have you ever steered a conversation so someone would make the decision you wanted, without them realizing it was because of you?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_028",
+          "text": {
+            "pl": "Czy kiedykolwiek powiedziałeś 'to już przeszłość', chociaż dobrze wiesz, że konsekwencje tamtego dalej żyją w czyimś życiu?",
+            "en": "Have you ever said 'that's in the past' even though you know the consequences of what you did are still present in someone's life?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_029",
+          "text": {
+            "pl": "Czy zdarzyło Ci się mieć wrażenie, że w czyjejś historii naprawdę jesteś tym czarnym charakterem?",
+            "en": "Have you ever had the feeling that in someone's story you really are the villain?"
+          },
+          "difficulty": "hard"
+        },
+        {
+          "id": "dc_030",
+          "text": {
+            "pl": "Czy jest coś, czego nie chciałbyś usłyszeć o sobie w tym programie, gdyby to był prawdziwy reality show?",
+            "en": "Is there something you really wouldn't want to hear about yourself on this show if it were a real reality show?"
+          },
+          "difficulty": "hard"
+        }
+      ]
+    }
+  ]
+}

@@ -490,7 +490,7 @@ struct HotSeatReadQuestionView: View {
                 Spacer()
 
                 // Instruction
-                Text("Przeczytaj pytanie")
+                Text("game.read_question".localized)
                     .font(.system(size: 16, weight: .medium))
                     .foregroundColor(.orange)
                     .opacity(isAnimating ? 1 : 0)
@@ -515,7 +515,7 @@ struct HotSeatReadQuestionView: View {
                         .font(.system(size: 24))
                         .foregroundColor(.white.opacity(0.5))
 
-                    Text("Kiedy będziesz gotowy, spójrz w kamerę i odpowiedz")
+                    Text("game.ready_hint".localized)
                         .font(.system(size: 14))
                         .foregroundColor(.white.opacity(0.5))
                         .multilineTextAlignment(.center)
@@ -529,7 +529,7 @@ struct HotSeatReadQuestionView: View {
                     session.startAnswerRecording()
                 }) {
                     HStack(spacing: 12) {
-                        Text("Jestem gotowy")
+                        Text("button.im_ready".localized)
                             .font(.system(size: 20, weight: .bold))
 
                         Image(systemName: "arrow.right")
@@ -632,13 +632,13 @@ struct HotSeatAnswerView: View {
                                 value: pulseScale
                             )
 
-                        Text("Słucham...")
+                        Text("speech.listening".localized)
                             .font(.system(size: 18, weight: .semibold))
                             .foregroundColor(.white)
                             .shadow(color: .black.opacity(0.5), radius: 4)
                     }
 
-                    Text("Powiedz 'tak' lub 'nie'")
+                    Text("speech.say_answer".localized)
                         .font(.system(size: 14))
                         .foregroundColor(.white.opacity(0.6))
                 }

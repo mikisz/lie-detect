@@ -20,6 +20,7 @@ class GameSession {
     let player: Player
     let questions: [GameQuestion]
     let sessionType: SessionType
+    let verdictMode: VerdictMode
     
     // MARK: - Session State
     var currentQuestionIndex = 0
@@ -62,10 +63,11 @@ class GameSession {
     }
     
     // MARK: - Initialization
-    init(player: Player, questions: [GameQuestion], sessionType: SessionType = .solo) {
+    init(player: Player, questions: [GameQuestion], sessionType: SessionType = .solo, verdictMode: VerdictMode = .afterEach) {
         self.player = player
         self.questions = questions
         self.sessionType = sessionType
+        self.verdictMode = verdictMode
     }
     
     // MARK: - Flow Control
@@ -141,8 +143,13 @@ class GameSession {
                     print("✅ Recorded answer '\(answer.rawValue)' - Verdict: \(verdict.isSuspicious ? "SUSPICIOUS" : "TRUTHFUL")")
                 }
 
-                // Show verdict reveal
-                self.currentPhase = .verdict
+                // Show verdict reveal or go to next question based on mode
+                if self.verdictMode == .afterEach {
+                    self.currentPhase = .verdict
+                } else {
+                    // atEnd mode - skip verdict, go to next question
+                    self.advanceToNextQuestion()
+                }
 
             case .timeout:
                 // Stop recording face data
@@ -192,7 +199,7 @@ class GameSession {
             return QuestionVerdict(
                 confidence: 0.5,
                 isSuspicious: false,
-                factors: ["Brak kalibracji"]
+                factors: ["factor.no_calibration".localized]
             )
         }
         
@@ -211,43 +218,43 @@ class GameSession {
         let blinkDelta = abs(blinkRate - baseline.blinkRateMean)
         if blinkDelta > baseline.blinkRateStdDev * 2 {
             suspicionScore += 0.3
-            factors.append(blinkRate > baseline.blinkRateMean ? "Częstsze mruganie" : "Rzadsze mruganie")
+            factors.append(blinkRate > baseline.blinkRateMean ? "factor.more_blinking".localized : "factor.less_blinking".localized)
         }
-        
+
         // 2. Response time analysis
         let durationDelta = abs(Float(duration) - Float(baseline.responseDurationMean))
         if durationDelta > Float(baseline.responseDurationStdDev) * 2 {
             suspicionScore += 0.25
-            factors.append(duration > baseline.responseDurationMean ? "Dłuższy czas odpowiedzi" : "Zbyt szybka odpowiedź")
+            factors.append(duration > baseline.responseDurationMean ? "factor.longer_response".localized : "factor.faster_response".localized)
         }
-        
+
         // 3. Head movement analysis
         let headMovement = calculateHeadMovement(in: faceSamples)
         if headMovement > 0.3 { // threshold
             suspicionScore += 0.2
-            factors.append("Ruch głową")
+            factors.append("factor.head_movement".localized)
         }
-        
+
         // 4. Micro-expression check (brow movements)
-        let avgBrowMovement = faceSamples.map { $0.browInnerUp }.reduce(0, +) / Float(faceSamples.count)
+        let avgBrowMovement = faceSamples.isEmpty ? 0 : faceSamples.map { $0.browInnerUp }.reduce(0, +) / Float(faceSamples.count)
         if avgBrowMovement > 0.5 {
             suspicionScore += 0.15
-            factors.append("Napięcie twarzy")
+            factors.append("factor.facial_tension".localized)
         }
-        
+
         // 5. Extended pause before answer
         if duration > baseline.responseDurationMean + baseline.responseDurationStdDev * 3 {
             suspicionScore += 0.1
-            factors.append("Długa pauza")
+            factors.append("factor.long_pause".localized)
         }
-        
+
         // Normalize score to 0-1 range
         suspicionScore = min(suspicionScore, 1.0)
-        
+
         let isSuspicious = suspicionScore > 0.5
-        
+
         if factors.isEmpty {
-            factors.append("Normalny wzorzec")
+            factors.append("factor.normal_pattern".localized)
         }
         
         return QuestionVerdict(
@@ -321,7 +328,7 @@ enum SessionVerdict {
     case mixed
     case mostlyLying
     case inconclusive
-    
+
     var emoji: String {
         switch self {
         case .mostlyTruthful: return "✅"
@@ -330,29 +337,29 @@ enum SessionVerdict {
         case .inconclusive: return "❓"
         }
     }
-    
+
     var title: String {
         switch self {
-        case .mostlyTruthful: return "Prawdomówny!"
-        case .mixed: return "Mieszane sygnały"
-        case .mostlyLying: return "Podejrzane..."
-        case .inconclusive: return "Niejednoznaczne"
+        case .mostlyTruthful: return "session.verdict.truthful.title".localized
+        case .mixed: return "session.verdict.mixed.title".localized
+        case .mostlyLying: return "session.verdict.lying.title".localized
+        case .inconclusive: return "session.verdict.inconclusive.title".localized
         }
     }
-    
+
     var message: String {
         switch self {
         case .mostlyTruthful:
-            return "Większość odpowiedzi wydaje się szczera"
+            return "session.verdict.truthful.message".localized
         case .mixed:
-            return "Niektóre odpowiedzi budzą wątpliwości"
+            return "session.verdict.mixed.message".localized
         case .mostlyLying:
-            return "Wykryto wiele podejrzanych sygnałów"
+            return "session.verdict.lying.message".localized
         case .inconclusive:
-            return "Nie można określić z wystarczającą pewnością"
+            return "session.verdict.inconclusive.message".localized
         }
     }
-    
+
     var color: Color {
         switch self {
         case .mostlyTruthful: return .green

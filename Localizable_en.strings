@@ -42,6 +42,9 @@
 "settings.background_music" = "Background Music";
 "settings.background_music_subtitle" = "Atmospheric music";
 "settings.background_music_volume" = "Music Volume";
+"settings.voice" = "Voice Narration";
+"settings.voice_subtitle" = "Voice commentary during game";
+"settings.voice_volume" = "Voice Volume";
 "settings.haptics" = "Haptics";
 "settings.haptics_toggle" = "Haptic Feedback";
 "settings.haptics_subtitle" = "Touch response vibration";
@@ -51,6 +54,8 @@
 "settings.language" = "Language";
 "settings.language_title" = "App Language";
 "settings.language_subtitle" = "Choose your language";
+"settings.app_language" = "App Language";
+"settings.choose_language" = "Choose Language";
 "settings.about" = "About";
 "settings.version" = "Version";
 "settings.platform" = "Platform";
@@ -105,6 +110,7 @@
 "calibration.success" = "Calibration successful!";
 "calibration.saved" = "Baseline data saved";
 "calibration.finish" = "Finish";
+"calibration.answer_truthfully" = "Answer truthfully: %@";
 
 // MARK: - Game
 "game.select_player" = "Select Player";
@@ -275,3 +281,204 @@
 // MARK: - Audio Errors
 "audio.setup_failed" = "Unable to configure audio session";
 "audio.engine_failed" = "Unable to start audio engine";
+
+// MARK: - Game Setup (New Pack System)
+"game.setup.select_pack" = "Choose a Pack";
+"game.setup.how_many" = "How many questions?";
+"game.setup.questions" = "questions";
+"game.setup.available_questions" = "%d questions available";
+"game.setup.selection_mode" = "Selection Mode";
+"game.setup.verdict_mode" = "Verdict Mode";
+"game.setup.start" = "Start Game";
+"game.setup.choose_questions" = "Choose Questions";
+"game.setup.selected" = "selected";
+"game.setup.search" = "Search questions...";
+
+// MARK: - Selection Mode
+"selection.random" = "Random";
+"selection.manual" = "Choose Manually";
+"selection.random.description" = "Questions will be selected randomly";
+"selection.manual.description" = "Pick your own questions";
+
+// MARK: - Verdict Mode
+"verdict.mode.after_each" = "After Each Question";
+"verdict.mode.at_end" = "At the End";
+"verdict.mode.after_each.description" = "See the verdict right after answering";
+"verdict.mode.at_end.description" = "See all verdicts after the game";
+"verdict.mode.coming_soon" = "Coming Soon";
+
+// MARK: - Pack Categories
+"pack.category.general" = "General";
+"pack.category.spicy" = "Spicy";
+"pack.category.relationships" = "Relationships";
+"pack.category.secrets" = "Secrets";
+"pack.category.party" = "Party";
+
+// MARK: - Difficulty
+"difficulty.easy" = "Easy";
+"difficulty.medium" = "Medium";
+"difficulty.hard" = "Hard";
+
+// MARK: - Player Selection
+"player.select.title" = "Select Player";
+"player.select.subtitle" = "Only calibrated profiles";
+"player.select.no_players" = "No Calibrated Players";
+"player.select.no_players_hint" = "Complete calibration in Players section first";
+"player.age_years" = "%d years";
+"player.calibrated" = "Calibrated";
+
+// MARK: - Hot Seat (New Pack System)
+"hotseat.pack_info" = "Questions will be split among %d players";
+"hotseat.per_player" = "%d per player";
+
+// MARK: - Face Setup (Calibration)
+"calibration.face_setup.title" = "Set up your face";
+"calibration.face_setup.subtitle" = "Place your face in the frame below";
+"calibration.face_detected" = "Face detected";
+"calibration.searching_face" = "Searching for face...";
+"calibration.good_lighting" = "Make sure your face is well lit";
+"calibration.analyzing" = "Analyzing...";
+"calibration.almost_good" = "Almost there - center your face";
+"calibration.perfect_continue" = "Perfect! You can continue";
+"calibration.set_face_in_frame" = "Place your face in the frame";
+"calibration.wrong_answer" = "Wrong answer!";
+"calibration.honest_required" = "Calibration requires honest answers to work properly";
+"calibration.try_again" = "Try again";
+"calibration.great_ready" = "Great! You're ready.";
+"calibration.finding_face" = "Finding your face...";
+
+// MARK: - Create Player
+"create.welcome" = "Welcome!";
+"create.new_player" = "New Player";
+"create.subtitle_first" = "Create your profile to get started";
+"create.subtitle_add" = "Add a new player";
+"create.name" = "Name";
+"create.name_placeholder" = "Enter your name";
+"create.age" = "Age";
+"create.age_placeholder" = "Enter your age";
+"create.gender" = "Gender";
+"create.add_photo" = "Add Photo";
+"create.change_photo" = "Change Photo";
+
+// MARK: - Player Detail
+"player.years" = "%d years";
+"player.requires_calibration" = "Requires calibration";
+"player.last_calibration" = "Last calibration: %@";
+"player.not_calibrated_yet" = "This player hasn't been calibrated yet";
+"player.start_calibration" = "Start Calibration";
+"player.edit_profile" = "Edit Profile";
+"player.delete_player" = "Delete Player";
+"player.delete_confirm_title" = "Delete Player";
+"player.delete_confirm_message" = "Are you sure you want to delete this player? This action cannot be undone.";
+"player.delete_name" = "Delete %@";
+"player.edit_title" = "Edit Profile";
+
+// MARK: - Players List
+"players.title" = "Players";
+"players.no_players" = "No Players";
+"players.add_first" = "Add your first player to get started";
+"players.not_found" = "Player not found";
+"players.preparing" = "Preparing...";
+
+// MARK: - Calibration Questions
+"calibration.q.is_your_name" = "Is your name %@?";
+"calibration.q.are_you_gender" = "Are you %@?";
+"calibration.q.can_see_screen" = "Can you see the phone screen right now?";
+"calibration.q.is_today" = "Is today %@?";
+"calibration.q.are_you_age" = "Are you %d years old?";
+"calibration.q.are_you_opposite_gender" = "Are you %@?";
+"calibration.q.are_you_sleeping" = "Are you sleeping right now?";
+"calibration.q.is_month" = "Is it %@ right now?";
+
+// MARK: - Days of Week
+"day.monday" = "Monday";
+"day.tuesday" = "Tuesday";
+"day.wednesday" = "Wednesday";
+"day.thursday" = "Thursday";
+"day.friday" = "Friday";
+"day.saturday" = "Saturday";
+"day.sunday" = "Sunday";
+
+// MARK: - Months
+"month.january" = "January";
+"month.february" = "February";
+"month.march" = "March";
+"month.april" = "April";
+"month.may" = "May";
+"month.june" = "June";
+"month.july" = "July";
+"month.august" = "August";
+"month.september" = "September";
+"month.october" = "October";
+"month.november" = "November";
+"month.december" = "December";
+
+// MARK: - Gender (for calibration questions)
+"gender.male_nominative" = "a man";
+"gender.female_nominative" = "a woman";
+"gender.other_nominative" = "other";
+
+// MARK: - Onboarding Pages
+"onboarding.page1.title" = "Welcome to Lie Detect!";
+"onboarding.page1.subtitle" = "Discover the truth in a fun party game";
+"onboarding.page2.title" = "How It Works";
+"onboarding.page2.subtitle" = "We analyze facial expressions and voice";
+"onboarding.page3.title" = "Calibration";
+"onboarding.page3.subtitle" = "First, we learn your baseline";
+"onboarding.skip" = "Skip";
+"onboarding.next" = "Next";
+"onboarding.start" = "Get Started";
+
+// MARK: - Permissions
+"permissions.title" = "We Need Permissions";
+"permissions.message" = "For the app to work properly, we need access to the camera, microphone, and speech recognition.";
+"permissions.grant" = "Grant Access";
+
+// MARK: - Player Rankings
+"rank.truth_master" = "Truth Master";
+"rank.honest" = "Honest";
+"rank.average" = "Average";
+"rank.suspicious" = "Suspicious";
+
+// MARK: - Calibration Completion
+"calibration.baseline_collected" = "We've learned your natural reactions";
+"calibration.answers" = "Answers";
+"calibration.baseline_data" = "Baseline data";
+"calibration.collected" = "Collected";
+
+// MARK: - Verdict Display
+"verdict.analyzing" = "Analyzing...";
+"verdict.suspicious" = "Suspicious!";
+"verdict.truthful" = "Truth!";
+"verdict.confidence" = "Confidence: %d%%";
+"verdict.detected" = "Detected:";
+"verdict.see_results" = "See Results";
+"verdict.next_question" = "Next Question";
+
+// MARK: - Session Complete
+"session.complete" = "Session Complete!";
+"session.total_questions" = "Total Questions";
+"session.answer_details" = "Answer Details";
+"session.question_number" = "Question %d";
+"session.answer" = "Answer: %@";
+
+// MARK: - Session Verdicts
+"session.verdict.truthful.title" = "Truthful!";
+"session.verdict.truthful.message" = "Most answers appear to be honest";
+"session.verdict.mixed.title" = "Mixed Signals";
+"session.verdict.mixed.message" = "Some answers raise concerns";
+"session.verdict.lying.title" = "Suspicious...";
+"session.verdict.lying.message" = "Many suspicious signals detected";
+"session.verdict.inconclusive.title" = "Inconclusive";
+"session.verdict.inconclusive.message" = "Unable to determine with sufficient certainty";
+
+// MARK: - Analysis Factors
+"factor.no_calibration" = "No calibration";
+"factor.more_blinking" = "More blinking";
+"factor.less_blinking" = "Less blinking";
+"factor.longer_response" = "Longer response time";
+"factor.faster_response" = "Too fast response";
+"factor.head_movement" = "Head movement";
+"factor.facial_tension" = "Facial tension";
+"factor.long_pause" = "Long pause";
+"factor.normal_pattern" = "Normal pattern";

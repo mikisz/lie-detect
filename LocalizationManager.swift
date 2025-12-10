@@ -123,11 +123,17 @@ extension String {
     var localized: String {
         return LocalizationManager.shared.localized(self)
     }
-    
-    /// Localized with arguments
+
+    /// Localized with arguments (variadic)
     func localized(_ args: CVarArg...) -> String {
         let format = LocalizationManager.shared.localized(self)
         return String(format: format, arguments: args)
+    }
+
+    /// Localized with a single argument (non-variadic for use in SwiftUI)
+    func localized(with arg: CVarArg) -> String {
+        let format = LocalizationManager.shared.localized(self)
+        return String(format: format, arg)
     }
 }
 

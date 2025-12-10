@@ -28,7 +28,7 @@ struct CalibrationPrepareView: View {
             VStack(spacing: 40) {
                 // Progress
                 VStack(spacing: 8) {
-                    Text("Pytanie \(coordinator.currentQuestionIndex + 1) z \(coordinator.questions.count)")
+                    Text("calibration.question_of".localized(coordinator.currentQuestionIndex + 1, coordinator.questions.count))
                         .font(.system(size: 16, weight: .semibold))
                         .foregroundColor(.white.opacity(0.6))
                     
@@ -75,7 +75,7 @@ struct CalibrationPrepareView: View {
                             .multilineTextAlignment(.center)
                         
                         if coordinator.faceTrackingService.isFaceDetected {
-                            Text("Świetnie! Jesteś gotowy.")
+                            Text("calibration.great_ready".localized)
                                 .font(.system(size: 16))
                                 .foregroundColor(.white.opacity(0.7))
                         }
@@ -91,7 +91,7 @@ struct CalibrationPrepareView: View {
                     generator.impactOccurred()
                     coordinator.startQuestionRecording()
                 }) {
-                    Text("Jestem gotowy")
+                    Text("button.im_ready".localized)
                         .font(.system(size: 20, weight: .bold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
@@ -161,10 +161,10 @@ struct CalibrationPrepareView: View {
     
     private var qualityMessage: String {
         if !coordinator.faceTrackingService.isFaceDetected {
-            return "Szukam Twojej twarzy..."
+            return "calibration.finding_face".localized
         }
-        
-        return coordinator.faceTrackingService.faceQuality.message
+
+        return coordinator.faceTrackingService.faceQuality.localizedMessage
     }
 }
 

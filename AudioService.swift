@@ -15,6 +15,15 @@ class AudioService {
     // MARK: - Singleton
     static let shared = AudioService()
 
+    // MARK: - Error State
+    var lastError: String? = nil
+    var hasError: Bool { lastError != nil }
+
+    /// Clear any error state
+    func clearError() {
+        lastError = nil
+    }
+
     // MARK: - Settings (synced with AppSettings)
     var soundEffectsEnabled: Bool {
         didSet { UserDefaults.standard.set(soundEffectsEnabled, forKey: "soundEffectsEnabled") }
@@ -76,7 +85,9 @@ class AudioService {
             try audioSession.setCategory(.playback, mode: .default, options: [.mixWithOthers])
             try audioSession.setActive(true)
         } catch {
+            let errorMessage = "audio.setup_failed".localized
             print("❌ Failed to setup audio session: \(error)")
+            lastError = errorMessage
         }
     }
 

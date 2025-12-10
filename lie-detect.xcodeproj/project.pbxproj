@@ -38,13 +38,48 @@
 		A900001DAAAAAAAA00000001 /* SpeechRecognitionService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910001DAAAAAAAA00000001 /* SpeechRecognitionService.swift */; };
 		A900001EAAAAAAAA00000001 /* VerdictRevealView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910001EAAAAAAAA00000001 /* VerdictRevealView.swift */; };
 		A900001FAAAAAAAA00000001 /* OnboardingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A910001FAAAAAAAA00000001 /* OnboardingView.swift */; };
+		A9000030AAAAAAAA00000001 /* QuestionPack.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100030AAAAAAAA00000001 /* QuestionPack.swift */; };
+		A9000031AAAAAAAA00000001 /* QuestionPackManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100031AAAAAAAA00000001 /* QuestionPackManager.swift */; };
+		A9000032AAAAAAAA00000001 /* GameSetupViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100032AAAAAAAA00000001 /* GameSetupViews.swift */; };
+		A9000033AAAAAAAA00000001 /* ManualQuestionSelectionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = A9100033AAAAAAAA00000001 /* ManualQuestionSelectionView.swift */; };
+		A9000034AAAAAAAA00000001 /* packs.json in Resources */ = {isa = PBXBuildFile; fileRef = A9100034AAAAAAAA00000001 /* packs.json */; };
 		A9000020AAAAAAAA00000001 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = A9100020AAAAAAAA00000001 /* Assets.xcassets */; };
 		A9000021AAAAAAAA00000001 /* Localizable_en.strings in Resources */ = {isa = PBXBuildFile; fileRef = A9100021AAAAAAAA00000001 /* Localizable_en.strings */; };
 		A9000022AAAAAAAA00000001 /* Localizable_pl.strings in Resources */ = {isa = PBXBuildFile; fileRef = A9100022AAAAAAAA00000001 /* Localizable_pl.strings */; };
+		D02D412B2EE8E1C2005AE746 /* ding.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41102EE8E1C2005AE746 /* ding.mp3 */; };
+		D02D412C2EE8E1C2005AE746 /* voice_verdict_intro_en.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41232EE8E1C2005AE746 /* voice_verdict_intro_en.mp3 */; };
+		D02D412D2EE8E1C2005AE746 /* error.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41112EE8E1C2005AE746 /* error.mp3 */; };
+		D02D412E2EE8E1C2005AE746 /* voice_countdown_2_pl.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D411E2EE8E1C2005AE746 /* voice_countdown_2_pl.mp3 */; };
+		D02D412F2EE8E1C2005AE746 /* reveal.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41132EE8E1C2005AE746 /* reveal.mp3 */; };
+		D02D41302EE8E1C2005AE746 /* pop.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41122EE8E1C2005AE746 /* pop.mp3 */; };
+		D02D41312EE8E1C2005AE746 /* calm_calibration.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D410E2EE8E1C2005AE746 /* calm_calibration.mp3 */; };
+		D02D41322EE8E1C2005AE746 /* voice_countdown_go_pl.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41222EE8E1C2005AE746 /* voice_countdown_go_pl.mp3 */; };
+		D02D41332EE8E1C2005AE746 /* ambient_menu.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D410C2EE8E1C2005AE746 /* ambient_menu.mp3 */; };
+		D02D41342EE8E1C2005AE746 /* countdown.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D410F2EE8E1C2005AE746 /* countdown.mp3 */; };
+		D02D41352EE8E1C2005AE746 /* voice_verdict_intro_pl.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41242EE8E1C2005AE746 /* voice_verdict_intro_pl.mp3 */; };
+		D02D41362EE8E1C2005AE746 /* voice_countdown_3_en.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D411F2EE8E1C2005AE746 /* voice_countdown_3_en.mp3 */; };
+		D02D41372EE8E1C2005AE746 /* tick.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41182EE8E1C2005AE746 /* tick.mp3 */; };
+		D02D41382EE8E1C2005AE746 /* voice_verdict_suspicious_en.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41252EE8E1C2005AE746 /* voice_verdict_suspicious_en.mp3 */; };
+		D02D41392EE8E1C2005AE746 /* voice_countdown_1_pl.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D411C2EE8E1C2005AE746 /* voice_countdown_1_pl.mp3 */; };
+		D02D413A2EE8E1C2005AE746 /* voice_countdown_go_en.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41212EE8E1C2005AE746 /* voice_countdown_go_en.mp3 */; };
+		D02D413B2EE8E1C2005AE746 /* suspicious.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41172EE8E1C2005AE746 /* suspicious.mp3 */; };
+		D02D413C2EE8E1C2005AE746 /* warning.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41292EE8E1C2005AE746 /* warning.mp3 */; };
+		D02D413D2EE8E1C2005AE746 /* voice_countdown_2_en.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D411D2EE8E1C2005AE746 /* voice_countdown_2_en.mp3 */; };
+		D02D413E2EE8E1C2005AE746 /* voice_verdict_suspicious_pl.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41262EE8E1C2005AE746 /* voice_verdict_suspicious_pl.mp3 */; };
+		D02D413F2EE8E1C2005AE746 /* suspense_game.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41162EE8E1C2005AE746 /* suspense_game.mp3 */; };
+		D02D41402EE8E1C2005AE746 /* whoosh.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D412A2EE8E1C2005AE746 /* whoosh.mp3 */; };
+		D02D41412EE8E1C2005AE746 /* suspense.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41152EE8E1C2005AE746 /* suspense.mp3 */; };
+		D02D41422EE8E1C2005AE746 /* voice_verdict_truth_pl.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41282EE8E1C2005AE746 /* voice_verdict_truth_pl.mp3 */; };
+		D02D41432EE8E1C2005AE746 /* voice_countdown_3_pl.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41202EE8E1C2005AE746 /* voice_countdown_3_pl.mp3 */; };
+		D02D41442EE8E1C2005AE746 /* button_tap.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D410D2EE8E1C2005AE746 /* button_tap.mp3 */; };
+		D02D41452EE8E1C2005AE746 /* success.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41142EE8E1C2005AE746 /* success.mp3 */; };
+		D02D41462EE8E1C2005AE746 /* voice_verdict_truth_en.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41272EE8E1C2005AE746 /* voice_verdict_truth_en.mp3 */; };
+		D02D41472EE8E1C2005AE746 /* voice_countdown_1_en.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D411B2EE8E1C2005AE746 /* voice_countdown_1_en.mp3 */; };
+		D02D41482EE8E1C2005AE746 /* truthful.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D41192EE8E1C2005AE746 /* truthful.mp3 */; };
+		D02D41492EE8E1C2005AE746 /* victory.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = D02D411A2EE8E1C2005AE746 /* victory.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		A931A5062EE861AD00541F65 /* lie-detect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "lie-detect.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		A9100001AAAAAAAA00000001 /* AppSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettings.swift; sourceTree = "<group>"; };
 		A9100002AAAAAAAA00000001 /* AudioButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioButton.swift; sourceTree = "<group>"; };
 		A9100003AAAAAAAA00000001 /* AudioService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioService.swift; sourceTree = "<group>"; };
@@ -76,11 +111,48 @@
 		A910001DAAAAAAAA00000001 /* SpeechRecognitionService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SpeechRecognitionService.swift; sourceTree = "<group>"; };
 		A910001EAAAAAAAA00000001 /* VerdictRevealView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerdictRevealView.swift; sourceTree = "<group>"; };
 		A910001FAAAAAAAA00000001 /* OnboardingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OnboardingView.swift; sourceTree = "<group>"; };
+		A9100030AAAAAAAA00000001 /* QuestionPack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionPack.swift; sourceTree = "<group>"; };
+		A9100031AAAAAAAA00000001 /* QuestionPackManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuestionPackManager.swift; sourceTree = "<group>"; };
+		A9100032AAAAAAAA00000001 /* GameSetupViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSetupViews.swift; sourceTree = "<group>"; };
+		A9100033AAAAAAAA00000001 /* ManualQuestionSelectionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ManualQuestionSelectionView.swift; sourceTree = "<group>"; };
+		A9100034AAAAAAAA00000001 /* packs.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = packs.json; sourceTree = "<group>"; };
 		A9100020AAAAAAAA00000001 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		A9100021AAAAAAAA00000001 /* Localizable_en.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable_en.strings; sourceTree = "<group>"; };
 		A9100022AAAAAAAA00000001 /* Localizable_pl.strings */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; path = Localizable_pl.strings; sourceTree = "<group>"; };
 		A9100023AAAAAAAA00000001 /* ARCHITECTURE.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = ARCHITECTURE.md; sourceTree = "<group>"; };
 		A9100024AAAAAAAA00000001 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
+		A931A5062EE861AD00541F65 /* lie-detect.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "lie-detect.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D02D410C2EE8E1C2005AE746 /* ambient_menu.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ambient_menu.mp3; sourceTree = "<group>"; };
+		D02D410D2EE8E1C2005AE746 /* button_tap.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = button_tap.mp3; sourceTree = "<group>"; };
+		D02D410E2EE8E1C2005AE746 /* calm_calibration.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = calm_calibration.mp3; sourceTree = "<group>"; };
+		D02D410F2EE8E1C2005AE746 /* countdown.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = countdown.mp3; sourceTree = "<group>"; };
+		D02D41102EE8E1C2005AE746 /* ding.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = ding.mp3; sourceTree = "<group>"; };
+		D02D41112EE8E1C2005AE746 /* error.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = error.mp3; sourceTree = "<group>"; };
+		D02D41122EE8E1C2005AE746 /* pop.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = pop.mp3; sourceTree = "<group>"; };
+		D02D41132EE8E1C2005AE746 /* reveal.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = reveal.mp3; sourceTree = "<group>"; };
+		D02D41142EE8E1C2005AE746 /* success.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = success.mp3; sourceTree = "<group>"; };
+		D02D41152EE8E1C2005AE746 /* suspense.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = suspense.mp3; sourceTree = "<group>"; };
+		D02D41162EE8E1C2005AE746 /* suspense_game.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = suspense_game.mp3; sourceTree = "<group>"; };
+		D02D41172EE8E1C2005AE746 /* suspicious.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = suspicious.mp3; sourceTree = "<group>"; };
+		D02D41182EE8E1C2005AE746 /* tick.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = tick.mp3; sourceTree = "<group>"; };
+		D02D41192EE8E1C2005AE746 /* truthful.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = truthful.mp3; sourceTree = "<group>"; };
+		D02D411A2EE8E1C2005AE746 /* victory.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = victory.mp3; sourceTree = "<group>"; };
+		D02D411B2EE8E1C2005AE746 /* voice_countdown_1_en.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_countdown_1_en.mp3; sourceTree = "<group>"; };
+		D02D411C2EE8E1C2005AE746 /* voice_countdown_1_pl.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_countdown_1_pl.mp3; sourceTree = "<group>"; };
+		D02D411D2EE8E1C2005AE746 /* voice_countdown_2_en.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_countdown_2_en.mp3; sourceTree = "<group>"; };
+		D02D411E2EE8E1C2005AE746 /* voice_countdown_2_pl.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_countdown_2_pl.mp3; sourceTree = "<group>"; };
+		D02D411F2EE8E1C2005AE746 /* voice_countdown_3_en.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_countdown_3_en.mp3; sourceTree = "<group>"; };
+		D02D41202EE8E1C2005AE746 /* voice_countdown_3_pl.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_countdown_3_pl.mp3; sourceTree = "<group>"; };
+		D02D41212EE8E1C2005AE746 /* voice_countdown_go_en.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_countdown_go_en.mp3; sourceTree = "<group>"; };
+		D02D41222EE8E1C2005AE746 /* voice_countdown_go_pl.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_countdown_go_pl.mp3; sourceTree = "<group>"; };
+		D02D41232EE8E1C2005AE746 /* voice_verdict_intro_en.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_verdict_intro_en.mp3; sourceTree = "<group>"; };
+		D02D41242EE8E1C2005AE746 /* voice_verdict_intro_pl.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_verdict_intro_pl.mp3; sourceTree = "<group>"; };
+		D02D41252EE8E1C2005AE746 /* voice_verdict_suspicious_en.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_verdict_suspicious_en.mp3; sourceTree = "<group>"; };
+		D02D41262EE8E1C2005AE746 /* voice_verdict_suspicious_pl.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_verdict_suspicious_pl.mp3; sourceTree = "<group>"; };
+		D02D41272EE8E1C2005AE746 /* voice_verdict_truth_en.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_verdict_truth_en.mp3; sourceTree = "<group>"; };
+		D02D41282EE8E1C2005AE746 /* voice_verdict_truth_pl.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = voice_verdict_truth_pl.mp3; sourceTree = "<group>"; };
+		D02D41292EE8E1C2005AE746 /* warning.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = warning.mp3; sourceTree = "<group>"; };
+		D02D412A2EE8E1C2005AE746 /* whoosh.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = whoosh.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -110,6 +182,42 @@
 				A910000BAAAAAAAA00000001 /* CreatePlayerView.swift */,
 				A910000CAAAAAAAA00000001 /* FaceTrackingService.swift */,
 				A910000DAAAAAAAA00000001 /* GameQuestionGenerator.swift */,
+				A9100032AAAAAAAA00000001 /* GameSetupViews.swift */,
+				A9100033AAAAAAAA00000001 /* ManualQuestionSelectionView.swift */,
+				A9100030AAAAAAAA00000001 /* QuestionPack.swift */,
+				A9100031AAAAAAAA00000001 /* QuestionPackManager.swift */,
+				A9100034AAAAAAAA00000001 /* packs.json */,
+				D02D410C2EE8E1C2005AE746 /* ambient_menu.mp3 */,
+				D02D410D2EE8E1C2005AE746 /* button_tap.mp3 */,
+				D02D410E2EE8E1C2005AE746 /* calm_calibration.mp3 */,
+				D02D410F2EE8E1C2005AE746 /* countdown.mp3 */,
+				D02D41102EE8E1C2005AE746 /* ding.mp3 */,
+				D02D41112EE8E1C2005AE746 /* error.mp3 */,
+				D02D41122EE8E1C2005AE746 /* pop.mp3 */,
+				D02D41132EE8E1C2005AE746 /* reveal.mp3 */,
+				D02D41142EE8E1C2005AE746 /* success.mp3 */,
+				D02D41152EE8E1C2005AE746 /* suspense.mp3 */,
+				D02D41162EE8E1C2005AE746 /* suspense_game.mp3 */,
+				D02D41172EE8E1C2005AE746 /* suspicious.mp3 */,
+				D02D41182EE8E1C2005AE746 /* tick.mp3 */,
+				D02D41192EE8E1C2005AE746 /* truthful.mp3 */,
+				D02D411A2EE8E1C2005AE746 /* victory.mp3 */,
+				D02D411B2EE8E1C2005AE746 /* voice_countdown_1_en.mp3 */,
+				D02D411C2EE8E1C2005AE746 /* voice_countdown_1_pl.mp3 */,
+				D02D411D2EE8E1C2005AE746 /* voice_countdown_2_en.mp3 */,
+				D02D411E2EE8E1C2005AE746 /* voice_countdown_2_pl.mp3 */,
+				D02D411F2EE8E1C2005AE746 /* voice_countdown_3_en.mp3 */,
+				D02D41202EE8E1C2005AE746 /* voice_countdown_3_pl.mp3 */,
+				D02D41212EE8E1C2005AE746 /* voice_countdown_go_en.mp3 */,
+				D02D41222EE8E1C2005AE746 /* voice_countdown_go_pl.mp3 */,
+				D02D41232EE8E1C2005AE746 /* voice_verdict_intro_en.mp3 */,
+				D02D41242EE8E1C2005AE746 /* voice_verdict_intro_pl.mp3 */,
+				D02D41252EE8E1C2005AE746 /* voice_verdict_suspicious_en.mp3 */,
+				D02D41262EE8E1C2005AE746 /* voice_verdict_suspicious_pl.mp3 */,
+				D02D41272EE8E1C2005AE746 /* voice_verdict_truth_en.mp3 */,
+				D02D41282EE8E1C2005AE746 /* voice_verdict_truth_pl.mp3 */,
+				D02D41292EE8E1C2005AE746 /* warning.mp3 */,
+				D02D412A2EE8E1C2005AE746 /* whoosh.mp3 */,
 				A910000EAAAAAAAA00000001 /* GameSession.swift */,
 				A910000FAAAAAAAA00000001 /* GameSessionView.swift */,
 				A9100010AAAAAAAA00000001 /* GameVerdictView.swift */,
@@ -208,8 +316,40 @@
 			buildActionMask = 2147483647;
 			files = (
 				A9000020AAAAAAAA00000001 /* Assets.xcassets in Resources */,
+				D02D412B2EE8E1C2005AE746 /* ding.mp3 in Resources */,
+				D02D412C2EE8E1C2005AE746 /* voice_verdict_intro_en.mp3 in Resources */,
+				D02D412D2EE8E1C2005AE746 /* error.mp3 in Resources */,
+				D02D412E2EE8E1C2005AE746 /* voice_countdown_2_pl.mp3 in Resources */,
+				D02D412F2EE8E1C2005AE746 /* reveal.mp3 in Resources */,
+				D02D41302EE8E1C2005AE746 /* pop.mp3 in Resources */,
+				D02D41312EE8E1C2005AE746 /* calm_calibration.mp3 in Resources */,
+				D02D41322EE8E1C2005AE746 /* voice_countdown_go_pl.mp3 in Resources */,
+				D02D41332EE8E1C2005AE746 /* ambient_menu.mp3 in Resources */,
+				D02D41342EE8E1C2005AE746 /* countdown.mp3 in Resources */,
+				D02D41352EE8E1C2005AE746 /* voice_verdict_intro_pl.mp3 in Resources */,
+				D02D41362EE8E1C2005AE746 /* voice_countdown_3_en.mp3 in Resources */,
+				D02D41372EE8E1C2005AE746 /* tick.mp3 in Resources */,
+				D02D41382EE8E1C2005AE746 /* voice_verdict_suspicious_en.mp3 in Resources */,
+				D02D41392EE8E1C2005AE746 /* voice_countdown_1_pl.mp3 in Resources */,
+				D02D413A2EE8E1C2005AE746 /* voice_countdown_go_en.mp3 in Resources */,
+				D02D413B2EE8E1C2005AE746 /* suspicious.mp3 in Resources */,
+				D02D413C2EE8E1C2005AE746 /* warning.mp3 in Resources */,
+				D02D413D2EE8E1C2005AE746 /* voice_countdown_2_en.mp3 in Resources */,
+				D02D413E2EE8E1C2005AE746 /* voice_verdict_suspicious_pl.mp3 in Resources */,
+				D02D413F2EE8E1C2005AE746 /* suspense_game.mp3 in Resources */,
+				D02D41402EE8E1C2005AE746 /* whoosh.mp3 in Resources */,
+				D02D41412EE8E1C2005AE746 /* suspense.mp3 in Resources */,
+				D02D41422EE8E1C2005AE746 /* voice_verdict_truth_pl.mp3 in Resources */,
+				D02D41432EE8E1C2005AE746 /* voice_countdown_3_pl.mp3 in Resources */,
+				D02D41442EE8E1C2005AE746 /* button_tap.mp3 in Resources */,
+				D02D41452EE8E1C2005AE746 /* success.mp3 in Resources */,
+				D02D41462EE8E1C2005AE746 /* voice_verdict_truth_en.mp3 in Resources */,
+				D02D41472EE8E1C2005AE746 /* voice_countdown_1_en.mp3 in Resources */,
+				D02D41482EE8E1C2005AE746 /* truthful.mp3 in Resources */,
+				D02D41492EE8E1C2005AE746 /* victory.mp3 in Resources */,
 				A9000021AAAAAAAA00000001 /* Localizable_en.strings in Resources */,
 				A9000022AAAAAAAA00000001 /* Localizable_pl.strings in Resources */,
+				A9000034AAAAAAAA00000001 /* packs.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -251,6 +391,10 @@
 				A900001DAAAAAAAA00000001 /* SpeechRecognitionService.swift in Sources */,
 				A900001EAAAAAAAA00000001 /* VerdictRevealView.swift in Sources */,
 				A900001FAAAAAAAA00000001 /* OnboardingView.swift in Sources */,
+				A9000030AAAAAAAA00000001 /* QuestionPack.swift in Sources */,
+				A9000031AAAAAAAA00000001 /* QuestionPackManager.swift in Sources */,
+				A9000032AAAAAAAA00000001 /* GameSetupViews.swift in Sources */,
+				A9000033AAAAAAAA00000001 /* ManualQuestionSelectionView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -87,7 +87,7 @@ struct PrepareView: View {
                     generator.impactOccurred()
                     onReady()
                 }) {
-                    Text("Jestem gotowy")
+                    Text("button.im_ready".localized)
                         .font(.system(size: 20, weight: .bold))
                         .foregroundColor(.white)
                         .frame(maxWidth: .infinity)
