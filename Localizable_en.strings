@@ -482,3 +482,10 @@
 "factor.facial_tension" = "Facial tension";
 "factor.long_pause" = "Long pause";
 "factor.normal_pattern" = "Normal pattern";
+
+// MARK: - Hot Seat Player Management
+"hotseat.add_players_message" = "Add players to start the game";
+"hotseat.add_player" = "Add Player";
+"hotseat.ready_players" = "Ready to Play";
+"hotseat.needs_calibration" = "Needs Calibration";
+"hotseat.calibrate" = "Calibrate";

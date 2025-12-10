@@ -108,10 +108,16 @@ class FaceTrackingService: NSObject {
 
         // X: left/right offset (negative = left, positive = right)
         // Y: up/down offset (negative = down, positive = up)
-        // Stricter thresholds - 0.08m is about 8cm offset
+        // Z: distance from camera (negative = in front of camera)
         let xOffset = abs(position.x)
         let yOffset = abs(position.y)
+        let zDistance = abs(position.z)
 
+        // Distance check - face should be 0.3-0.6m from camera for optimal tracking
+        let isAtGoodDistance = zDistance > 0.3 && zDistance < 0.6
+        let isAtReasonableDistance = zDistance > 0.25 && zDistance < 0.8
+
+        // Position centering - stricter thresholds (0.08m is about 8cm offset)
         let isCentered = xOffset < 0.08 && yOffset < 0.08        // Well centered
         let isReasonablyCentered = xOffset < 0.12 && yOffset < 0.12  // Acceptable
 
@@ -135,13 +141,21 @@ class FaceTrackingService: NSObject {
 
         // Check that both eyes are tracked (not obscured)
         // If one eye has very different values, face might be partially hidden
+        // Stricter threshold for good quality (0.2 instead of 0.3)
         let eyeAsymmetry = abs(leftEyeBlink - rightEyeBlink)
-        let bothEyesVisible = eyeAsymmetry < 0.3
+        let bothEyesVisible = eyeAsymmetry < 0.2
+        let eyesReasonablyVisible = eyeAsymmetry < 0.4
+
+        // Check for valid eye tracking - if both eyes have very low values (near 0),
+        // it might indicate partial face occlusion where ARKit is guessing
+        let hasValidEyeTracking = leftEyeBlink > 0.01 || rightEyeBlink > 0.01 ||
+            (anchor.blendShapes[.eyeSquintLeft]?.floatValue ?? 0) > 0.01 ||
+            (anchor.blendShapes[.eyeSquintRight]?.floatValue ?? 0) > 0.01
 
         // Overall quality assessment - must pass all checks for good quality
-        if isCentered && isFacingCamera && eyesOpen && bothEyesVisible {
+        if isCentered && isFacingCamera && eyesOpen && bothEyesVisible && isAtGoodDistance && hasValidEyeTracking {
             return .good
-        } else if isReasonablyCentered && isReasonablyFacing && eyesReasonablyOpen {
+        } else if isReasonablyCentered && isReasonablyFacing && eyesReasonablyOpen && eyesReasonablyVisible && isAtReasonableDistance {
             return .fair
         } else {
             return .poor

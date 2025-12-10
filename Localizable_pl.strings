@@ -482,3 +482,10 @@
 "factor.facial_tension" = "Napięcie twarzy";
 "factor.long_pause" = "Długa pauza";
 "factor.normal_pattern" = "Normalny wzorzec";
+
+// MARK: - Hot Seat Player Management
+"hotseat.add_players_message" = "Dodaj graczy, aby rozpocząć grę";
+"hotseat.add_player" = "Dodaj gracza";
+"hotseat.ready_players" = "Gotowi do gry";
+"hotseat.needs_calibration" = "Wymaga kalibracji";
+"hotseat.calibrate" = "Kalibruj";

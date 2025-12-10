@@ -78,7 +78,7 @@ struct PlayersListView: View {
                             NavigationLink(value: player.id) {
                                 PlayerCard(player: player)
                             }
-                            .buttonStyle(PlainButtonStyle())
+                            .buttonStyle(PlayerCardButtonStyle())
                             .contextMenu {
                                 Button(role: .destructive) {
                                     playerToDelete = player
@@ -183,9 +183,7 @@ struct PlayersListView: View {
 
 struct PlayerCard: View {
     let player: Player
-    
-    @State private var isPressed = false
-    
+
     var body: some View {
         HStack(spacing: 16) {
             // Avatar
@@ -201,7 +199,7 @@ struct PlayerCard: View {
                         )
                     )
                     .frame(width: 70, height: 70)
-                
+
                 if let imageData = player.profileImageData,
                    let uiImage = UIImage(data: imageData) {
                     Image(uiImage: uiImage)
@@ -219,13 +217,13 @@ struct PlayerCard: View {
                 Circle()
                     .stroke(Color.white.opacity(0.2), lineWidth: 2)
             )
-            
+
             // Info
             VStack(alignment: .leading, spacing: 6) {
                 Text(player.name)
                     .font(.system(size: 22, weight: .bold))
                     .foregroundColor(.white)
-                
+
                 HStack(spacing: 12) {
                     HStack(spacing: 4) {
                         Text(player.gender.emoji)
@@ -238,9 +236,9 @@ struct PlayerCard: View {
                     CalibrationBadge(isCalibrated: player.isCalibrated)
                 }
             }
-            
+
             Spacer()
-            
+
             Image(systemName: "chevron.right")
                 .font(.system(size: 16, weight: .semibold))
                 .foregroundColor(.white.opacity(0.3))
@@ -254,13 +252,15 @@ struct PlayerCard: View {
             RoundedRectangle(cornerRadius: 20)
                 .stroke(Color.white.opacity(0.2), lineWidth: 1)
         )
-        .scaleEffect(isPressed ? 0.98 : 1.0)
-        .animation(.easeInOut(duration: 0.1), value: isPressed)
-        .simultaneousGesture(
-            DragGesture(minimumDistance: 0)
-                .onChanged { _ in isPressed = true }
-                .onEnded { _ in isPressed = false }
-        )
+    }
+}
+
+/// Custom button style for player cards with press animation
+struct PlayerCardButtonStyle: ButtonStyle {
+    func makeBody(configuration: Configuration) -> some View {
+        configuration.label
+            .scaleEffect(configuration.isPressed ? 0.98 : 1.0)
+            .animation(.easeInOut(duration: 0.1), value: configuration.isPressed)
     }
 }
 

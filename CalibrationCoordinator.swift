@@ -31,6 +31,9 @@ class CalibrationCoordinator {
 
     // Timeout handling
     var showTimeoutAlert = false
+
+    // Cleanup state
+    private var isCleanedUp = false
     
     // MARK: - Computed Properties
     var currentQuestion: CalibrationQuestion? {
@@ -362,8 +365,10 @@ class CalibrationCoordinator {
     }
     
     // MARK: - Cleanup
-    
+
     func cleanup() {
+        guard !isCleanedUp else { return }
+        isCleanedUp = true
         faceTrackingService.stopTracking()
         speechService.stopListening()
     }

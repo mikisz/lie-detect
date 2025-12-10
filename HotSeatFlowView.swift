@@ -34,20 +34,35 @@ struct HotSeatFlowView: View {
     @State private var selectedVerdictMode: VerdictMode = .afterEach
     @State private var hotSeatSession: HotSeatSession?
 
+    // Player management state
+    @State private var showAddPlayer = false
+    @State private var playerToCalibrate: Player?
+    @State private var showCalibration = false
+
     var body: some View {
         Group {
             switch setupStep {
             case .playerSelection:
                 HotSeatPlayerSelectionView(
-                    players: calibratedPlayers,
-                    selectedPlayers: $selectedPlayers
-                ) {
-                    if selectedPlayers.count >= 2 {
-                        setupStep = .packSelection
+                    allPlayers: players,
+                    calibratedPlayers: calibratedPlayers,
+                    selectedPlayers: $selectedPlayers,
+                    onContinue: {
+                        if selectedPlayers.count >= 2 {
+                            setupStep = .packSelection
+                        }
+                    },
+                    onCancel: {
+                        dismiss()
+                    },
+                    onAddPlayer: {
+                        showAddPlayer = true
+                    },
+                    onCalibratePlayer: { player in
+                        playerToCalibrate = player
+                        showCalibration = true
                     }
-                } onCancel: {
-                    dismiss()
-                }
+                )
 
             case .packSelection:
                 PackSelectionView(
@@ -114,6 +129,22 @@ struct HotSeatFlowView: View {
             }
         }
         .animation(.easeInOut(duration: 0.3), value: setupStep)
+        .sheet(isPresented: $showAddPlayer) {
+            CreatePlayerView(isFirstPlayer: false) { newPlayer in
+                showAddPlayer = false
+                // After player is created, trigger calibration
+                playerToCalibrate = newPlayer
+                showCalibration = true
+            }
+        }
+        .fullScreenCover(isPresented: $showCalibration) {
+            if let player = playerToCalibrate {
+                CalibrationFlowView(player: player) {
+                    showCalibration = false
+                    playerToCalibrate = nil
+                }
+            }
+        }
     }
 
     private var calibratedPlayers: [Player] {
@@ -151,14 +182,21 @@ struct HotSeatFlowView: View {
 // MARK: - Player Selection View
 
 struct HotSeatPlayerSelectionView: View {
-    let players: [Player]
+    let allPlayers: [Player]
+    let calibratedPlayers: [Player]
     @Binding var selectedPlayers: [Player]
     let onContinue: () -> Void
     let onCancel: () -> Void
-    
+    let onAddPlayer: () -> Void
+    let onCalibratePlayer: (Player) -> Void
+
     @State private var isAnimating = false
     @Environment(\.audioService) private var audioService
-    
+
+    private var uncalibratedPlayers: [Player] {
+        allPlayers.filter { !$0.isCalibrated }
+    }
+
     var body: some View {
         ZStack {
             LinearGradient(
@@ -170,70 +208,150 @@ struct HotSeatPlayerSelectionView: View {
                 endPoint: .bottomTrailing
             )
             .ignoresSafeArea()
-            
-            VStack(spacing: 30) {
+
+            VStack(spacing: 20) {
                 // Header
                 VStack(spacing: 12) {
                     Text("🔥")
                         .font(.system(size: 70))
                         .scaleEffect(isAnimating ? 1.1 : 1.0)
                         .animation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true), value: isAnimating)
-                    
+
                     Text("hotseat.select_players".localized)
                         .font(.system(size: 32, weight: .bold))
                         .foregroundColor(.white)
-                    
+
                     Text("hotseat.min_players".localized(2))
                         .font(.system(size: 16))
                         .foregroundColor(.white.opacity(0.7))
-                    
+
                     // Selected count
                     Text("hotseat.selected_count".localized(selectedPlayers.count))
                         .font(.system(size: 18, weight: .semibold))
                         .foregroundColor(.orange)
                         .padding(.top, 8)
                 }
-                .padding(.top, 60)
-                
-                if players.isEmpty {
-                    // No calibrated players
+                .padding(.top, 40)
+
+                if allPlayers.isEmpty {
+                    // No players at all - show add player button
                     VStack(spacing: 20) {
-                        Text("❌")
+                        Text("👥")
                             .font(.system(size: 60))
-                        
-                        Text("empty.no_calibrated".localized)
+
+                        Text("players.no_players".localized)
                             .font(.system(size: 20, weight: .semibold))
                             .foregroundColor(.white)
-                        
-                        Text("empty.no_calibrated_message".localized)
+
+                        Text("hotseat.add_players_message".localized)
                             .font(.system(size: 16))
                             .foregroundColor(.white.opacity(0.7))
                             .multilineTextAlignment(.center)
                             .padding(.horizontal, 40)
+
+                        Button(action: onAddPlayer) {
+                            HStack(spacing: 8) {
+                                Image(systemName: "plus.circle.fill")
+                                Text("player.create".localized)
+                            }
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundColor(.white)
+                            .padding(.horizontal, 32)
+                            .padding(.vertical, 16)
+                            .background(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .fill(
+                                        LinearGradient(
+                                            colors: [Color.orange, Color.red],
+                                            startPoint: .leading,
+                                            endPoint: .trailing
+                                        )
+                                    )
+                            )
+                        }
                     }
                     .padding(.top, 40)
+
+                    Spacer()
                 } else {
-                    // Player grid
+                    // Player grid with add button
                     ScrollView {
-                        LazyVGrid(columns: [
-                            GridItem(.flexible()),
-                            GridItem(.flexible())
-                        ], spacing: 16) {
-                            ForEach(players) { player in
-                                HotSeatPlayerCard(
-                                    player: player,
-                                    isSelected: selectedPlayers.contains(where: { $0.id == player.id })
-                                ) {
-                                    togglePlayer(player)
+                        VStack(spacing: 24) {
+                            // Calibrated players section
+                            if !calibratedPlayers.isEmpty {
+                                VStack(alignment: .leading, spacing: 12) {
+                                    Text("hotseat.ready_players".localized)
+                                        .font(.system(size: 14, weight: .semibold))
+                                        .foregroundColor(.green)
+                                        .textCase(.uppercase)
+                                        .padding(.horizontal, 4)
+
+                                    LazyVGrid(columns: [
+                                        GridItem(.flexible()),
+                                        GridItem(.flexible())
+                                    ], spacing: 16) {
+                                        ForEach(calibratedPlayers) { player in
+                                            HotSeatPlayerCard(
+                                                player: player,
+                                                isSelected: selectedPlayers.contains(where: { $0.id == player.id }),
+                                                isCalibrated: true
+                                            ) {
+                                                togglePlayer(player)
+                                            }
+                                        }
+                                    }
                                 }
                             }
+
+                            // Uncalibrated players section
+                            if !uncalibratedPlayers.isEmpty {
+                                VStack(alignment: .leading, spacing: 12) {
+                                    Text("hotseat.needs_calibration".localized)
+                                        .font(.system(size: 14, weight: .semibold))
+                                        .foregroundColor(.orange)
+                                        .textCase(.uppercase)
+                                        .padding(.horizontal, 4)
+
+                                    LazyVGrid(columns: [
+                                        GridItem(.flexible()),
+                                        GridItem(.flexible())
+                                    ], spacing: 16) {
+                                        ForEach(uncalibratedPlayers) { player in
+                                            HotSeatUncalibratedPlayerCard(player: player) {
+                                                onCalibratePlayer(player)
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+
+                            // Add player button
+                            Button(action: onAddPlayer) {
+                                HStack(spacing: 8) {
+                                    Image(systemName: "plus.circle.fill")
+                                        .font(.system(size: 24))
+                                    Text("hotseat.add_player".localized)
+                                        .font(.system(size: 16, weight: .semibold))
+                                }
+                                .foregroundColor(.cyan)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 16)
+                                .background(
+                                    RoundedRectangle(cornerRadius: 16)
+                                        .stroke(Color.cyan.opacity(0.5), lineWidth: 2)
+                                        .background(
+                                            RoundedRectangle(cornerRadius: 16)
+                                                .fill(Color.cyan.opacity(0.1))
+                                        )
+                                )
+                            }
+                            .padding(.top, 8)
                         }
                         .padding(.horizontal, 24)
+                        .padding(.bottom, 20)
                     }
                 }
-                
-                Spacer()
-                
+
                 // Action buttons
                 VStack(spacing: 12) {
                     Button(action: {
@@ -256,7 +374,7 @@ struct HotSeatPlayerSelectionView: View {
                             .shadow(color: selectedPlayers.count >= 2 ? Color.orange.opacity(0.5) : .clear, radius: 20, y: 10)
                     }
                     .disabled(selectedPlayers.count < 2)
-                    
+
                     Button(action: {
                         audioService.playSound(.buttonTap)
                         onCancel()
@@ -280,10 +398,10 @@ struct HotSeatPlayerSelectionView: View {
             isAnimating = true
         }
     }
-    
+
     private func togglePlayer(_ player: Player) {
         audioService.playSound(.buttonTap)
-        
+
         if let index = selectedPlayers.firstIndex(where: { $0.id == player.id }) {
             selectedPlayers.remove(at: index)
         } else {
@@ -297,8 +415,9 @@ struct HotSeatPlayerSelectionView: View {
 struct HotSeatPlayerCard: View {
     let player: Player
     let isSelected: Bool
+    let isCalibrated: Bool
     let action: () -> Void
-    
+
     var body: some View {
         Button(action: action) {
             VStack(spacing: 12) {
@@ -307,30 +426,30 @@ struct HotSeatPlayerCard: View {
                     Circle()
                         .fill(
                             LinearGradient(
-                                colors: isSelected ? [Color.orange, Color.red] : [Color.gray, Color.gray.opacity(0.5)],
+                                colors: isSelected ? [Color.orange, Color.red] : [Color.green, Color.teal],
                                 startPoint: .topLeading,
                                 endPoint: .bottomTrailing
                             )
                         )
                         .frame(width: 60, height: 60)
-                    
+
                     if isSelected {
                         Circle()
                             .stroke(Color.orange, lineWidth: 3)
                             .frame(width: 70, height: 70)
                     }
-                    
+
                     Text(player.initials)
                         .font(.system(size: 24, weight: .bold))
                         .foregroundColor(.white)
                 }
-                
+
                 // Name
                 Text(player.name)
                     .font(.system(size: 16, weight: .bold))
                     .foregroundColor(.white)
                     .lineLimit(1)
-                
+
                 // Checkmark
                 if isSelected {
                     Image(systemName: "checkmark.circle.fill")
@@ -350,6 +469,67 @@ struct HotSeatPlayerCard: View {
             )
             .scaleEffect(isSelected ? 1.05 : 1.0)
             .animation(.spring(response: 0.3), value: isSelected)
+        }
+    }
+}
+
+// MARK: - Uncalibrated Player Card
+
+struct HotSeatUncalibratedPlayerCard: View {
+    let player: Player
+    let onCalibrate: () -> Void
+
+    var body: some View {
+        Button(action: onCalibrate) {
+            VStack(spacing: 12) {
+                // Avatar (grayed out)
+                ZStack {
+                    Circle()
+                        .fill(
+                            LinearGradient(
+                                colors: [Color.gray.opacity(0.5), Color.gray.opacity(0.3)],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
+                        )
+                        .frame(width: 60, height: 60)
+
+                    Text(player.initials)
+                        .font(.system(size: 24, weight: .bold))
+                        .foregroundColor(.white.opacity(0.7))
+                }
+
+                // Name
+                Text(player.name)
+                    .font(.system(size: 16, weight: .bold))
+                    .foregroundColor(.white.opacity(0.7))
+                    .lineLimit(1)
+
+                // Calibrate button
+                HStack(spacing: 4) {
+                    Image(systemName: "camera.fill")
+                        .font(.system(size: 12))
+                    Text("hotseat.calibrate".localized)
+                        .font(.system(size: 12, weight: .semibold))
+                }
+                .foregroundColor(.orange)
+                .padding(.horizontal, 12)
+                .padding(.vertical, 6)
+                .background(
+                    Capsule()
+                        .fill(Color.orange.opacity(0.2))
+                )
+            }
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 20)
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.white.opacity(0.05))
+            )
+            .overlay(
+                RoundedRectangle(cornerRadius: 16)
+                    .stroke(Color.orange.opacity(0.3), style: StrokeStyle(lineWidth: 1, dash: [5, 3]))
+            )
         }
     }
 }

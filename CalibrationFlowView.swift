@@ -76,7 +76,7 @@ struct CalibrationFlowView: View {
         }
         .onDisappear {
             AudioService.shared.stopBackgroundMusic()
-            // Note: cleanup() is called in saveCalibrationAndDismiss() before dismiss
+            coordinator.cleanup()
         }
         .alert("speech.timeout.title".localized, isPresented: Bindable(coordinator).showTimeoutAlert) {
             Button("button.retry".localized) {
