@@ -108,27 +108,40 @@ class FaceTrackingService: NSObject {
 
         // X: left/right offset (negative = left, positive = right)
         // Y: up/down offset (negative = down, positive = up)
-        // More lenient thresholds - 0.12m is about 12cm offset
+        // Stricter thresholds - 0.08m is about 8cm offset
         let xOffset = abs(position.x)
         let yOffset = abs(position.y)
 
-        let isCentered = xOffset < 0.12 && yOffset < 0.12        // Well centered (relaxed from 8cm to 12cm)
-        let isReasonablyCentered = xOffset < 0.18 && yOffset < 0.18  // Acceptable
+        let isCentered = xOffset < 0.08 && yOffset < 0.08        // Well centered
+        let isReasonablyCentered = xOffset < 0.12 && yOffset < 0.12  // Acceptable
 
         // Check rotation (pitch, yaw, roll in radians)
-        // 0.35 radians ≈ 20 degrees, 0.5 radians ≈ 29 degrees
+        // 0.25 radians ≈ 14 degrees, 0.4 radians ≈ 23 degrees
         let eulerAngles = anchor.transform.eulerAngles
         let pitch = abs(eulerAngles.x)  // Looking up/down
         let yaw = abs(eulerAngles.y)    // Turning left/right
         let roll = abs(eulerAngles.z)   // Tilting head
 
-        let isFacingCamera = pitch < 0.35 && yaw < 0.35 && roll < 0.35       // Looking straight (relaxed from 14° to 20°)
-        let isReasonablyFacing = pitch < 0.52 && yaw < 0.52 && roll < 0.52   // Acceptable angle (~30°)
+        let isFacingCamera = pitch < 0.25 && yaw < 0.25 && roll < 0.25       // Looking straight (~14°)
+        let isReasonablyFacing = pitch < 0.4 && yaw < 0.4 && roll < 0.4      // Acceptable angle (~23°)
 
-        // Overall quality assessment
-        if isCentered && isFacingCamera {
+        // Check if eyes are open (both eyes should have blink < 0.3 for good, < 0.5 for fair)
+        let leftEyeBlink = anchor.blendShapes[.eyeBlinkLeft]?.floatValue ?? 1.0
+        let rightEyeBlink = anchor.blendShapes[.eyeBlinkRight]?.floatValue ?? 1.0
+        let avgBlink = (leftEyeBlink + rightEyeBlink) / 2.0
+
+        let eyesOpen = avgBlink < 0.3           // Eyes clearly open
+        let eyesReasonablyOpen = avgBlink < 0.5 // Eyes not closed
+
+        // Check that both eyes are tracked (not obscured)
+        // If one eye has very different values, face might be partially hidden
+        let eyeAsymmetry = abs(leftEyeBlink - rightEyeBlink)
+        let bothEyesVisible = eyeAsymmetry < 0.3
+
+        // Overall quality assessment - must pass all checks for good quality
+        if isCentered && isFacingCamera && eyesOpen && bothEyesVisible {
             return .good
-        } else if isReasonablyCentered && isReasonablyFacing {
+        } else if isReasonablyCentered && isReasonablyFacing && eyesReasonablyOpen {
             return .fair
         } else {
             return .poor

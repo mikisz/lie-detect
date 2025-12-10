@@ -19,6 +19,8 @@ struct CreatePlayerView: View {
     @State private var isAnimating = false
     @State private var selectedPhoto: PhotosPickerItem?
     @State private var profileImageData: Data?
+    @State private var showingImageSourcePicker = false
+    @State private var showingCamera = false
 
     var isFirstPlayer: Bool = false
     var onPlayerCreated: ((Player) -> Void)?
@@ -47,7 +49,7 @@ struct CreatePlayerView: View {
                 VStack(spacing: 32) {
                     // Header with photo picker
                     VStack(spacing: 16) {
-                        PhotosPicker(selection: $selectedPhoto, matching: .images) {
+                        Button(action: { showingImageSourcePicker = true }) {
                             ZStack {
                                 Circle()
                                     .fill(
@@ -223,6 +225,24 @@ struct CreatePlayerView: View {
         .onAppear {
             isAnimating = true
         }
+        .confirmationDialog("create.photo_source".localized, isPresented: $showingImageSourcePicker, titleVisibility: .visible) {
+            Button("create.take_photo".localized) {
+                showingCamera = true
+            }
+
+            PhotosPicker(selection: $selectedPhoto, matching: .images) {
+                Text("create.choose_from_library".localized)
+            }
+
+            Button("button.cancel".localized, role: .cancel) { }
+        }
+        .fullScreenCover(isPresented: $showingCamera) {
+            CameraView { image in
+                if let data = image.jpegData(compressionQuality: 0.8) {
+                    profileImageData = data
+                }
+            }
+        }
     }
     
     private func createPlayer() {
@@ -278,6 +298,46 @@ struct GenderButton: View {
                     )
             )
             .scaleEffect(isSelected ? 1.05 : 1.0)
+        }
+    }
+}
+
+// MARK: - Camera View
+
+struct CameraView: UIViewControllerRepresentable {
+    @Environment(\.dismiss) private var dismiss
+    let onImageCaptured: (UIImage) -> Void
+
+    func makeUIViewController(context: Context) -> UIImagePickerController {
+        let picker = UIImagePickerController()
+        picker.sourceType = .camera
+        picker.cameraDevice = .front
+        picker.delegate = context.coordinator
+        return picker
+    }
+
+    func updateUIViewController(_ uiViewController: UIImagePickerController, context: Context) {}
+
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+
+    class Coordinator: NSObject, UIImagePickerControllerDelegate, UINavigationControllerDelegate {
+        let parent: CameraView
+
+        init(_ parent: CameraView) {
+            self.parent = parent
+        }
+
+        func imagePickerController(_ picker: UIImagePickerController, didFinishPickingMediaWithInfo info: [UIImagePickerController.InfoKey : Any]) {
+            if let image = info[.originalImage] as? UIImage {
+                parent.onImageCaptured(image)
+            }
+            parent.dismiss()
+        }
+
+        func imagePickerControllerDidCancel(_ picker: UIImagePickerController) {
+            parent.dismiss()
         }
     }
 }

@@ -130,7 +130,8 @@ struct CalibrationPrepareView: View {
     
     private var isReadyToStart: Bool {
         coordinator.faceTrackingService.isFaceDetected &&
-        coordinator.faceTrackingService.faceQuality != .poor
+        (coordinator.faceTrackingService.faceQuality == .good ||
+         coordinator.faceTrackingService.faceQuality == .fair)
     }
     
     private var qualityIcon: String {
